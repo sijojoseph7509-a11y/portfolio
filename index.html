@@ -386,6 +386,21 @@ body{background:#09090a;color:var(--ink)}
 /* marquee gradient text */
 .marquee div span:not(.st){background:linear-gradient(90deg,#f4f2ef,#7d8592);-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:reduce){.aurora,.about-panel::before,.approach-panel::before,.cs::before,.after-hero h2,.about-panel h1,.big-cta,.sec-h::after{animation:none!important}}
+
+/* photo */
+.about-panel{min-height:560px}
+.about-panel h1,.ap-row{position:relative;z-index:2;max-width:58%}
+.ap-row{grid-template-columns:1fr}
+.ap-stats{max-width:none}
+.me{position:absolute;right:0;bottom:0;width:46%;max-height:100%;aspect-ratio:670/900;z-index:1;pointer-events:none}
+.me img{position:relative;height:100%;width:100%;object-fit:contain;object-position:bottom;filter:grayscale(.15) contrast(1.05) brightness(.95);-webkit-mask:linear-gradient(180deg,#000 75%,transparent);mask:linear-gradient(180deg,#000 75%,transparent);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.about-panel:hover .me img{transform:translateY(-8px) scale(1.02)}
+.me-halo{position:absolute;left:10%;right:10%;top:8%;height:60%;border-radius:50%;background:radial-gradient(circle,rgba(158,163,171,.45),rgba(59,67,82,.2) 50%,transparent 70%);filter:blur(30px)}
+.me-tag{position:absolute;left:-6%;top:22%;padding:8px 14px;border-radius:99px;background:rgba(18,19,22,.7);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);font:600 14px 'Urbanist';color:#f1efec;rotate:-6deg;pointer-events:auto;animation:bob 5s ease-in-out infinite alternate}
+@keyframes bob{to{translate:0 -10px}}
+.hello{display:flex;align-items:center;gap:12px}
+.av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.15)}
+@media (max-width:900px){.about-panel h1,.ap-row{max-width:none}.me{position:relative;right:auto;width:70%;margin:0 auto -40px;display:block}}
 </style>
 </head>
 <body>
@@ -409,6 +424,7 @@ body{background:#09090a;color:var(--ink)}
  <div class="sec-h reveal"><span>(01)</span><span>About</span></div>
  <div class="about-panel reveal">
   <div class="ap-glow"></div>
+  <div class="me"><span class="me-halo"></span><img src="assets/sijo.png" alt="Sijo Joseph, smiling, in a white T-shirt"><span class="me-tag">That's me 👋</span></div>
   <h1>I design <em>AI products</em><br>people actually trust.</h1>
   <div class="ap-row">
    <div class="ap-copy">
@@ -498,7 +514,7 @@ body{background:#09090a;color:var(--ink)}
 </main>
 <aside class="side">
  <div class="side-in">
-  <p class="hello">Hi, I'm Sijo ✦</p>
+  <p class="hello"><img class="av" src="assets/sijo-avatar.jpg" alt="">Hi, I'm Sijo ✦</p>
   <p class="side-txt">I design AI products that feel calm, honest and in your control. Agents, copilots and the interfaces around them.</p>
   <nav class="side-nav">
    <a href="#about" data-s="about"><span>About</span><em>01</em></a>
