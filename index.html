@@ -345,16 +345,16 @@ function f(){x.clearRect(0,0,w,h);mx+=(tx-mx)*.08;my+=(ty-my)*.08;mi+=(ti-mi)*.0
  {const bwl=Math.round(26*(devicePixelRatio||1)),n=Math.ceil(w/bwl)+3;if(P.length!==n){P=new Float32Array(n);V=new Float32Array(n);TY=new Float32Array(n).fill(h/2)}
   const vx=Math.max(-60,Math.min(60,(tx-px)))*mi;px=tx;py=ty;
   for(let i=0;i<n;i++){const cx=(i-1)*bwl+bwl/2,dx=cx-tx,g=Math.exp(-(dx*dx)/(2*(70*(devicePixelRatio||1))**2));
-   if(g>.02&&Math.abs(vx)>.5){V[i]+=vx*g*.06;TY[i]+=(ty-TY[i])*.3}}
+   if(g>.02&&Math.abs(vx)>.5){V[i]+=vx*g*.35;TY[i]+=(ty-TY[i])*.3}}
   const N=new Float32Array(n);
   for(let i=0;i<n;i++){const l=P[i-1]??P[i],r=P[i+1]??P[i];N[i]=(V[i]+(-P[i]*.045+(l+r-2*P[i])*.18))*.93}
-  for(let i=0;i<n;i++){V[i]=N[i];P[i]+=V[i];P[i]=Math.max(-18,Math.min(18,P[i]))}}
+  for(let i=0;i<n;i++){V[i]=N[i];P[i]+=V[i];P[i]=Math.max(-90,Math.min(90,P[i]))}}
  const d=devicePixelRatio||1,R=260*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=7*d;
  for(let b=-1;b*bw<w+bw;b++){const x0=b*bw;
   for(let y=0;y<h;y+=seg){
    const cx0=x0+bw/2,dxm=cx0-mx,dym=y-my,dist=Math.hypot(dxm,dym),inf=Math.exp(-(dist*dist)/(2*R*R))*mi;
    const sway=Math.sin(y*.0025/d+t+b*.22)*amp+Math.sin(y*.006/d-t*.6+b*.5)*amp*.25+(P[b+1]||0)*Math.exp(-((y-(TY[b+1]||y))**2)/(2*(h*.22)**2));
-   const lum=Math.min(1,.5+.5*Math.sin(b*.28-t*.7+y*.0015/d)+Math.min(.5,Math.abs(P[b+1]||0)/(260*d)));
+   const lum=Math.min(1,.5+.5*Math.sin(b*.28-t*.7+y*.0015/d)+Math.min(.5,Math.abs(P[b+1]||0)/(60*d)));
    const g=x.createLinearGradient(x0+sway,0,x0+sway+bw,0);
    g.addColorStop(0,`rgba(255,255,255,${.05+.45*lum})`);
    g.addColorStop(.35,`rgba(255,255,255,${.12*lum})`);
