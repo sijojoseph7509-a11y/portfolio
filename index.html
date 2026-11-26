@@ -512,11 +512,6 @@ function build(){D=devicePixelRatio||1;W=fc.width=hero.offsetWidth*D;H=fc.height
  mx.fillStyle='#fff';mx.fillRect(0,0,M.width,M.height);
  tex=document.createElement('canvas');tex.width=W;tex.height=H;const t=tex.getContext('2d');
  t.fillStyle='rgba(236,239,237,.74)';t.fillRect(0,0,W,H);
- // micro-condensation: dense tiny beads, heavier toward edges
- const N=Math.round(W*H/90);for(let i=0;i<N;i++){const x=Math.random()*W,y=Math.random()*H;
-  const ex=Math.min(x,W-x)/W,ey=Math.min(y,H-y)/H,edge=1-Math.min(1,Math.min(ex,ey)*3.2);
-  if(Math.random()>.25+edge*.75)continue;const r=(Math.random()**2*1.6+.35)*D;
-  t.fillStyle=Math.random()<.5?`rgba(70,82,80,${.06+edge*.18})`:`rgba(255,255,255,${.25+edge*.4})`;t.beginPath();t.arc(x,y,r,0,7);t.fill()}
  // a few medium beads scattered in the fog
  beads=[];drips=[]}
 build();addEventListener('resize',build);
