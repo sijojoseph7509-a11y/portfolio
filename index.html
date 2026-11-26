@@ -7,7 +7,7 @@
 <meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f3ee;--ink:#141414;--mute:#6b6760;--line:#e2ddd4;--card:#fff;--accent:#ff5b2e;--soft:#efe9df}
+:root{--bg:#ecedeb;--ink:#151715;--mute:#5f645f;--line:#d6d9d4;--card:rgba(255,255,255,.6);--accent:#f0602e;--soft:#e3e7df}
 @media (prefers-color-scheme:dark){:root{--bg:#111010;--ink:#f1ede6;--mute:#9a958c;--line:#2a2724;--card:#1a1918;--soft:#201e1c}}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
@@ -58,19 +58,30 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .contact a:first-child{background:var(--accent);border-color:var(--accent);color:#fff}
 .small{font-size:13px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 /* Poster hero */
-.hero{position:relative;height:100svh;min-height:620px;background:#000;color:#fff;overflow:hidden;font-family:'Urbanist',Inter,sans-serif}
-.meta{position:absolute;font-size:clamp(13px,1.15vw,16px);line-height:1.3;z-index:2;font-weight:500}
-.brand{top:5.5%;left:5.5%;font-size:clamp(20px,1.8vw,26px);font-weight:600}
-.hnav{top:6%;right:5.5%;display:flex;gap:24px}
+.hero{position:relative;height:100svh;min-height:620px;background:#e9eae7;color:#fff;overflow:hidden;font-family:'Urbanist',Inter,sans-serif;isolation:isolate}
+.blobs{position:absolute;inset:-15%;filter:blur(70px) saturate(1.15);z-index:-2}
+.blobs i{position:absolute;border-radius:50%;animation:drift 22s ease-in-out infinite alternate}
+.blobs .g{width:62%;height:70%;left:-6%;top:28%;background:radial-gradient(circle at 45% 50%,#a9c43a,#c8d86a 45%,transparent 70%)}
+.blobs .t{width:58%;height:62%;right:-4%;top:-14%;background:radial-gradient(circle,#4f9fae,#8cc3c9 45%,transparent 70%);animation-duration:26s}
+.blobs .o{width:62%;height:78%;left:36%;top:38%;background:radial-gradient(circle at 50% 55%,#f1501f,#f5875a 45%,transparent 70%);animation-duration:19s}
+.blobs .w{width:40%;height:44%;left:34%;top:4%;background:radial-gradient(circle,#f4f4f2,transparent 70%)}
+@keyframes drift{to{transform:translate(4%,-5%) scale(1.08)}}
+.glass{position:absolute;inset:4.5% 4.5% 4.5%;border-radius:28px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 30px 80px -30px rgba(0,0,0,.25);backdrop-filter:blur(6px) saturate(1.2);-webkit-backdrop-filter:blur(6px) saturate(1.2);z-index:-1}
+.hero canvas{mix-blend-mode:overlay;opacity:.95}
+.meta{text-shadow:0 1px 12px rgba(0,0,0,.12);position:absolute;font-size:clamp(13px,1.15vw,16px);line-height:1.3;z-index:2;font-weight:500}
+.brand{top:9%;left:8%;font-size:clamp(20px,1.8vw,26px);font-weight:600}
+.hnav{top:9.5%;right:8%;display:flex;gap:24px}
 .hnav a{text-decoration:none;color:#fff;opacity:.75}.hnav a:hover{opacity:1}
 .m1{top:15%;left:45%}.m2{top:31%;left:10.5%}.m3{top:40%;left:31%}.m4{top:58%;left:45%}
-.m1 i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:7px;vertical-align:1px}
-.giant{position:absolute;left:3.5%;bottom:-.17em;font-weight:500;font-size:clamp(110px,23vw,360px);line-height:1;letter-spacing:-.045em;z-index:1;white-space:nowrap}
+.m1 i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3);margin-right:7px;vertical-align:1px}
+.giant{text-shadow:0 10px 60px rgba(0,0,0,.08);position:absolute;left:7%;bottom:-.17em;font-weight:500;font-size:clamp(110px,23vw,360px);line-height:1;letter-spacing:-.045em;z-index:1;white-space:nowrap}
 @media (max-width:780px){.brand{left:20px}.hnav{right:20px;top:6%}.m1{top:14%;left:20px}.m2{top:60%;left:20px}.m3{top:68%;left:20px}.m4{display:none}.giant{font-size:30vw;left:12px}.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
 </style>
 </head>
 <body>
 <section class="hero">
+ <div class="blobs"><i class="w"></i><i class="g"></i><i class="t"></i><i class="o"></i></div>
+ <div class="glass"></div>
  <canvas id="fx" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
  <div class="meta brand">Sijo Joseph</div>
  <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a></div>
@@ -141,7 +152,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 (()=>{const c=document.getElementById('fx'),x=c.getContext('2d');let w,h,t=0;
 const R=()=>{const d=devicePixelRatio||1;w=c.width=c.offsetWidth*d;h=c.height=c.offsetHeight*d};addEventListener('resize',R);R();
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
-function f(){x.fillStyle='#000';x.fillRect(0,0,w,h);
+function f(){x.clearRect(0,0,w,h);
  const cx=w*.68,cy=h*.42,r=Math.min(w,h)*.34,n=Math.floor(w/5);
  for(let i=0;i<n;i++){const px=i/n*w,dx=(px-cx)/r;
   const smear=px<cx?Math.min(1,(cx-px)/(r*1.6)):0;
@@ -150,7 +161,7 @@ function f(){x.fillStyle='#000';x.fillRect(0,0,w,h);
   const wob=Math.sin(i*.5+t*2)*14*smear+Math.sin(i*.07-t)*30*smear;
   const top=cy-half+wob,bot=cy+half+wob*.6;
   const g=x.createLinearGradient(0,top,0,bot);const a=(px<cx?(1-smear)*.9+.1:.95)*(.55+.45*Math.abs(Math.sin(i*1.3+t*smear*3)));
-  g.addColorStop(0,`rgba(255,255,255,0)`);g.addColorStop(.25,`rgba(230,230,230,${a*.9})`);g.addColorStop(.6,`rgba(120,120,120,${a*.6})`);g.addColorStop(1,'rgba(0,0,0,0)');
+  g.addColorStop(0,`rgba(255,255,255,0)`);g.addColorStop(.25,`rgba(255,255,255,${a*.9})`);g.addColorStop(.6,`rgba(255,255,255,${a*.35})`);g.addColorStop(1,'rgba(255,255,255,0)');
   x.fillStyle=g;x.fillRect(px,top,smear?2:3,bot-top);}
  t+=.012;if(!still)requestAnimationFrame(f)}f()})();
 </script>
