@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sijo Joseph — Product Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ee;--ink:#141414;--mute:#6b6760;--line:#e2ddd4;--card:#fff;--accent:#ff5b2e}
+@media (prefers-color-scheme:dark){:root{--bg:#121110;--ink:#f1ede6;--mute:#9a958c;--line:#2a2724;--card:#1b1a18}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;font-size:14px}
+nav a{color:var(--ink);text-decoration:none;margin-left:24px}
+nav b{font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:8px}
+h1{font:400 clamp(44px,8vw,104px)/0.98 'Instrument Serif',serif;letter-spacing:-.02em;margin:72px 0 28px}
+h1 em{color:var(--accent)}
+.lede{max-width:620px;font-size:19px;color:var(--mute)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 96px}
+.tags span{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px}
+h2{font:400 44px/1.1 'Instrument Serif',serif;margin-bottom:32px}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--mute);margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-bottom:120px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s}
+.card:hover{transform:translateY(-4px)}
+.thumb{aspect-ratio:4/3;display:grid;place-items:center;font:italic 400 40px 'Instrument Serif',serif;color:#fff}
+.card .body{padding:22px}
+.card h3{font-size:20px;font-weight:600;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15px}
+.metric{margin-top:14px;font-size:13px;font-weight:500;color:var(--accent)}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;border-top:1px solid var(--line);padding-top:40px;margin-bottom:120px}
+.how h4{font-size:17px;margin-bottom:8px}
+.how p{color:var(--mute);font-size:15px}
+footer{border-top:1px solid var(--line);padding:64px 0}
+footer h2{font-size:clamp(40px,6vw,72px)}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><b>Sijo Joseph</b><div><span class="dot"></span>Open to roles<a href="#work">Work</a><a href="#about">Approach</a><a href="#contact">Contact</a></div></nav>
+
+<header>
+<h1>I design products where<br><em>people and AI agents</em><br>work together.</h1>
+<p class="lede">Product designer working across UI/UX and AI product design — turning agentic systems into interfaces people understand, trust and actually want to use.</p>
+<div class="tags"><span>Product Design</span><span>UI / UX</span><span>Agentic AI UX</span><span>Design Systems</span><span>Prototyping</span><span>User Research</span></div>
+</header>
+
+<section id="work">
+<div class="label">Selected work</div>
+<h2>Case studies</h2>
+<div class="grid">
+ <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#1f2937,#4f46e5)">Sijo Agent</div><div class="body"><div class="label">Agentic AI · Product</div><h3>A personal AI agent you can steer</h3><p>Designing plan previews, approvals and undo so users stay in control of an autonomous assistant.</p><div class="metric">[Add result — e.g. task success +X%]</div></div></a>
+ <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#0f766e,#22d3ee)">Razorpay × AI</div><div class="body"><div class="label">AI Product · Fintech</div><h3>AI-assisted payments experience</h3><p>Concept for Razorpay / Cleartrip exploring how AI can reduce friction in checkout and support.</p><div class="metric">[Add result]</div></div></a>
+ <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#b45309,#f59e0b)">Cubby</div><div class="body"><div class="label">Mobile · UI/UX</div><h3>Cubby — end-to-end app design</h3><p>Research to shipped UI: flows, design system and high-fidelity prototype.</p><div class="metric">[Add result]</div></div></a>
+ <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#7f1d1d,#ff5b2e)">Floor Pilot</div><div class="body"><div class="label">Product · Ops tool</div><h3>Floor Pilot — copilot for operations</h3><p>Turning complex floor data into clear, actionable decisions.</p><div class="metric">[Add result]</div></div></a>
+</div>
+</section>
+
+<section id="about">
+<div class="label">How I design for AI</div>
+<h2>Principles I bring to every team</h2>
+<div class="how">
+ <div><h4>01 · Show the plan</h4><p>Agents reveal what they'll do before doing it, so people can correct course early.</p></div>
+ <div><h4>02 · Design for trust</h4><p>Confidence cues, sources and reversible actions — honesty over magic.</p></div>
+ <div><h4>03 · Human in the loop</h4><p>Clear handoffs between automation and human judgement.</p></div>
+ <div><h4>04 · Ship & measure</h4><p>Prototype fast with code and AI tools, validate with real users.</p></div>
+</div>
+</section>
+
+<footer id="contact">
+<h2>Let's build something<br>people trust.</h2>
+<p><a href="mailto:you@example.com">Email</a> · <a href="#">LinkedIn</a> · <a href="#">Resume (PDF)</a></p>
+</footer>
+</div>
+</body>
+</html>
