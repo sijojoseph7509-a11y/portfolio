@@ -336,18 +336,18 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 (()=>{const c=document.getElementById('fx'),x=c.getContext('2d');let w,h,t=0;
 const R=()=>{const d=devicePixelRatio||1;w=c.width=c.offsetWidth*d;h=c.height=c.offsetHeight*d};addEventListener('resize',R);R();
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
-let mx=-9999,my=-9999,tx=-9999,ty=-9999,mi=0,ti=0;
+let rt=0,mx=-9999,my=-9999,tx=-9999,ty=-9999,mi=0,ti=0;
 c.parentElement.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),dd=devicePixelRatio||1;tx=(e.clientX-r.left)*dd;ty=(e.clientY-r.top)*dd;ti=1;if(mx<-999){mx=tx;my=ty}});
 c.parentElement.parentElement.addEventListener('pointerleave',()=>ti=0);
 const blobs=document.querySelector('.blobs');
 addEventListener('pointermove',e=>{if(blobs)blobs.style.transform=`translate(${(e.clientX/innerWidth-.5)*-40}px,${(e.clientY/innerHeight-.5)*-40}px)`},{passive:true});
-function f(){x.clearRect(0,0,w,h);mx+=(tx-mx)*.08;my+=(ty-my)*.08;mi+=(ti-mi)*.05;
- const d=devicePixelRatio||1,R=220*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=22*d;
+function f(){x.clearRect(0,0,w,h);mx+=(tx-mx)*.08;my+=(ty-my)*.08;mi+=(ti-mi)*.05;rt+=.09;
+ const d=devicePixelRatio||1,R=260*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=22*d;
  for(let b=-1;b*bw<w+bw;b++){const x0=b*bw;
   for(let y=0;y<h;y+=seg){
    const cx0=x0+bw/2,dxm=cx0-mx,dym=y-my,dist=Math.hypot(dxm,dym),inf=Math.exp(-(dist*dist)/(2*R*R))*mi;
-   const sway=Math.sin(y*.0025/d+t+b*.22)*amp+Math.sin(y*.006/d-t*.6+b*.5)*amp*.25+Math.sign(dxm||1)*inf*70*d;
-   const lum=Math.min(1,.5+.5*Math.sin(b*.28-t*.7+y*.0015/d)+inf*.6);
+   const sway=Math.sin(y*.0025/d+t+b*.22)*amp+Math.sin(y*.006/d-t*.6+b*.5)*amp*.25+Math.sin(dist/(34*d)-rt)*inf*16*d;
+   const lum=Math.min(1,.5+.5*Math.sin(b*.28-t*.7+y*.0015/d)+inf*(.25+.35*Math.sin(dist/(34*d)-rt)));
    const g=x.createLinearGradient(x0+sway,0,x0+sway+bw,0);
    g.addColorStop(0,`rgba(255,255,255,${.05+.45*lum})`);
    g.addColorStop(.35,`rgba(255,255,255,${.12*lum})`);
