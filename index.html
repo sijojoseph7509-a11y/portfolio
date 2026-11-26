@@ -291,7 +291,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 @media (max-width:900px){.apx-head,.apx-grid{grid-template-columns:1fr}}
 
 /* misted glass */
-.fogblur{position:absolute;inset:0;backdrop-filter:blur(22px) saturate(1.1) brightness(1.08);-webkit-backdrop-filter:blur(22px) saturate(1.1) brightness(1.08);-webkit-mask-size:100% 100%;mask-size:100% 100%;pointer-events:none}
+.fogblur{position:absolute;inset:0;backdrop-filter:blur(30px) saturate(1.05) brightness(1.1);-webkit-backdrop-filter:blur(30px) saturate(1.05) brightness(1.1);-webkit-mask-size:100% 100%;mask-size:100% 100%;pointer-events:none}
 .fogc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 </style>
 </head>
@@ -499,29 +499,47 @@ agentF.onsubmit=e=>{e.preventDefault();const v=agentI.value.trim();if(v){reply(v
 </script>
 <script>
 (()=>{const hero=document.querySelector('.hero'),fb=document.getElementById('fogblur'),fc=document.getElementById('fog'),fx=fc.getContext('2d');
-const M=document.createElement('canvas'),mx=M.getContext('2d');const SC=10;let W,H,tex;
-function build(){const d=devicePixelRatio||1;W=fc.width=hero.offsetWidth*d;H=fc.height=hero.offsetHeight*d;M.width=Math.ceil(W/d/SC);M.height=Math.ceil(H/d/SC);
+const M=document.createElement('canvas'),mx=M.getContext('2d');const SC=4;let W,H,D,tex,beads=[],drips=[],last=null;
+function drop(c,x,y,r,a){ // realistic water bead
+ c.save();c.globalAlpha=a;
+ let g=c.createRadialGradient(x+r*.25,y+r*.35,r*.1,x,y,r);g.addColorStop(0,'rgba(255,255,255,.05)');g.addColorStop(.7,'rgba(40,50,48,.10)');g.addColorStop(1,'rgba(20,28,26,.38)');
+ c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,7);c.fill();
+ g=c.createRadialGradient(x+r*.2,y+r*.45,0,x+r*.2,y+r*.45,r*.7);g.addColorStop(0,'rgba(255,255,255,.55)');g.addColorStop(1,'rgba(255,255,255,0)');
+ c.fillStyle=g;c.beginPath();c.arc(x+r*.2,y+r*.45,r*.7,0,7);c.fill();
+ c.fillStyle='rgba(255,255,255,.95)';c.beginPath();c.ellipse(x-r*.35,y-r*.4,r*.28,r*.18,-.6,0,7);c.fill();
+ c.restore()}
+function build(){D=devicePixelRatio||1;W=fc.width=hero.offsetWidth*D;H=fc.height=hero.offsetHeight*D;M.width=Math.ceil(W/D/SC);M.height=Math.ceil(H/D/SC);
  mx.fillStyle='#fff';mx.fillRect(0,0,M.width,M.height);
  tex=document.createElement('canvas');tex.width=W;tex.height=H;const t=tex.getContext('2d');
- t.fillStyle='rgba(240,242,240,.5)';t.fillRect(0,0,W,H);
- const id=t.getImageData(0,0,W,H),a=id.data;for(let i=0;i<a.length;i+=4){const n=(Math.random()-.5)*22;a[i]+=n;a[i+1]+=n;a[i+2]+=n}t.putImageData(id,0,0);
- const N=Math.round(W*H/2600);for(let i=0;i<N;i++){const x=Math.random()*W,y=Math.random()*H,r=(Math.random()**3*5+.6)*d;
-  t.beginPath();t.arc(x,y,r,0,7);t.fillStyle='rgba(120,130,125,.18)';t.fill();
-  t.beginPath();t.arc(x-r*.3,y-r*.3,r*.45,0,7);t.fillStyle='rgba(255,255,255,.85)';t.fill();}
- for(let i=0;i<14;i++){const x=Math.random()*W,y=H*(.55+Math.random()*.4),len=(40+Math.random()*120)*d,r=(2+Math.random()*2)*d;
-  const g=t.createLinearGradient(0,y,0,y+len);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,.6)');t.fillStyle=g;t.fillRect(x-r/2,y,r,len);
-  t.beginPath();t.arc(x,y+len,r*1.2,0,7);t.fillStyle='rgba(255,255,255,.8)';t.fill();}
-}
+ t.fillStyle='rgba(236,239,237,.74)';t.fillRect(0,0,W,H);
+ // micro-condensation: dense tiny beads, heavier toward edges
+ const N=Math.round(W*H/90);for(let i=0;i<N;i++){const x=Math.random()*W,y=Math.random()*H;
+  const ex=Math.min(x,W-x)/W,ey=Math.min(y,H-y)/H,edge=1-Math.min(1,Math.min(ex,ey)*3.2);
+  if(Math.random()>.25+edge*.75)continue;const r=(Math.random()**2*1.6+.35)*D;
+  t.fillStyle=Math.random()<.5?`rgba(70,82,80,${.06+edge*.18})`:`rgba(255,255,255,${.25+edge*.4})`;t.beginPath();t.arc(x,y,r,0,7);t.fill()}
+ // a few medium beads scattered in the fog
+ for(let i=0;i<W*H/42000;i++)drop(t,Math.random()*W,Math.random()*H,(1.2+Math.random()*2.2)*D,.55);
+ beads=[];drips=[]}
 build();addEventListener('resize',build);
-let last=null;hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/SC,y=(e.clientY-r.top)/SC;
+hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),cx=e.clientX-r.left,cy=e.clientY-r.top,x=cx/SC,y=cy/SC,BR=34;
  mx.globalCompositeOperation='destination-out';mx.lineCap='round';mx.lineJoin='round';
- const p=last||{x,y};mx.strokeStyle='rgba(0,0,0,.9)';mx.lineWidth=11;mx.beginPath();mx.moveTo(p.x,p.y);mx.lineTo(x,y);mx.stroke();
- const g=mx.createRadialGradient(x,y,0,x,y,12);g.addColorStop(0,'rgba(0,0,0,.6)');g.addColorStop(1,'rgba(0,0,0,0)');mx.fillStyle=g;mx.beginPath();mx.arc(x,y,12,0,7);mx.fill();
- mx.globalCompositeOperation='source-over';last={x,y}});
+ const p=last||{x,y,cx,cy};mx.strokeStyle='rgba(0,0,0,.92)';mx.lineWidth=BR/SC*1.6;mx.beginPath();mx.moveTo(p.x,p.y);mx.lineTo(x,y);mx.stroke();
+ mx.globalCompositeOperation='source-over';
+ const dist=Math.hypot(cx-p.cx,cy-p.cy);
+ for(let i=0;i<dist/6;i++){const k=Math.random(),bx=p.cx+(cx-p.cx)*k,by=p.cy+(cy-p.cy)*k,a=Math.random()*6.28,rr=BR*(.55+Math.random()*.5);
+  beads.push({x:(bx+Math.cos(a)*rr)*D,y:(by+Math.sin(a)*rr)*D,r:(Math.random()**2*3.2+1)*D,life:1})}
+ if(Math.random()<.05&&drips.length<24)drips.push({x:cx*D,y:(cy+BR*.6)*D,v:(.25+Math.random()*.5)*D,len:0,max:(80+Math.random()*220)*D,r:(2.2+Math.random()*1.6)*D,life:1});
+ last={x,y,cx,cy}});
 hero.addEventListener('pointerleave',()=>last=null);
-let k=0;function loop(){mx.globalCompositeOperation='source-over';mx.fillStyle='rgba(255,255,255,.006)';mx.fillRect(0,0,M.width,M.height);
- fx.globalCompositeOperation='source-over';fx.clearRect(0,0,W,H);fx.drawImage(tex,0,0);fx.globalCompositeOperation='destination-in';fx.imageSmoothingEnabled=true;fx.drawImage(M,0,0,W,H);
- if(++k%5===0){const u='url('+M.toDataURL()+')';fb.style.webkitMaskImage=u;fb.style.maskImage=u}
+let k=0;function loop(){mx.globalCompositeOperation='source-over';mx.fillStyle='rgba(255,255,255,.0045)';mx.fillRect(0,0,M.width,M.height);
+ // drips clear a thin trail as they run
+ mx.globalCompositeOperation='destination-out';mx.strokeStyle='rgba(0,0,0,.85)';mx.lineCap='round';
+ drips.forEach(d=>{if(d.len<d.max){const y0=d.y+d.len;d.len+=d.v*(1+Math.random()*.6);d.x+=(Math.random()-.5)*.4*D;mx.lineWidth=d.r*1.3/D/SC;mx.beginPath();mx.moveTo(d.x/D/SC,y0/D/SC);mx.lineTo(d.x/D/SC,(d.y+d.len)/D/SC);mx.stroke()}else d.life-=.0025});
+ mx.globalCompositeOperation='source-over';drips=drips.filter(d=>d.life>0);
+ fx.globalCompositeOperation='source-over';fx.clearRect(0,0,W,H);fx.drawImage(tex,0,0);fx.globalCompositeOperation='destination-in';fx.drawImage(M,0,0,W,H);fx.globalCompositeOperation='source-over';
+ beads.forEach(b=>{b.life-=.0012;drop(fx,b.x,b.y,b.r,Math.min(1,b.life*1.5))});beads=beads.filter(b=>b.life>0).slice(-900);
+ drips.forEach(d=>drop(fx,d.x,d.y+d.len,d.r,Math.min(1,d.life*1.5)));
+ if(++k%4===0){const u='url('+M.toDataURL()+')';fb.style.webkitMaskImage=u;fb.style.maskImage=u}
  requestAnimationFrame(loop)}loop();})();
 </script>
 </body>
