@@ -99,7 +99,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 /* Poster hero */
 .hero{position:relative;height:100svh;min-height:620px;background:transparent;color:#fff;overflow:hidden;font-family:'Urbanist',Inter,sans-serif;}
 .hero{position:sticky;top:0}
-.hero .stage{position:absolute;inset:0;transform-origin:50% 30%;will-change:transform,filter}
+.hero .stage{position:absolute;inset:0;transform-origin:50% 30%}
 .after-hero{position:relative;z-index:5;margin-top:-6vh;padding-top:calc(28vh + 40px)}
 .after-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(247,247,245,0) 0,rgba(247,247,245,.5) 14vh,rgba(247,247,245,.9) 28vh,#f7f7f5 42vh);backdrop-filter:blur(28px) saturate(1.1);-webkit-backdrop-filter:blur(28px) saturate(1.1);-webkit-mask:linear-gradient(180deg,transparent 0,#000 20vh);mask:linear-gradient(180deg,transparent 0,#000 20vh)}
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding:22px 0;margin:0 0 110px;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
@@ -289,13 +289,19 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .ap-txt p{font:500 16.5px/1.55 'Urbanist';color:#3d413d;margin:0 0 16px}
 .ap-tag{font:600 12px 'Urbanist';letter-spacing:.06em;text-transform:uppercase;color:#6a6f6a}
 @media (max-width:900px){.apx-head,.apx-grid{grid-template-columns:1fr}}
+
+/* misted glass */
+.fogblur{position:absolute;inset:0;backdrop-filter:blur(22px) saturate(1.1) brightness(1.08);-webkit-backdrop-filter:blur(22px) saturate(1.1) brightness(1.08);-webkit-mask-size:100% 100%;mask-size:100% 100%;pointer-events:none}
+.fogc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 </style>
 </head>
 <body>
  <div class="blobs"><i class="w"></i><i class="g"></i><i class="t"></i><i class="o"></i></div>
 <section class="hero" id="top">
  <div class="stage" id="stage">
- <canvas id="fx" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+ <canvas id="fx" style="position:absolute;inset:0;width:100%;height:100%;display:none"></canvas>
+ <div class="fogblur" id="fogblur"></div>
+ <canvas id="fog" class="fogc"></canvas>
  <div class="meta brand">Sijo Joseph</div>
  <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a></div>
  <div class="meta m2">Product Design<br>&amp; UI/UX for AI Products</div>
@@ -490,6 +496,33 @@ agentF.onsubmit=e=>{e.preventDefault();const v=agentI.value.trim();if(v){reply(v
 <script>
 (()=>{const links=[...document.querySelectorAll('.side-nav a')];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.dataset.s===e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
 ['about','work','edge','contact'].forEach(id=>{const el=document.getElementById(id);el&&io.observe(el)});})();
+</script>
+<script>
+(()=>{const hero=document.querySelector('.hero'),fb=document.getElementById('fogblur'),fc=document.getElementById('fog'),fx=fc.getContext('2d');
+const M=document.createElement('canvas'),mx=M.getContext('2d');const SC=10;let W,H,tex;
+function build(){const d=devicePixelRatio||1;W=fc.width=hero.offsetWidth*d;H=fc.height=hero.offsetHeight*d;M.width=Math.ceil(W/d/SC);M.height=Math.ceil(H/d/SC);
+ mx.fillStyle='#fff';mx.fillRect(0,0,M.width,M.height);
+ tex=document.createElement('canvas');tex.width=W;tex.height=H;const t=tex.getContext('2d');
+ t.fillStyle='rgba(240,242,240,.5)';t.fillRect(0,0,W,H);
+ const id=t.getImageData(0,0,W,H),a=id.data;for(let i=0;i<a.length;i+=4){const n=(Math.random()-.5)*22;a[i]+=n;a[i+1]+=n;a[i+2]+=n}t.putImageData(id,0,0);
+ const N=Math.round(W*H/2600);for(let i=0;i<N;i++){const x=Math.random()*W,y=Math.random()*H,r=(Math.random()**3*5+.6)*d;
+  t.beginPath();t.arc(x,y,r,0,7);t.fillStyle='rgba(120,130,125,.18)';t.fill();
+  t.beginPath();t.arc(x-r*.3,y-r*.3,r*.45,0,7);t.fillStyle='rgba(255,255,255,.85)';t.fill();}
+ for(let i=0;i<14;i++){const x=Math.random()*W,y=H*(.55+Math.random()*.4),len=(40+Math.random()*120)*d,r=(2+Math.random()*2)*d;
+  const g=t.createLinearGradient(0,y,0,y+len);g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(255,255,255,.6)');t.fillStyle=g;t.fillRect(x-r/2,y,r,len);
+  t.beginPath();t.arc(x,y+len,r*1.2,0,7);t.fillStyle='rgba(255,255,255,.8)';t.fill();}
+}
+build();addEventListener('resize',build);
+let last=null;hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/SC,y=(e.clientY-r.top)/SC;
+ mx.globalCompositeOperation='destination-out';mx.lineCap='round';mx.lineJoin='round';
+ const p=last||{x,y};mx.strokeStyle='rgba(0,0,0,.9)';mx.lineWidth=11;mx.beginPath();mx.moveTo(p.x,p.y);mx.lineTo(x,y);mx.stroke();
+ const g=mx.createRadialGradient(x,y,0,x,y,12);g.addColorStop(0,'rgba(0,0,0,.6)');g.addColorStop(1,'rgba(0,0,0,0)');mx.fillStyle=g;mx.beginPath();mx.arc(x,y,12,0,7);mx.fill();
+ mx.globalCompositeOperation='source-over';last={x,y}});
+hero.addEventListener('pointerleave',()=>last=null);
+let k=0;function loop(){mx.globalCompositeOperation='source-over';mx.fillStyle='rgba(255,255,255,.006)';mx.fillRect(0,0,M.width,M.height);
+ fx.globalCompositeOperation='source-over';fx.clearRect(0,0,W,H);fx.drawImage(tex,0,0);fx.globalCompositeOperation='destination-in';fx.imageSmoothingEnabled=true;fx.drawImage(M,0,0,W,H);
+ if(++k%5===0){const u='url('+M.toDataURL()+')';fb.style.webkitMaskImage=u;fb.style.maskImage=u}
+ requestAnimationFrame(loop)}loop();})();
 </script>
 </body>
 </html>
