@@ -80,7 +80,7 @@ h2{letter-spacing:-.03em;font:500 clamp(36px,5vw,52px)/1.05 'Urbanist',sans-seri
 .cs-body p{margin:0;color:var(--mute);font-size:16.5px;max-width:52ch}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats span{font:600 14px 'Urbanist';padding:8px 14px;border-radius:99px;background:#fff;border:1px solid var(--line);color:#c8431a}
-.cs-cta{font:600 15px 'Urbanist';display:inline-flex;gap:8px;align-items:center}.cs-cta::after{content:'→';transition:transform .4s}.cs:hover .cs-cta::after{transform:translateX(6px)}
+.cs-cta{justify-self:start;font:600 15px 'Urbanist';display:inline-flex;gap:8px;align-items:center}.cs-cta::after{content:'→';transition:transform .4s}.cs:hover .cs-cta::after{transform:translateX(6px)}
 @media (max-width:780px){.bento{grid-template-columns:1fr}.cs.big,.cs.wide{grid-column:auto}.big .art,.art,.wide .art{height:260px}.wide .cs-body,.big .cs-body{grid-template-columns:1fr}.wide .cs-body h3,.big .cs-body h3{grid-row:auto}.mock{width:52%;top:24%;right:5%}.cs-body{padding:22px}}
 .edge{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:120px}
 .edge div{background:rgba(255,255,255,.68);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:28px}
@@ -118,7 +118,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 
 .thumb{transition:transform .8s cubic-bezier(.2,.7,.2,1)}.case{overflow:hidden}.case:hover .thumb{transform:scale(1.05)}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.giant span,.meta{animation:none!important;opacity:1!important;transform:none!important}.marquee div{animation:none}}
-.blobs{position:fixed;inset:-15%;filter:blur(80px) saturate(1.15);z-index:-2;pointer-events:none}
+.blobs{transition:transform 1.2s cubic-bezier(.2,.8,.2,1);position:fixed;inset:-15%;filter:blur(80px) saturate(1.15);z-index:-2;pointer-events:none}
 .blobs i{position:absolute;border-radius:50%;animation:drift 22s ease-in-out infinite alternate}
 .blobs .g{width:62%;height:70%;left:-6%;top:28%;background:radial-gradient(circle at 45% 50%,#a9c43a,#c8d86a 45%,transparent 70%)}
 .blobs .t{width:58%;height:62%;right:-4%;top:-14%;background:radial-gradient(circle,#4f9fae,#8cc3c9 45%,transparent 70%);animation-duration:26s}
@@ -165,6 +165,72 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .agent form button{border:0;border-radius:99px;background:#f0602e;color:#fff;font:600 14px 'Urbanist';padding:0 16px;cursor:pointer}
 @media (max-width:780px){.agent-btn{padding:8px}.agent-btn>span,.agent-btn .live{display:none}.agent-btn .orbv{width:52px;height:52px}.agent-btn{right:16px;bottom:16px}.agent{right:16px;bottom:84px}}
 .agent .note{font:500 11px 'Urbanist';color:#8a8f8a;text-align:center;padding:0 0 10px}
+
+/* ===== Below-cover redesign ===== */
+.after-hero section{margin-bottom:140px}.after-hero footer{margin-bottom:0;padding-bottom:40px}
+.sec-h{display:flex;gap:14px;align-items:center;font:600 13px 'Urbanist';letter-spacing:.08em;text-transform:uppercase;color:#6a6f6a;padding-bottom:14px;border-bottom:1px solid #dcdfda;margin-bottom:36px}
+.sec-h span:first-child{color:var(--accent)}.sec-h .r{margin-left:auto}
+.after-hero h2{font:600 clamp(40px,5.4vw,76px)/1 'Urbanist';letter-spacing:-.04em;margin:0 0 48px}
+.intro-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:end;margin-bottom:64px}
+.intro h1{font:600 clamp(44px,6vw,92px)/.98 'Urbanist';letter-spacing:-.045em;margin:0;max-width:12ch}
+.intro-side .lede{font-size:19px;line-height:1.55;color:#3a3e3a;margin-bottom:24px}
+.pill-link{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:99px;background:#161816;color:#fff;text-decoration:none;font:600 15px 'Urbanist';transition:transform .3s}
+.pill-link:hover{transform:translateY(-2px)}
+.pill-link i{width:8px;height:8px;border-radius:50%;background:#7ee08a;box-shadow:0 0 0 4px rgba(126,224,138,.25)}
+.after-hero .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:0;border-radius:0;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;border-top:1px solid #dcdfda}
+.after-hero .facts div{padding:28px 24px 0 0;border-right:1px solid #dcdfda;margin-right:24px}
+.after-hero .facts div:last-child{border:0}
+.after-hero .facts b{font:600 clamp(28px,3vw,44px)/1 'Urbanist';letter-spacing:-.03em;display:block;margin-bottom:10px}
+.after-hero .facts span{font:500 15px 'Urbanist';color:#5a5f5a}
+.marquee{border:0;padding:30px 0;margin:-40px 0 140px}
+.marquee div{font:600 clamp(32px,4.4vw,64px)/1 'Urbanist';gap:36px}
+.marquee span:nth-child(even){color:inherit}.marquee .st{color:var(--accent)!important;font-size:.5em;align-self:center}
+/* bento refinement */
+.bento{gap:20px}
+.cs{border-radius:28px;background:#fff;border:1px solid #e6e8e4;box-shadow:0 30px 60px -45px rgba(20,22,20,.4)}
+.cs-top,.num,.tag{display:none}
+.art .go{position:absolute;top:20px;right:20px;z-index:3}
+.name{font-size:clamp(44px,6vw,96px)}
+.cs:not(.big):not(.wide) .name{font-size:clamp(38px,4vw,64px)}
+.cs-body{padding:28px 32px 32px;display:block}
+.wide .cs-body,.big .cs-body{display:grid;grid-template-columns:1fr 1fr;column-gap:56px;grid-template-areas:"meta meta" "h p" "h stats" "cta stats"}
+.big .cs-meta,.wide .cs-meta{grid-area:meta}.big h3,.wide h3{grid-area:h}.big .cs-body p,.wide .cs-body p{grid-area:p}.big .stats,.wide .stats{grid-area:stats}.big .cs-cta,.wide .cs-cta{grid-area:cta;align-self:end}
+.cs-meta{display:flex;gap:18px;font:600 12px 'Urbanist';letter-spacing:.08em;text-transform:uppercase;color:#80857f;margin-bottom:16px}
+.cs-meta span:first-child{color:var(--accent)}.cs-meta span:last-child{margin-left:auto}
+.cs-body h3{font:600 clamp(24px,2.3vw,34px)/1.12 'Urbanist';letter-spacing:-.025em;margin:0 0 12px;max-width:20ch}
+.cs-body p{font-size:17px;line-height:1.55;color:#4a4f4a;margin:0 0 22px}
+.stats{display:flex;gap:0;border-top:1px solid #e6e8e4;padding-top:18px;margin-bottom:22px}
+.stats div{flex:1;padding-right:16px}
+.stats div+div{padding-left:16px;border-left:1px solid #e6e8e4}
+.stats b{display:block;font:600 26px/1 'Urbanist';letter-spacing:-.02em;margin-bottom:6px;color:#161816}
+.stats span{font:500 13.5px 'Urbanist';color:#6a6f6a;background:none;border:0;padding:0}
+.cs-cta{justify-self:start;font:600 15px 'Urbanist';padding:10px 0;border-bottom:1.5px solid #161816;display:inline-flex;gap:8px}
+/* edge list */
+.edge-list{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid #dcdfda}
+.edge-list div{display:grid;grid-template-columns:72px 1fr;column-gap:20px;padding:32px 28px 32px 0;border-bottom:1px solid #dcdfda;transition:background .4s,padding .4s}
+.edge-list div:nth-child(odd){border-right:1px solid #dcdfda}
+.edge-list div:nth-child(even){padding-left:28px}
+.edge-list div:hover{background:linear-gradient(90deg,rgba(169,196,58,.12),rgba(240,96,46,.08))}
+.edge-list b{grid-row:span 2;font:600 44px/1 'Urbanist';letter-spacing:-.04em;color:var(--accent)}
+.edge-list h4{font:600 24px/1.2 'Urbanist';letter-spacing:-.02em;margin:2px 0 8px}
+.edge-list p{font-size:17px;line-height:1.55;color:#4a4f4a;margin:0;max-width:40ch}
+/* quote */
+.after-hero .quote{position:relative;padding:72px clamp(28px,6vw,96px);border-radius:32px;overflow:hidden;background:radial-gradient(80% 120% at 0% 100%,rgba(169,196,58,.45),transparent 60%),radial-gradient(70% 120% at 100% 0%,rgba(79,159,174,.4),transparent 60%),radial-gradient(60% 100% at 90% 100%,rgba(240,96,46,.35),transparent 60%),#fff;border:1px solid #e6e8e4;backdrop-filter:none}
+.qm{position:absolute;top:-30px;left:clamp(20px,4vw,60px);font:600 220px/1 'Urbanist';color:rgba(22,24,22,.08)}
+.after-hero .quote blockquote{position:relative;font:500 clamp(26px,3vw,42px)/1.25 'Urbanist';letter-spacing:-.02em;max-width:28ch;font-style:normal}
+.after-hero .quote cite{display:flex;align-items:center;gap:14px;margin-top:32px;font:500 15px 'Urbanist';color:#4a4f4a;font-style:normal}
+.quote cite i{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#a9c43a,#f0602e)}
+.quote cite b{display:block;color:#161816}
+/* footer */
+.big-cta{font:600 clamp(52px,9vw,150px)/.92 'Urbanist'!important;letter-spacing:-.055em!important;max-width:11ch;margin:0 0 56px!important}
+.big-cta em{font-style:normal;background:linear-gradient(90deg,#a9c43a,#4f9fae 45%,#f0602e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.after-hero .contact{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 96px}
+.after-hero .contact a{display:inline-flex;gap:10px;align-items:center;padding:16px 26px;border-radius:99px;font:600 17px 'Urbanist';text-decoration:none;background:#fff;border:1px solid #dcdfda;backdrop-filter:none;transition:background .3s,color .3s,transform .3s}
+.after-hero .contact a:first-child{background:#161816;color:#fff;border-color:#161816}
+.after-hero .contact a:hover{transform:translateY(-3px);background:var(--accent);border-color:var(--accent);color:#fff}
+.after-hero .small{display:flex;gap:24px;flex-wrap:wrap;padding-top:20px;border-top:1px solid #dcdfda;font:500 14px 'Urbanist';color:#6a6f6a}
+.after-hero .small a{margin-left:auto;text-decoration:none;color:#161816}
+@media (max-width:780px){.intro-grid{grid-template-columns:1fr;gap:28px}.after-hero .facts{grid-template-columns:1fr 1fr}.after-hero .facts div{border:0;margin:0;padding:22px 0 0}.edge-list{grid-template-columns:1fr}.edge-list div,.edge-list div:nth-child(even){padding:26px 0;border-right:0}.wide .cs-body,.big .cs-body{display:block}.after-hero section,.after-hero footer{margin-bottom:96px}.after-hero .small a{margin-left:0}}
 </style>
 </head>
 <body>
@@ -181,78 +247,107 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
  </div>
 </section>
 <div class="after-hero"><div class="wrap">
-<header style="padding-top:24px">
- <h1 class="reveal">I design <em>AI products</em><br>people actually trust.</h1>
- <p class="reveal lede">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces — with clear plans, honest confidence and an undo button.</p>
- <div class="reveal facts">
-  <div><b>[X]+</b><span>products designed</span></div>
-  <div><b>4</b><span>AI case studies</span></div>
-  <div><b>Figma → Code</b><span>I prototype what I design</span></div>
-  <div><b>India</b><span>open to remote</span></div>
+<section class="intro">
+ <div class="sec-h reveal"><span>(01)</span><span>About</span></div>
+ <div class="intro-grid">
+  <h1 class="reveal">I design <em>AI products</em> people actually trust.</h1>
+  <div class="intro-side reveal">
+   <p class="lede">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
+   <a class="pill-link" href="#contact"><i></i>Available for product design roles</a>
+  </div>
  </div>
-</header>
-<div class="marquee" aria-hidden="true"><div><span>Agentic AI UX</span><span>Product Design</span><span>Design Systems</span><span>Human-in-the-loop</span><span>Prototyping in code</span><span>User Research</span><span>Agentic AI UX</span><span>Product Design</span><span>Design Systems</span><span>Human-in-the-loop</span><span>Prototyping in code</span><span>User Research</span></div></div>
+ <div class="facts reveal">
+  <div><b>[X]+</b><span>Products designed</span></div>
+  <div><b>04</b><span>AI case studies</span></div>
+  <div><b>Figma→Code</b><span>I prototype what I design</span></div>
+  <div><b>IN / Remote</b><span>Based in India</span></div>
+ </div>
+</section>
+<div class="marquee" aria-hidden="true"><div><span>Agentic AI UX</span><span class='st'>✦</span><span>Product Design</span><span class='st'>✦</span><span>Design Systems</span><span class='st'>✦</span><span>Human-in-the-loop</span><span class='st'>✦</span><span>Prototyping in code</span><span class='st'>✦</span><span>User Research</span><span class='st'>✦</span><span>Agentic AI UX</span><span class='st'>✦</span><span>Product Design</span><span class='st'>✦</span><span>Design Systems</span><span class='st'>✦</span><span>Human-in-the-loop</span><span class='st'>✦</span><span>Prototyping in code</span><span class='st'>✦</span><span>User Research</span><span class='st'>✦</span></div></div>
 
 <section id="work">
- <div class="label">Selected work</div>
- <h2>Problems I've solved.</h2>
+ <div class="sec-h reveal"><span>(02)</span><span>Selected work</span><span class="r">2025 — 2026</span></div>
+ <h2 class="reveal">Problems I've solved.</h2>
  <div class="bento">
   <a class="cs reveal big lime" href="#">
-   <div class="cs-top"><span class="num">01</span><span class="tag">Agentic AI · Product design</span><span class="go" aria-hidden="true">↗</span></div>
-   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="name">Sijo Agent</span></div>
-   <div class="cs-body"><h3>From “what is it doing?” to an agent you can steer</h3><p>Plan previews, approval checkpoints and one-tap undo keep people in control of an autonomous assistant.</p><div class="stats"><span>+X% task success</span><span>−X% abandoned runs</span><span>X/5 trust</span></div><span class="cs-cta">View case study</span></div>
+   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
+   <div class="cs-body">
+    <div class="cs-meta"><span>01</span><span>Agentic AI</span><span>2026</span></div>
+    <h3>From “what is it doing?” to an agent you can steer</h3><p>Plan previews, approval checkpoints and one-tap undo keep people in control of an autonomous assistant.</p>
+    <div class="stats"><div><b>+X%</b><span>task success</span></div><div><b>−X%</b><span>abandoned runs</span></div><div><b>X/5</b><span>trust score</span></div></div>
+    <span class="cs-cta">Read case study</span>
+   </div>
   </a>
   <a class="cs reveal  teal" href="#">
-   <div class="cs-top"><span class="num">02</span><span class="tag">AI product · Fintech</span><span class="go" aria-hidden="true">↗</span></div>
-   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Pay securely</div></div><span class="name">Razorpay × AI</span></div>
-   <div class="cs-body"><h3>Making AI payments feel safe, not scary</h3><p>Removing checkout and support friction for Razorpay and Cleartrip without losing confidence.</p><div class="stats"><span>X steps removed</span><span>X users tested</span></div><span class="cs-cta">View case study</span></div>
+   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Pay securely</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
+   <div class="cs-body">
+    <div class="cs-meta"><span>02</span><span>Fintech · AI</span><span>2025</span></div>
+    <h3>Making AI payments feel safe, not scary</h3><p>Cutting checkout and support friction for Razorpay and Cleartrip without losing trust.</p>
+    <div class="stats"><div><b>X</b><span>steps removed</span></div><div><b>X</b><span>users tested</span></div></div>
+    <span class="cs-cta">Read case study</span>
+   </div>
   </a>
   <a class="cs reveal  orange" href="#">
-   <div class="cs-top"><span class="num">03</span><span class="tag">Mobile · UI/UX · Design system</span><span class="go" aria-hidden="true">↗</span></div>
-   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Add to cubby</div></div><span class="name">Cubby</span></div>
-   <div class="cs-body"><h3>From research to a shipped app</h3><p>Interviews, flows, a reusable design system and a hi-fi prototype.</p><div class="stats"><span>X interviews</span><span>X components</span></div><span class="cs-cta">View case study</span></div>
+   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Add to cubby</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
+   <div class="cs-body">
+    <div class="cs-meta"><span>03</span><span>Mobile · Systems</span><span>2025</span></div>
+    <h3>From research to a shipped app</h3><p>Interviews, flows, a reusable design system and a hi-fi prototype.</p>
+    <div class="stats"><div><b>X</b><span>interviews</span></div><div><b>X</b><span>components</span></div></div>
+    <span class="cs-cta">Read case study</span>
+   </div>
   </a>
   <a class="cs reveal wide ink" href="#">
-   <div class="cs-top"><span class="num">04</span><span class="tag">AI copilot · Operations</span><span class="go" aria-hidden="true">↗</span></div>
-   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Suggestion ready</div></div><span class="name">Floor Pilot</span></div>
-   <div class="cs-body"><h3>A copilot that turns floor chaos into decisions</h3><p>AI suggests, people decide — a calmer ops tool.</p><div class="stats"><span>−X min per decision</span></div><span class="cs-cta">Coming soon</span></div>
+   <div class="art"><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Suggestion ready</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
+   <div class="cs-body">
+    <div class="cs-meta"><span>04</span><span>AI copilot · Ops</span><span>2026</span></div>
+    <h3>A copilot that turns floor chaos into decisions</h3><p>AI suggests, people decide. A calmer tool for operations teams.</p>
+    <div class="stats"><div><b>−X min</b><span>per decision</span></div></div>
+    <span class="cs-cta">Coming soon</span>
+   </div>
   </a>
  </div>
 </section>
 
 <section id="edge">
- <div class="label">This is my edge</div>
- <h2>How I design for AI.</h2>
- <div class="reveal edge">
-  <div><b>01</b><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p></div>
-  <div><b>02</b><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p></div>
-  <div><b>03</b><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p></div>
-  <div><b>04</b><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p></div>
+ <div class="sec-h reveal"><span>(03)</span><span>Approach</span></div>
+ <h2 class="reveal">How I design for AI.</h2>
+ <div class="edge-list">
+  <div class="reveal"><b>01</b><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p></div>
+  <div class="reveal"><b>02</b><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p></div>
+  <div class="reveal"><b>03</b><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p></div>
+  <div class="reveal"><b>04</b><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p></div>
  </div>
 </section>
 
-<section class="quote">
- <blockquote class="reveal">"[Add a short testimonial from a mentor, teammate or client about working with you.]"</blockquote>
- <cite>— [Name], [Role, Company]</cite>
+<section class="quote reveal">
+ <span class="qm">“</span>
+ <blockquote>[Add a short testimonial from a mentor, teammate or client about working with you.]</blockquote>
+ <cite><i></i><span><b>[Name]</b>[Role, Company]</span></cite>
 </section>
 
 <footer id="contact">
- <div class="label">Contact</div>
- <h2>Let's build something<br>people <em style="color:var(--accent)">trust</em>.</h2>
- <div class="reveal contact"><a href="mailto:you@example.com">Email me</a><a href="#">LinkedIn</a><a href="#">Download resume</a></div>
- <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed by me, built with code.</span></div>
+ <div class="sec-h"><span>(04)</span><span>Contact</span></div>
+ <h2 class="big-cta">Let's build something people <em>trust.</em></h2>
+ <div class="contact"><a href="mailto:you@example.com">Email me <span>↗</span></a><a href="#">LinkedIn <span>↗</span></a><a href="#">Resume <span>↓</span></a></div>
+ <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed and built by me</span><a href="#top">Back to top ↑</a></div>
 </footer>
 </div></div>
 <script>
 (()=>{const c=document.getElementById('fx'),x=c.getContext('2d');let w,h,t=0;
 const R=()=>{const d=devicePixelRatio||1;w=c.width=c.offsetWidth*d;h=c.height=c.offsetHeight*d};addEventListener('resize',R);R();
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
-function f(){x.clearRect(0,0,w,h);
- const d=devicePixelRatio||1,bw=Math.round(26*d),seg=Math.round(8*d),amp=22*d;
+let mx=-9999,my=-9999,tx=-9999,ty=-9999,mi=0,ti=0;
+c.parentElement.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),dd=devicePixelRatio||1;tx=(e.clientX-r.left)*dd;ty=(e.clientY-r.top)*dd;ti=1;if(mx<-999){mx=tx;my=ty}});
+c.parentElement.parentElement.addEventListener('pointerleave',()=>ti=0);
+const blobs=document.querySelector('.blobs');
+addEventListener('pointermove',e=>{if(blobs)blobs.style.transform=`translate(${(e.clientX/innerWidth-.5)*-40}px,${(e.clientY/innerHeight-.5)*-40}px)`},{passive:true});
+function f(){x.clearRect(0,0,w,h);mx+=(tx-mx)*.08;my+=(ty-my)*.08;mi+=(ti-mi)*.05;
+ const d=devicePixelRatio||1,R=220*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=22*d;
  for(let b=-1;b*bw<w+bw;b++){const x0=b*bw;
   for(let y=0;y<h;y+=seg){
-   const sway=Math.sin(y*.0025/d+t+b*.22)*amp+Math.sin(y*.006/d-t*.6+b*.5)*amp*.25;
-   const lum=.5+.5*Math.sin(b*.28-t*.7+y*.0015/d);
+   const cx0=x0+bw/2,dxm=cx0-mx,dym=y-my,dist=Math.hypot(dxm,dym),inf=Math.exp(-(dist*dist)/(2*R*R))*mi;
+   const sway=Math.sin(y*.0025/d+t+b*.22)*amp+Math.sin(y*.006/d-t*.6+b*.5)*amp*.25+Math.sign(dxm||1)*inf*70*d;
+   const lum=Math.min(1,.5+.5*Math.sin(b*.28-t*.7+y*.0015/d)+inf*.6);
    const g=x.createLinearGradient(x0+sway,0,x0+sway+bw,0);
    g.addColorStop(0,`rgba(255,255,255,${.05+.45*lum})`);
    g.addColorStop(.35,`rgba(255,255,255,${.12*lum})`);
