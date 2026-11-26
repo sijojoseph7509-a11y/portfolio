@@ -60,7 +60,8 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .hero{position:relative;height:100svh;min-height:620px;background:transparent;color:#fff;overflow:hidden;font-family:'Urbanist',Inter,sans-serif;}
 .hero{position:sticky;top:0}
 .hero .stage{position:absolute;inset:0;transform-origin:50% 30%;will-change:transform,filter}
-.after-hero{position:relative;z-index:5;background:#f7f7f5;padding-top:110px;clip-path:inset(0 var(--ix,6%) 0 var(--ix,6%) round var(--ir,48px) var(--ir,48px) 0 0)}
+.after-hero{position:relative;z-index:5;margin-top:-6vh;padding-top:calc(28vh + 40px)}
+.after-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(247,247,245,0) 0,rgba(247,247,245,.5) 14vh,rgba(247,247,245,.9) 28vh,#f7f7f5 42vh);backdrop-filter:blur(28px) saturate(1.1);-webkit-backdrop-filter:blur(28px) saturate(1.1);-webkit-mask:linear-gradient(180deg,transparent 0,#000 20vh);mask:linear-gradient(180deg,transparent 0,#000 20vh)}
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding:22px 0;margin:0 0 110px;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .marquee div{display:flex;gap:56px;width:max-content;animation:mq 38s linear infinite;font:500 clamp(28px,3.6vw,48px)/1 'Urbanist';letter-spacing:-.03em}
 .marquee span:nth-child(even){color:var(--accent)}
@@ -196,10 +197,7 @@ st.style.transform=`scale(${1-p*.08}) translateY(${p*-40}px)`;st.style.filter=`b
 const L=[...document.querySelectorAll('#giant span')];
 addEventListener('pointermove',e=>{L.forEach(sp=>{const r=sp.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));
  const k=Math.max(0,1-d/360);sp.style.fontWeight=Math.round(400+400*k);sp.style.transform=`translateY(${-k*18}px)`;});
-},{passive:true});
-const ah=document.querySelector('.after-hero');
-const upd=()=>{const r=ah.getBoundingClientRect(),p=Math.min(1,Math.max(0,1-(r.top/innerHeight)));ah.style.setProperty('--ix',(6*(1-p)).toFixed(2)+'%');ah.style.setProperty('--ir',(48*(1-p)).toFixed(1)+'px')};
-addEventListener('scroll',upd,{passive:true});upd();})();
+},{passive:true});})();
 </script>
 </body>
 </html>
