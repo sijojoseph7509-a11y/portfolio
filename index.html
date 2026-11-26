@@ -10,7 +10,7 @@
 :root{--bg:#ecedeb;--ink:#141614;--mute:#2f332f;--line:#d6d9d4;--card:rgba(255,255,255,.6);--accent:#f0602e;--soft:#e3e7df}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{background:#e9eae7;color:var(--ink);font:17px/1.65 'Urbanist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:#0b0b0c;color:var(--ink);font:17px/1.65 'Urbanist',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -54,10 +54,10 @@ h2{letter-spacing:-.03em;font:500 clamp(36px,5vw,52px)/1.05 'Urbanist',sans-seri
 .art{position:relative;height:300px;overflow:hidden;display:flex;align-items:flex-end;padding:28px}
 .big .art{height:420px}.wide .art{height:280px}
 .art::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 2px,transparent 2px 22px);mix-blend-mode:soft-light;opacity:.9}
-.lime .art{background:radial-gradient(120% 90% at 20% 100%,#a9c43a,#d6e48a 45%,#eef1e6)}
-.teal .art{background:radial-gradient(120% 90% at 80% 100%,#4f9fae,#a8d3d8 50%,#eef3f3)}
-.orange .art{background:radial-gradient(120% 90% at 30% 100%,#f1501f,#f7a27e 50%,#f6ece6)}
-.ink .art{background:radial-gradient(120% 120% at 80% 100%,#3b4a2e,#1a1c1a 70%)}
+.lime .art{background:radial-gradient(120% 90% at 20% 100%,#5b6575,#b4b8be 45%,#eeedeb)}
+.teal .art{background:radial-gradient(120% 90% at 80% 100%,#2c323c,#7d8592 50%,#e4e3e1)}
+.orange .art{background:radial-gradient(120% 90% at 30% 100%,#9ea3ab,#d6d5d3 50%,#f4f3f1)}
+.ink .art{background:radial-gradient(120% 120% at 80% 100%,#3b4352,#0b0b0c 70%)}
 .ink .name{color:#fff}
 .name{position:relative;z-index:2;font:600 clamp(40px,5.4vw,84px)/.9 'Urbanist';letter-spacing:-.045em;color:#161816;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
 .cs:hover .name{transform:translateX(8px)}
@@ -120,16 +120,16 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.giant span,.meta{animation:none!important;opacity:1!important;transform:none!important}.marquee div{animation:none}}
 .blobs{transition:transform 1.2s cubic-bezier(.2,.8,.2,1);position:fixed;inset:-15%;filter:blur(80px) saturate(1.15);z-index:-2;pointer-events:none}
 .blobs i{position:absolute;border-radius:50%;animation:drift 22s ease-in-out infinite alternate}
-.blobs .g{width:62%;height:70%;left:-6%;top:28%;background:radial-gradient(circle at 45% 50%,#a9c43a,#c8d86a 45%,transparent 70%)}
-.blobs .t{width:58%;height:62%;right:-4%;top:-14%;background:radial-gradient(circle,#4f9fae,#8cc3c9 45%,transparent 70%);animation-duration:26s}
-.blobs .o{width:62%;height:78%;left:36%;top:38%;background:radial-gradient(circle at 50% 55%,#f1501f,#f5875a 45%,transparent 70%);animation-duration:19s}
-.blobs .w{width:40%;height:44%;left:34%;top:4%;background:radial-gradient(circle,#f4f4f2,transparent 70%)}
+.blobs .g{width:62%;height:70%;left:-6%;top:28%;background:radial-gradient(circle at 45% 50%,#ecebe8,#c9c8c6 45%,transparent 70%)}
+.blobs .t{width:58%;height:62%;right:-4%;top:-14%;background:radial-gradient(circle,#3b4352,#5b6575 45%,transparent 70%);animation-duration:26s}
+.blobs .o{width:62%;height:78%;left:36%;top:38%;background:radial-gradient(circle at 50% 55%,#f1efec,#9ea3ab 45%,transparent 70%);animation-duration:19s}
+.blobs .w{width:40%;height:44%;left:34%;top:4%;background:radial-gradient(circle,#050506,transparent 70%)}
 @keyframes drift{to{transform:translate(4%,-5%) scale(1.08)}}
 .hero canvas{mix-blend-mode:soft-light;-webkit-mask:linear-gradient(90deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.35) 45%,#000 75%);mask:linear-gradient(90deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,.35) 45%,#000 75%)}
-.meta{position:absolute;font-size:clamp(15px,1.25vw,17px);line-height:1.35;z-index:2;font-weight:600;color:#161816;text-shadow:0 0 18px rgba(255,255,255,.55)}
+.meta{position:absolute;font-size:clamp(15px,1.25vw,17px);line-height:1.35;z-index:2;font-weight:600;color:#f1efec;text-shadow:0 0 18px rgba(0,0,0,.45)}
 .brand{top:5.5%;left:5.5%;font-size:clamp(20px,1.8vw,26px);font-weight:600}
 .hnav{top:6%;right:5.5%;display:flex;gap:24px}
-.hnav a{text-decoration:none;color:#161816;opacity:.8}.hnav a:hover{opacity:1}
+.hnav a{text-decoration:none;color:#f1efec;opacity:.8}.hnav a:hover{opacity:1}
 
 .m1 i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22a855;box-shadow:0 0 0 4px rgba(34,168,85,.2);margin-right:7px;vertical-align:1px}
 .giant{position:absolute;left:3.5%;bottom:calc(6vh);font-weight:500;font-size:clamp(110px,21vw,330px);line-height:1.05;padding-bottom:.22em;margin-bottom:-.17em;letter-spacing:-.045em;z-index:3;white-space:nowrap;color:#fff;filter:drop-shadow(0 8px 30px rgba(0,0,0,.12))}
@@ -210,12 +210,12 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .edge-list div{display:grid;grid-template-columns:72px 1fr;column-gap:20px;padding:32px 28px 32px 0;border-bottom:1px solid #dcdfda;transition:background .4s,padding .4s}
 .edge-list div:nth-child(odd){border-right:1px solid #dcdfda}
 .edge-list div:nth-child(even){padding-left:28px}
-.edge-list div:hover{background:linear-gradient(90deg,rgba(169,196,58,.12),rgba(240,96,46,.08))}
+.edge-list div:hover{background:linear-gradient(90deg,rgba(59,67,82,.1),rgba(158,163,171,.08))}
 .edge-list b{grid-row:span 2;font:600 44px/1 'Urbanist';letter-spacing:-.04em;color:var(--accent)}
 .edge-list h4{font:600 24px/1.2 'Urbanist';letter-spacing:-.02em;margin:2px 0 8px}
 .edge-list p{font-size:17px;line-height:1.55;color:#4a4f4a;margin:0;max-width:40ch}
 /* quote */
-.after-hero .quote{position:relative;padding:72px clamp(28px,6vw,96px);border-radius:32px;overflow:hidden;background:radial-gradient(80% 120% at 0% 100%,rgba(169,196,58,.45),transparent 60%),radial-gradient(70% 120% at 100% 0%,rgba(79,159,174,.4),transparent 60%),radial-gradient(60% 100% at 90% 100%,rgba(240,96,46,.35),transparent 60%),#fff;border:1px solid #e6e8e4;backdrop-filter:none}
+.after-hero .quote{position:relative;padding:72px clamp(28px,6vw,96px);border-radius:32px;overflow:hidden;background:radial-gradient(80% 120% at 0% 100%,rgba(120,128,140,.35),transparent 60%),radial-gradient(70% 120% at 100% 0%,rgba(59,67,82,.35),transparent 60%),radial-gradient(60% 100% at 90% 100%,rgba(200,198,196,.5),transparent 60%),#fff;border:1px solid #e6e8e4;backdrop-filter:none}
 .qm{position:absolute;top:-30px;left:clamp(20px,4vw,60px);font:600 220px/1 'Urbanist';color:rgba(22,24,22,.08)}
 .after-hero .quote blockquote{position:relative;font:500 clamp(26px,3vw,42px)/1.25 'Urbanist';letter-spacing:-.02em;max-width:28ch;font-style:normal}
 .after-hero .quote cite{display:flex;align-items:center;gap:14px;margin-top:32px;font:500 15px 'Urbanist';color:#4a4f4a;font-style:normal}
@@ -223,7 +223,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .quote cite b{display:block;color:#161816}
 /* footer */
 .big-cta{font:600 clamp(52px,9vw,150px)/.92 'Urbanist'!important;letter-spacing:-.055em!important;max-width:11ch;margin:0 0 56px!important}
-.big-cta em{font-style:normal;background:linear-gradient(90deg,#a9c43a,#4f9fae 45%,#f0602e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.big-cta em{font-style:normal;background:linear-gradient(90deg,#9ea3ab,#3b4352 45%,#0b0b0c);-webkit-background-clip:text;background-clip:text;color:transparent}
 .after-hero .contact{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 96px}
 .after-hero .contact a{display:inline-flex;gap:10px;align-items:center;padding:16px 26px;border-radius:99px;font:600 17px 'Urbanist';text-decoration:none;background:#fff;border:1px solid #dcdfda;backdrop-filter:none;transition:background .3s,color .3s,transform .3s}
 .after-hero .contact a:first-child{background:#161816;color:#fff;border-color:#161816}
@@ -256,7 +256,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 
 /* About panel */
 .about-panel{position:relative;overflow:hidden;border-radius:36px;padding:clamp(32px,4.5vw,64px);background:#eef0ea;isolation:isolate;border:1px solid rgba(255,255,255,.9);box-shadow:0 40px 80px -50px rgba(20,22,20,.45)}
-.ap-glow{position:absolute;inset:-20%;z-index:-2;filter:blur(60px);background:radial-gradient(40% 50% at 12% 85%,#b6cf4a,transparent 70%),radial-gradient(40% 55% at 92% 10%,#5aa6b4,transparent 70%),radial-gradient(45% 55% at 85% 95%,#f26a3a,transparent 70%),radial-gradient(35% 40% at 45% 30%,#f7f7f2,transparent 70%);animation:apdrift 18s ease-in-out infinite alternate}
+.ap-glow{position:absolute;inset:-20%;z-index:-2;filter:blur(60px);background:radial-gradient(40% 50% at 12% 85%,#c9c8c6,transparent 70%),radial-gradient(40% 55% at 92% 10%,#4a5363,transparent 70%),radial-gradient(45% 55% at 85% 95%,#7d8592,transparent 70%),radial-gradient(35% 40% at 45% 30%,#f4f3f1,transparent 70%);animation:apdrift 18s ease-in-out infinite alternate}
 @keyframes apdrift{to{transform:translate(3%,-4%) scale(1.06)}}
 .about-panel::after{content:'';position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 24px);mix-blend-mode:soft-light}
 .about-panel h1{font:600 clamp(40px,5vw,80px)/1 'Urbanist';letter-spacing:-.045em;margin:0 0 clamp(36px,5vw,72px);max-width:none;color:#141614}
@@ -272,7 +272,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 
 /* Approach panel */
 .approach-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:36px;padding:clamp(28px,4vw,56px);background:#eef0ea;border:1px solid rgba(255,255,255,.9);box-shadow:0 40px 80px -50px rgba(20,22,20,.45)}
-.approach-panel .ap-glow{background:radial-gradient(40% 50% at 90% 85%,#b6cf4a,transparent 70%),radial-gradient(40% 55% at 8% 15%,#5aa6b4,transparent 70%),radial-gradient(40% 50% at 15% 95%,#f26a3a,transparent 70%),radial-gradient(35% 40% at 55% 35%,#f7f7f2,transparent 70%)}
+.approach-panel .ap-glow{background:radial-gradient(40% 50% at 90% 85%,#c9c8c6,transparent 70%),radial-gradient(40% 55% at 8% 15%,#4a5363,transparent 70%),radial-gradient(40% 50% at 15% 95%,#7d8592,transparent 70%),radial-gradient(35% 40% at 55% 35%,#f4f3f1,transparent 70%)}
 .approach-panel::after{content:'';position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 24px);mix-blend-mode:soft-light}
 .apx-head{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:end;margin-bottom:36px}
 .apx-head h2{margin:0!important}
@@ -291,7 +291,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 @media (max-width:900px){.apx-head,.apx-grid{grid-template-columns:1fr}}
 
 /* misted glass */
-.fogblur{position:absolute;inset:0;backdrop-filter:blur(30px) saturate(1.05) brightness(1.1);-webkit-backdrop-filter:blur(30px) saturate(1.05) brightness(1.1);-webkit-mask-size:100% 100%;mask-size:100% 100%;pointer-events:none}
+.fogblur{position:absolute;inset:0;backdrop-filter:blur(30px) saturate(1.05) brightness(.9);-webkit-backdrop-filter:blur(30px) saturate(1.05) brightness(.9);-webkit-mask-size:100% 100%;mask-size:100% 100%;pointer-events:none}
 .fogc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 </style>
 </head>
@@ -511,7 +511,7 @@ function drop(c,x,y,r,a){ // realistic water bead
 function build(){D=devicePixelRatio||1;W=fc.width=hero.offsetWidth*D;H=fc.height=hero.offsetHeight*D;M.width=Math.ceil(W/D/SC);M.height=Math.ceil(H/D/SC);
  mx.fillStyle='#fff';mx.fillRect(0,0,M.width,M.height);
  tex=document.createElement('canvas');tex.width=W;tex.height=H;const t=tex.getContext('2d');
- t.fillStyle='rgba(236,239,237,.74)';t.fillRect(0,0,W,H);
+ t.fillStyle='rgba(26,28,32,.5)';t.fillRect(0,0,W,H);
  // a few medium beads scattered in the fog
  beads=[];drips=[]}
 build();addEventListener('resize',build);
