@@ -269,6 +269,26 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .ap-stats b{display:block;font:600 clamp(24px,2.3vw,36px)/1 'Urbanist';letter-spacing:-.03em;margin-bottom:8px;white-space:nowrap}
 .ap-stats span{font:500 14px 'Urbanist';color:#3d413d}
 @media (max-width:900px){.ap-row{grid-template-columns:1fr}}
+
+/* Approach panel */
+.approach-panel{position:relative;overflow:hidden;isolation:isolate;border-radius:36px;padding:clamp(28px,4vw,56px);background:#eef0ea;border:1px solid rgba(255,255,255,.9);box-shadow:0 40px 80px -50px rgba(20,22,20,.45)}
+.approach-panel .ap-glow{background:radial-gradient(40% 50% at 90% 85%,#b6cf4a,transparent 70%),radial-gradient(40% 55% at 8% 15%,#5aa6b4,transparent 70%),radial-gradient(40% 50% at 15% 95%,#f26a3a,transparent 70%),radial-gradient(35% 40% at 55% 35%,#f7f7f2,transparent 70%)}
+.approach-panel::after{content:'';position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 24px);mix-blend-mode:soft-light}
+.apx-head{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:end;margin-bottom:36px}
+.apx-head h2{margin:0!important}
+.apx-head p{margin:0;font:500 18px/1.5 'Urbanist';color:#1f221f;max-width:40ch}
+.apx-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.ap-card{border-radius:26px;overflow:hidden;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.9);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .3s}
+.ap-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.85)}
+.ap-img{position:relative;aspect-ratio:4/3;overflow:hidden;margin:10px;border-radius:18px}
+.ap-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.ap-card:hover .ap-img img{transform:scale(1.06)}
+.ap-n{position:absolute;top:12px;left:12px;font:600 13px 'Urbanist';padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.85);color:#e8521f}
+.ap-txt{padding:10px 24px 26px}
+.ap-txt h4{font:600 26px/1.15 'Urbanist';letter-spacing:-.02em;margin:0 0 8px}
+.ap-txt p{font:500 16.5px/1.55 'Urbanist';color:#3d413d;margin:0 0 16px}
+.ap-tag{font:600 12px 'Urbanist';letter-spacing:.06em;text-transform:uppercase;color:#6a6f6a}
+@media (max-width:900px){.apx-head,.apx-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -351,12 +371,15 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 
 <section id="edge">
  <div class="sec-h reveal"><span>(03)</span><span>Approach</span></div>
- <h2 class="reveal">How I design for AI.</h2>
- <div class="edge-list">
-  <div class="reveal"><b>01</b><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p></div>
-  <div class="reveal"><b>02</b><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p></div>
-  <div class="reveal"><b>03</b><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p></div>
-  <div class="reveal"><b>04</b><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p></div>
+ <div class="approach-panel reveal">
+  <div class="ap-glow"></div>
+  <div class="apx-head"><h2>How I design for AI.</h2><p>Four principles I bring to every agentic product, grounded in Google PAIR, Microsoft HAX and shapeof.ai patterns.</p></div>
+  <div class="apx-grid">
+  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a1.jpg" alt="" loading="lazy"><span class="ap-n">01</span></div><div class="ap-txt"><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p><span class="ap-tag">Plan previews · Step lists</span></div></article>
+  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a2.jpg" alt="" loading="lazy"><span class="ap-n">02</span></div><div class="ap-txt"><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p><span class="ap-tag">Confidence · Sources</span></div></article>
+  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a3.jpg" alt="" loading="lazy"><span class="ap-n">03</span></div><div class="ap-txt"><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p><span class="ap-tag">Recovery · Handoffs</span></div></article>
+  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a4.jpg" alt="" loading="lazy"><span class="ap-n">04</span></div><div class="ap-txt"><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p><span class="ap-tag">Prototypes · Testing</span></div></article>
+  </div>
  </div>
 </section>
 
