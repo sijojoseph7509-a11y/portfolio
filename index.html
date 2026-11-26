@@ -349,7 +349,7 @@ function f(){x.clearRect(0,0,w,h);mx+=(tx-mx)*.08;my+=(ty-my)*.08;mi+=(ti-mi)*.0
   const N=new Float32Array(n);
   for(let i=0;i<n;i++){const l=P[i-1]??P[i],r=P[i+1]??P[i];N[i]=(V[i]+(-P[i]*.045+(l+r-2*P[i])*.18))*.93}
   for(let i=0;i<n;i++){V[i]=N[i];P[i]+=V[i];P[i]=Math.max(-18,Math.min(18,P[i]))}}
- const d=devicePixelRatio||1,R=260*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=22*d;
+ const d=devicePixelRatio||1,R=260*d,bw=Math.round(26*d),seg=Math.round(8*d),amp=7*d;
  for(let b=-1;b*bw<w+bw;b++){const x0=b*bw;
   for(let y=0;y<h;y+=seg){
    const cx0=x0+bw/2,dxm=cx0-mx,dym=y-my,dist=Math.hypot(dxm,dym),inf=Math.exp(-(dist*dist)/(2*R*R))*mi;
