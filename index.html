@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sijo Joseph — Product Designer</title>
 <meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f3ee;--ink:#141414;--mute:#6b6760;--line:#e2ddd4;--card:#fff;--accent:#ff5b2e;--soft:#efe9df}
 @media (prefers-color-scheme:dark){:root{--bg:#111010;--ink:#f1ede6;--mute:#9a958c;--line:#2a2724;--card:#1a1918;--soft:#201e1c}}
@@ -57,16 +57,39 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .contact a{border:1px solid var(--line);border-radius:99px;padding:10px 20px;text-decoration:none}
 .contact a:first-child{background:var(--accent);border-color:var(--accent);color:#fff}
 .small{font-size:13px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
-@media (max-width:780px){.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
+/* Poster hero */
+.hero{position:relative;height:100svh;min-height:640px;background:#000;color:#fff;overflow:hidden;font-family:'Urbanist',Inter,sans-serif}
+.portrait{position:absolute;right:-4%;top:4%;width:min(62vw,760px);aspect-ratio:1;filter:grayscale(.2) contrast(1.1)}
+.portrait .base,.portrait .slice{position:absolute;inset:0;background-size:cover;background-position:center}
+.portrait .base{-webkit-mask:linear-gradient(90deg,transparent 30%,#000 60%);mask:linear-gradient(90deg,transparent 30%,#000 60%)}
+.portrait .slice{filter:blur(1.5px);opacity:.85;animation:smear 6s ease-in-out infinite alternate}
+@keyframes smear{to{transform:translateX(-14px)}}
+.portrait .ph{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle at 60% 40%,#555,#111 70%);display:grid;place-items:center;color:#888;font-size:13px;text-align:center}
+.meta{position:absolute;font-size:clamp(12px,1.2vw,15px);line-height:1.35;z-index:2}
+.brand{top:32px;left:40px;font-size:22px;font-weight:600}
+.hnav{top:36px;right:40px;display:flex;gap:24px}
+.hnav a{text-decoration:none;color:#fff;opacity:.8}
+.hnav a:hover{opacity:1}
+.m1{top:16%;left:46%}.m2{top:28%;left:10%}.m3{top:40%;left:32%}.m4{top:56%;left:45%}
+.m1 i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:6px}
+.giant{position:absolute;left:-.04em;bottom:-.2em;font-weight:500;font-size:clamp(110px,24vw,340px);line-height:1;letter-spacing:-.04em;z-index:1;white-space:nowrap;mix-blend-mode:difference}
+@media (max-width:780px){.brand{left:20px}.hnav{right:20px;top:72px}.portrait{width:120vw;right:-35%;top:12%}.m1{top:9%;left:20px}.m2{top:58%;left:20px}.m3{top:66%;left:20px}.m4{top:74%;left:20px}.giant{font-size:31vw}.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><b>Sijo Joseph</b><div class="links"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact" class="cta">Let's talk</a></div></div></nav>
-
+<section class="hero">
+ <div class="portrait" id="portrait"><div class="ph">Add your portrait as<br><b>me.jpg</b></div></div>
+ <div class="meta brand">Sijo Joseph</div>
+ <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a></div>
+ <div class="meta m1"><i></i>Open to roles · 2026</div>
+ <div class="meta m2">Product Design<br>&amp; UI/UX for AI Products</div>
+ <div class="meta m3">Agentic AI · Human-in-the-loop</div>
+ <div class="meta m4">Designed and Built<br>by Sijo Joseph. 2026</div>
+ <div class="giant">Designer</div>
+</section>
 <div class="wrap">
-<header>
- <span class="badge"><i></i>Open to product design roles · 2026</span>
- <h1>Hi, I'm Sijo.<br>I design <em>AI products</em><br>people actually trust.</h1>
+<header style="padding-top:96px">
+ <h1>I design <em>AI products</em><br>people actually trust.</h1>
  <p class="lede">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces — with clear plans, honest confidence and an undo button.</p>
  <div class="facts">
   <div><b>[X]+</b><span>products designed</span></div>
@@ -121,5 +144,13 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
  <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed by me, built with code.</span></div>
 </footer>
 </div>
+<script>
+const img=new Image();img.src='me.jpg';img.onload=()=>{const p=document.getElementById('portrait');p.innerHTML='';
+const b=document.createElement('div');b.className='base';b.style.backgroundImage='url(me.jpg)';p.appendChild(b);
+const n=36;for(let i=0;i<n*0.6;i++){const d=document.createElement('div');d.className='slice';
+d.style.backgroundImage='url(me.jpg)';d.style.clipPath=`inset(0 ${100-(i+1)*100/n}% 0 ${i*100/n}%)`;
+d.style.transform=`translateX(${(Math.random()*-40).toFixed(1)}px) scaleY(${(1+Math.random()*.06).toFixed(3)})`;
+d.style.animationDelay=`${(Math.random()*-6).toFixed(2)}s`;p.appendChild(d);}};
+</script>
 </body>
 </html>
