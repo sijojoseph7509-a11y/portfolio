@@ -420,7 +420,7 @@ body{background:#09090a;color:var(--ink)}
 .cs:hover .art-img{transform:scale(1.05)}
 .art-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,9,10,0) 40%,rgba(9,9,10,.85) 100%)}
 .art::before{z-index:1;opacity:.35}
-.art{filter:none!important;background:#0b0b0c!important}
+
 .name{color:#f4f2ef!important;z-index:2;text-shadow:0 10px 40px rgba(0,0,0,.6)}
 .big .art{height:480px}.wide .art{height:340px}
 .ap-img img{filter:none!important}
@@ -428,6 +428,9 @@ body{background:#09090a;color:var(--ink)}
 .ap-n{background:rgba(10,10,12,.7);backdrop-filter:blur(6px)}
 /* cover name glow */
 .giant span{text-shadow:0 0 60px rgba(255,255,255,.12)}
+
+.ap-num{display:block;font:600 56px/1 'Urbanist';letter-spacing:-.04em;margin:8px 0 18px;background:linear-gradient(180deg,#ff6a3d,rgba(255,106,61,.25));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ap-txt{padding:28px 28px 30px!important}
 </style>
 </head>
 <body>
@@ -474,7 +477,7 @@ body{background:#09090a;color:var(--ink)}
  <h2 class="reveal">Problems I've solved.</h2>
  <div class="bento">
   <a class="cs reveal big lime" href="#">
-   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c1.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
+   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>01</span><span>Agentic AI</span><span>2026</span></div>
     <h3>From “what is it doing?” to an agent you can steer</h3><p>Plan previews, approval checkpoints and one-tap undo keep people in control of an autonomous assistant.</p>
@@ -483,7 +486,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal  teal" href="#">
-   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c2.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
+   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Pay securely</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>02</span><span>Fintech · AI</span><span>2025</span></div>
     <h3>Making AI payments feel safe, not scary</h3><p>Cutting checkout and support friction for Razorpay and Cleartrip without losing trust.</p>
@@ -492,7 +495,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal  orange" href="#">
-   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c3.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
+   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Add to cubby</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>03</span><span>Mobile · Systems</span><span>2025</span></div>
     <h3>From research to a shipped app</h3><p>Interviews, flows, a reusable design system and a hi-fi prototype.</p>
@@ -501,7 +504,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal wide ink" href="#">
-   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c4.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
+   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Suggestion ready</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>04</span><span>AI copilot · Ops</span><span>2026</span></div>
     <h3>A copilot that turns floor chaos into decisions</h3><p>AI suggests, people decide. A calmer tool for operations teams.</p>
@@ -518,10 +521,10 @@ body{background:#09090a;color:var(--ink)}
   <div class="ap-glow"></div>
   <div class="apx-head"><h2>How I design for AI.</h2><p>Four principles I bring to every agentic product, grounded in Google PAIR, Microsoft HAX and shapeof.ai patterns.</p></div>
   <div class="apx-grid">
-  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a1.jpg" alt="" loading="lazy"><span class="ap-n">01</span></div><div class="ap-txt"><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p><span class="ap-tag">Plan previews · Step lists</span></div></article>
-  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a2.jpg" alt="" loading="lazy"><span class="ap-n">02</span></div><div class="ap-txt"><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p><span class="ap-tag">Confidence · Sources</span></div></article>
-  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a3.jpg" alt="" loading="lazy"><span class="ap-n">03</span></div><div class="ap-txt"><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p><span class="ap-tag">Recovery · Handoffs</span></div></article>
-  <article class="ap-card reveal"><div class="ap-img"><img src="assets/approach/a4.jpg" alt="" loading="lazy"><span class="ap-n">04</span></div><div class="ap-txt"><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p><span class="ap-tag">Prototypes · Testing</span></div></article>
+  <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">01</span><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p><span class="ap-tag">Plan previews · Step lists</span></div></article>
+  <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">02</span><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p><span class="ap-tag">Confidence · Sources</span></div></article>
+  <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">03</span><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p><span class="ap-tag">Recovery · Handoffs</span></div></article>
+  <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">04</span><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p><span class="ap-tag">Prototypes · Testing</span></div></article>
   </div>
  </div>
 </section>
