@@ -401,6 +401,19 @@ body{background:#09090a;color:var(--ink)}
 .hello{display:flex;align-items:center;gap:12px}
 .av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.15)}
 @media (max-width:900px){.about-panel h1,.ap-row{max-width:none}.me{position:relative;right:auto;top:auto;translate:none;width:70%;margin:0 auto 32px;display:block}}
+
+/* about layout v2 */
+.about-panel{min-height:0}
+.about-panel h1{max-width:none!important;margin:0 0 28px!important;font-size:clamp(38px,4.4vw,68px)!important}
+.ab-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:stretch;margin-bottom:clamp(28px,3vw,40px)}
+.ab-left{display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.ab-copy{font:500 clamp(17px,1.35vw,19px)/1.55 'Urbanist';color:#c9cbce;margin:0 0 26px;max-width:44ch}
+.about-panel .me{position:relative!important;right:auto!important;top:auto!important;translate:none!important;width:100%!important;max-height:none!important;aspect-ratio:4/5;margin:0;border-radius:26px;box-shadow:0 30px 60px -25px rgba(0,0,0,.85)}
+.about-panel .me img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;border-radius:26px;border:1px solid rgba(255,255,255,.12);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.about-panel:hover .me img{transform:scale(1.02)}
+.about-panel .me-tag{left:-18px;top:auto;bottom:28px}
+.about-panel .ap-stats b{font-size:clamp(20px,1.9vw,30px)}.about-panel .ap-stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:none}
+@media (max-width:900px){.ab-grid{grid-template-columns:1fr}.about-panel .me{max-width:420px}.about-panel .ap-stats{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -424,19 +437,19 @@ body{background:#09090a;color:var(--ink)}
  <div class="sec-h reveal"><span>(01)</span><span>About</span></div>
  <div class="about-panel reveal">
   <div class="ap-glow"></div>
-  <div class="me"><img src="assets/sijo.jpg" alt="Sijo Joseph, smiling, in a white T-shirt"><span class="me-tag">That's me 👋</span></div>
-  <h1>I design <em>AI products</em><br>people actually trust.</h1>
-  <div class="ap-row">
-   <div class="ap-copy">
-    <p>Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
+  <div class="ab-grid">
+   <div class="ab-left">
+    <h1>I design <em>AI products</em><br>people actually trust.</h1>
+    <p class="ab-copy">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
     <a class="pill-link" href="#contact"><i></i>Available for product design roles</a>
    </div>
-   <div class="ap-stats">
-    <div><b>[X]+</b><span>Products designed</span></div>
-    <div><b>04</b><span>AI case studies</span></div>
-    <div><b>Figma→Code</b><span>I prototype what I design</span></div>
-    <div><b>India</b><span>Open to remote</span></div>
-   </div>
+   <figure class="me"><img src="assets/sijo.jpg" alt="Sijo Joseph smiling in a white T-shirt"><figcaption class="me-tag">That's me 👋</figcaption></figure>
+  </div>
+  <div class="ap-stats">
+   <div><b>[X]+</b><span>Products designed</span></div>
+   <div><b>04</b><span>AI case studies</span></div>
+   <div><b>Figma→Code</b><span>I prototype what I design</span></div>
+   <div><b>India</b><span>Open to remote</span></div>
   </div>
  </div>
 </section>
