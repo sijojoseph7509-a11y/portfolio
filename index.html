@@ -231,6 +231,28 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .after-hero .small{display:flex;gap:24px;flex-wrap:wrap;padding-top:20px;border-top:1px solid #dcdfda;font:500 14px 'Urbanist';color:#6a6f6a}
 .after-hero .small a{margin-left:auto;text-decoration:none;color:#161816}
 @media (max-width:780px){.intro-grid{grid-template-columns:1fr;gap:28px}.after-hero .facts{grid-template-columns:1fr 1fr}.after-hero .facts div{border:0;margin:0;padding:22px 0 0}.edge-list{grid-template-columns:1fr}.edge-list div,.edge-list div:nth-child(even){padding:26px 0;border-right:0}.wide .cs-body,.big .cs-body{display:block}.after-hero section,.after-hero footer{margin-bottom:96px}.after-hero .small a{margin-left:0}}
+
+/* sticky right sidebar */
+.wide-wrap{max-width:1400px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start}
+.side{position:sticky;top:24px;height:calc(100svh - 48px);padding-bottom:84px}
+.side-in{height:100%;display:flex;flex-direction:column;gap:22px}
+.hello{font:600 26px 'Urbanist';letter-spacing:-.02em;margin:0}
+.side-txt{font:500 19px/1.45 'Urbanist';color:#2a2d2a;margin:0}
+.side-nav{margin-top:auto;display:flex;flex-direction:column;border:1px solid #e3e5e1;border-radius:22px;padding:8px 20px;background:#fff}
+.side-nav a{display:flex;justify-content:space-between;align-items:center;padding:16px 0;text-decoration:none;color:#8a8f8a;font:500 18px 'Urbanist';border-bottom:1px solid #eceeea;transition:color .3s,padding .3s}
+.side-nav a:last-child{border:0}
+.side-nav a em{font-style:normal;font-size:15px}
+.side-nav a:hover{color:#161816;padding-left:6px}
+.side-nav a.on{color:#161816}
+.side-nav a.on span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:10px;vertical-align:3px}
+.side-cta{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:18px 20px;border-radius:22px;background:#eceeea}
+.side-cta p{margin:0;font:500 14px/1.4 'Urbanist';color:#4a4f4a}
+.side-cta b{display:block;color:#161816;font-weight:600}
+.side-cta a{flex:none;padding:12px 18px;border-radius:99px;background:#161816;color:#fff;text-decoration:none;font:600 15px 'Urbanist';transition:background .3s}
+.side-cta a:hover{background:var(--accent)}
+.main-col .bento{grid-template-columns:1fr 1fr}
+@media (max-width:1100px){.layout{grid-template-columns:1fr}.side{display:none}}
 </style>
 </head>
 <body>
@@ -246,8 +268,8 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
  <div class="giant" id="giant"><span style="animation-delay:0.00s">D</span><span style="animation-delay:0.05s">e</span><span style="animation-delay:0.10s">s</span><span style="animation-delay:0.15s">i</span><span style="animation-delay:0.20s">g</span><span style="animation-delay:0.25s">n</span><span style="animation-delay:0.30s">e</span><span style="animation-delay:0.35s">r</span></div>
  </div>
 </section>
-<div class="after-hero"><div class="wrap">
-<section class="intro">
+<div class="after-hero"><div class="wrap wide-wrap"><div class="layout"><main class="main-col">
+<section class="intro" id="about">
  <div class="sec-h reveal"><span>(01)</span><span>About</span></div>
  <div class="intro-grid">
   <h1 class="reveal">I design <em>AI products</em> people actually trust.</h1>
@@ -331,7 +353,21 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
  <div class="contact"><a href="mailto:you@example.com">Email me <span>↗</span></a><a href="#">LinkedIn <span>↗</span></a><a href="#">Resume <span>↓</span></a></div>
  <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed and built by me</span><a href="#top">Back to top ↑</a></div>
 </footer>
-</div></div>
+</main>
+<aside class="side">
+ <div class="side-in">
+  <p class="hello">Hi, I'm Sijo ✦</p>
+  <p class="side-txt">I design AI products that feel calm, honest and in your control. Agents, copilots and the interfaces around them.</p>
+  <nav class="side-nav">
+   <a href="#about" data-s="about"><span>About</span><em>01</em></a>
+   <a href="#work" data-s="work"><span>Selected work</span><em>(4)</em></a>
+   <a href="#edge" data-s="edge"><span>Approach</span><em>(4)</em></a>
+   <a href="#contact" data-s="contact"><span>Contact</span><em>↗</em></a>
+  </nav>
+  <div class="side-cta"><p><b>Ready to build?</b>Open to product, UI/UX and AI design roles.</p><a href="mailto:you@example.com">Let's talk</a></div>
+ </div>
+</aside>
+</div></div></div>
 <script>
 (()=>{const c=document.getElementById('fx'),x=c.getContext('2d');let w,h,t=0;
 const R=()=>{const d=devicePixelRatio||1;w=c.width=c.offsetWidth*d;h=c.height=c.offsetHeight*d};addEventListener('resize',R);R();
@@ -408,6 +444,10 @@ let started=false;const toggle=o=>{box.classList.toggle('open',o);btn.setAttribu
 btn.onclick=()=>toggle(!box.classList.contains('open'));agentX.onclick=()=>toggle(false);
 addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false)});
 agentF.onsubmit=e=>{e.preventDefault();const v=agentI.value.trim();if(v){reply(v);agentI.value=''}};})();
+</script>
+<script>
+(()=>{const links=[...document.querySelectorAll('.side-nav a')];const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.dataset.s===e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
+['about','work','edge','contact'].forEach(id=>{const el=document.getElementById(id);el&&io.observe(el)});})();
 </script>
 </body>
 </html>
