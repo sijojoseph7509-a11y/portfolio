@@ -134,6 +134,35 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .m1 i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22a855;box-shadow:0 0 0 4px rgba(34,168,85,.2);margin-right:7px;vertical-align:1px}
 .giant{position:absolute;left:3.5%;bottom:calc(6vh);font-weight:500;font-size:clamp(110px,21vw,330px);line-height:1.05;padding-bottom:.22em;margin-bottom:-.17em;letter-spacing:-.045em;z-index:3;white-space:nowrap;color:#fff;filter:drop-shadow(0 8px 30px rgba(0,0,0,.12))}
 @media (max-width:780px){.m2{top:58%;left:20px}.m3{top:66%;left:20px}.m4{display:none}.metrics{grid-template-columns:1fr 1fr}.brand{left:20px}.hnav{left:20px;right:auto;top:11%}.m1{top:17%;left:20px}.m2,.m3,.m4{width:auto;right:20px;border:0;padding:0}.m2{left:20px;bottom:calc(8% + 30vw + 70px)}.m3{left:20px;bottom:calc(8% + 30vw + 20px)}.m4{display:none}.giant{font-size:29vw;left:12px}.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
+
+/* Sijo Agent widget */
+.agent-btn{position:fixed;left:24px;bottom:24px;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 40px -20px rgba(0,0,0,.35);font:600 15px 'Urbanist';color:#161816;cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.agent-btn:hover{transform:translateY(-3px)}
+.orb{width:34px;height:34px;border-radius:50%;background:conic-gradient(from 0deg,#a9c43a,#4f9fae,#f0602e,#a9c43a);animation:spin 6s linear infinite;position:relative}
+.orb::after{content:'';position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,rgba(255,255,255,.4))}
+@keyframes spin{to{transform:rotate(1turn)}}
+.agent-btn small{display:block;font:500 12px 'Urbanist';color:#5f645f}
+.agent-btn .live{width:8px;height:8px;border-radius:50%;background:#22a855;box-shadow:0 0 0 3px rgba(34,168,85,.2);margin-left:4px}
+.agent{position:fixed;left:24px;bottom:92px;z-index:50;width:min(380px,calc(100vw - 48px));max-height:min(560px,calc(100svh - 130px));display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:rgba(250,250,248,.86);border:1px solid rgba(255,255,255,.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 40px 80px -30px rgba(0,0,0,.4);transform-origin:0 100%;transform:scale(.6) translateY(20px);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.2,1.2,.3,1),opacity .3s}
+.agent.open{transform:none;opacity:1;pointer-events:auto}
+.agent header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid rgba(20,22,20,.08);font:600 15px 'Urbanist'}
+.agent header .orb{width:28px;height:28px}
+.agent header small{display:block;font:500 12px 'Urbanist';color:#5f645f}
+.agent header button{margin-left:auto;border:0;background:rgba(20,22,20,.06);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px}
+.msgs{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:10px 14px;border-radius:18px;font:500 15px/1.45 'Urbanist';animation:fadeup .35s ease both}
+.msg.bot{background:#fff;border:1px solid rgba(20,22,20,.06);border-bottom-left-radius:6px}
+.msg.me{align-self:flex-end;background:#161816;color:#fff;border-bottom-right-radius:6px}
+.typing{display:inline-flex;gap:4px}.typing i{width:6px;height:6px;border-radius:50%;background:#9a9f9a;animation:blink 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:.25}}
+.sugg{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px}
+.sugg button{border:1px solid rgba(20,22,20,.12);background:#fff;border-radius:99px;padding:7px 12px;font:600 13px 'Urbanist';cursor:pointer}
+.sugg button:hover{background:#161816;color:#fff}
+.agent form{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(20,22,20,.08)}
+.agent input{flex:1;border:1px solid rgba(20,22,20,.12);border-radius:99px;padding:10px 14px;font:500 15px 'Urbanist';background:#fff;outline:none}
+.agent input:focus{border-color:#f0602e}
+.agent form button{border:0;border-radius:99px;background:#f0602e;color:#fff;font:600 14px 'Urbanist';padding:0 16px;cursor:pointer}
+.agent .note{font:500 11px 'Urbanist';color:#8a8f8a;text-align:center;padding:0 0 10px}
 </style>
 </head>
 <body>
@@ -243,6 +272,38 @@ const L=[...document.querySelectorAll('#giant span')];
 addEventListener('pointermove',e=>{L.forEach(sp=>{const r=sp.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));
  const k=Math.max(0,1-d/360);sp.style.fontWeight=Math.round(400+400*k);sp.style.transform=`translateY(${-k*18}px)`;});
 },{passive:true});})();
+</script>
+<button class="agent-btn" id="agentBtn" aria-expanded="false" aria-controls="agent"><span class="orb"></span><span>Ask Sijo Agent<small>my AI assistant</small></span><span class="live"></span></button>
+<section class="agent" id="agent" role="dialog" aria-label="Sijo Agent">
+ <header><span class="orb"></span><span>Sijo Agent<small>Answers about Sijo's work</small></span><button id="agentX" aria-label="Close">✕</button></header>
+ <div class="msgs" id="msgs" aria-live="polite"></div>
+ <div class="sugg" id="sugg"></div>
+ <form id="agentF"><input id="agentI" placeholder="Ask about my work, skills, availability…" autocomplete="off"><button>Send</button></form>
+ <div class="note">Scripted demo · replies may be imperfect</div>
+</section>
+<script>
+(()=>{const btn=agentBtn,box=agent,M=msgs,S=sugg;
+const KB=[
+ [/hi|hello|hey/,"Hey! 👋 I'm Sijo's agent. Ask me about his work, how he designs for AI, or how to reach him."],
+ [/who|about|sijo/,"Sijo is a product designer working across UI/UX and agentic AI. He turns complex autonomous systems into calm interfaces with clear plans, honest confidence and an undo button."],
+ [/work|project|case|portfolio/,"Four case studies: Sijo Agent (agentic AI), Razorpay × AI (fintech), Cubby (mobile app + design system) and Floor Pilot (ops copilot). Want me to take you to them?"],
+ [/ai|agent|agentic|trust/,"His AI design principles: show the plan before acting, be honest not magic, design the failure states, and ship to learn. He grounds work in Google PAIR, Microsoft HAX and shapeof.ai patterns."],
+ [/skill|tool|figma|code/,"Figma, prototyping in code with AI tools, design systems, user research and interaction design."],
+ [/hire|available|role|job|open/,"Yes — Sijo is open to product design, UI/UX and AI product design roles, remote or in India."],
+ [/contact|email|reach|linkedin|resume/,"Best way: the Email or LinkedIn buttons at the bottom of the page. I can scroll you there."],
+];
+const add=(t,who)=>{const d=document.createElement('div');d.className='msg '+who;d.textContent=t;M.appendChild(d);M.scrollTop=1e9;return d};
+const reply=q=>{add(q,'me');S.innerHTML='';const t=document.createElement('div');t.className='msg bot';t.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';M.appendChild(t);M.scrollTop=1e9;
+ const l=q.toLowerCase();const hit=KB.find(([r])=>r.test(l));
+ setTimeout(()=>{t.textContent=hit?hit[1]:"I'm a simple scripted agent, so I don't know that one yet. Try asking about his work, AI principles or availability — or email Sijo directly.";
+  if(/work|project|case/.test(l))setTimeout(()=>document.getElementById('work').scrollIntoView({behavior:'smooth'}),600);
+  if(/contact|email|reach/.test(l))setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),600);
+  chips()},700+Math.random()*500)};
+const chips=()=>{S.innerHTML='';["What does Sijo do?","Show me his work","How does he design for AI?","Is he open to roles?"].forEach(c=>{const b=document.createElement('button');b.type='button';b.textContent=c;b.onclick=()=>reply(c);S.appendChild(b)})};
+let started=false;const toggle=o=>{box.classList.toggle('open',o);btn.setAttribute('aria-expanded',o);if(o){if(!started){started=true;add("Hi, I'm Sijo Agent ✦ I can tell you about Sijo's work, skills and availability.",'bot');chips()}setTimeout(()=>agentI.focus(),300)}};
+btn.onclick=()=>toggle(!box.classList.contains('open'));agentX.onclick=()=>toggle(false);
+addEventListener('keydown',e=>{if(e.key==='Escape')toggle(false)});
+agentF.onsubmit=e=>{e.preventDefault();const v=agentI.value.trim();if(v){reply(v);agentI.value=''}};})();
 </script>
 </body>
 </html>
