@@ -132,7 +132,7 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .hnav a{text-decoration:none;color:#f1efec;opacity:.8}.hnav a:hover{opacity:1}
 
 .m1 i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22a855;box-shadow:0 0 0 4px rgba(34,168,85,.2);margin-right:7px;vertical-align:1px}
-.giant{position:absolute;left:3.5%;bottom:calc(6vh);font-weight:500;font-size:clamp(72px,15.5vw,250px);line-height:1.05;padding-bottom:.22em;margin-bottom:-.17em;letter-spacing:-.045em;z-index:3;white-space:nowrap;color:#fff;filter:drop-shadow(0 8px 30px rgba(0,0,0,.12))}
+.giant{position:absolute;left:3.5%;bottom:calc(6vh);font-weight:700;font-size:clamp(68px,14.5vw,236px);line-height:1.05;padding-bottom:.22em;margin-bottom:-.17em;letter-spacing:-.055em;z-index:3;white-space:nowrap;color:#fff;filter:drop-shadow(0 8px 30px rgba(0,0,0,.12))}
 @media (max-width:780px){.m2{top:58%;left:20px}.m3{top:66%;left:20px}.m4{display:none}.metrics{grid-template-columns:1fr 1fr}.brand{left:20px}.hnav{left:20px;right:auto;top:11%}.m1{top:17%;left:20px}.m2,.m3,.m4{width:auto;right:20px;border:0;padding:0}.m2{left:20px;bottom:calc(8% + 30vw + 70px)}.m3{left:20px;bottom:calc(8% + 30vw + 20px)}.m4{display:none}.giant{font-size:29vw;left:12px}.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
 
 /* Sijo Agent widget */
@@ -414,6 +414,20 @@ body{background:#09090a;color:var(--ink)}
 .about-panel .me-tag{left:-18px;top:auto;bottom:28px}
 .about-panel .ap-stats b{font-size:clamp(20px,1.9vw,30px)}.about-panel .ap-stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:none}
 @media (max-width:900px){.ab-grid{grid-template-columns:1fr}.about-panel .me{max-width:420px}.about-panel .ap-stats{grid-template-columns:1fr 1fr}}
+
+/* ===== visuals pass ===== */
+.art-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.2,1);z-index:0}
+.cs:hover .art-img{transform:scale(1.05)}
+.art-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(9,9,10,0) 40%,rgba(9,9,10,.85) 100%)}
+.art::before{z-index:1;opacity:.35}
+.art{filter:none!important;background:#0b0b0c!important}
+.name{color:#f4f2ef!important;z-index:2;text-shadow:0 10px 40px rgba(0,0,0,.6)}
+.big .art{height:480px}.wide .art{height:340px}
+.ap-img img{filter:none!important}
+.ap-img{background:#0b0b0c}
+.ap-n{background:rgba(10,10,12,.7);backdrop-filter:blur(6px)}
+/* cover name glow */
+.giant span{text-shadow:0 0 60px rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
@@ -460,7 +474,7 @@ body{background:#09090a;color:var(--ink)}
  <h2 class="reveal">Problems I've solved.</h2>
  <div class="bento">
   <a class="cs reveal big lime" href="#">
-   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
+   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c1.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>01</span><span>Agentic AI</span><span>2026</span></div>
     <h3>From “what is it doing?” to an agent you can steer</h3><p>Plan previews, approval checkpoints and one-tap undo keep people in control of an autonomous assistant.</p>
@@ -469,7 +483,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal  teal" href="#">
-   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Pay securely</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
+   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c2.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>02</span><span>Fintech · AI</span><span>2025</span></div>
     <h3>Making AI payments feel safe, not scary</h3><p>Cutting checkout and support friction for Razorpay and Cleartrip without losing trust.</p>
@@ -478,7 +492,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal  orange" href="#">
-   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Add to cubby</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
+   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c3.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>03</span><span>Mobile · Systems</span><span>2025</span></div>
     <h3>From research to a shipped app</h3><p>Interviews, flows, a reusable design system and a hi-fi prototype.</p>
@@ -487,7 +501,7 @@ body{background:#09090a;color:var(--ink)}
    </div>
   </a>
   <a class="cs reveal wide ink" href="#">
-   <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Suggestion ready</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
+   <div class="art"><span class="glowfx"></span><img class="art-img" src="assets/cases/c4.jpg" alt="" loading="lazy"><span class="art-scrim"></span><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>04</span><span>AI copilot · Ops</span><span>2026</span></div>
     <h3>A copilot that turns floor chaos into decisions</h3><p>AI suggests, people decide. A calmer tool for operations teams.</p>
@@ -581,7 +595,7 @@ st.style.transform=`scale(${1-p*.08}) translateY(${p*-40}px)`;st.style.filter=`b
 (()=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
 const L=[...document.querySelectorAll('#giant span')];
 addEventListener('pointermove',e=>{L.forEach(sp=>{const r=sp.getBoundingClientRect(),d=Math.hypot(e.clientX-(r.left+r.width/2),e.clientY-(r.top+r.height/2));
- const k=Math.max(0,1-d/360);sp.style.fontWeight=Math.round(400+400*k);sp.style.transform=`translateY(${-k*18}px)`;});
+ const k=Math.max(0,1-d/360);sp.style.fontWeight=Math.round(700+100*k);sp.style.transform=`translateY(${-k*18}px)`;});
 },{passive:true});})();
 </script>
 <button class="agent-btn" id="agentBtn" aria-expanded="false" aria-controls="agent"><video class="orbv" autoplay muted loop playsinline poster="assets/orb.png" aria-hidden="true"><source src="assets/orb.mov" type='video/mp4; codecs="hvc1"'><source src="assets/orb.webm" type="video/webm"></video><span>Ask Sijo Agent<small>my AI assistant</small></span><span class="live"></span></button>
