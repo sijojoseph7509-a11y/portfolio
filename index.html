@@ -253,6 +253,22 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 .side-cta a:hover{background:var(--accent)}
 .main-col .bento{grid-template-columns:1fr 1fr}
 @media (max-width:1100px){.layout{grid-template-columns:1fr}.side{display:none}}
+
+/* About panel */
+.about-panel{position:relative;overflow:hidden;border-radius:36px;padding:clamp(32px,4.5vw,64px);background:#eef0ea;isolation:isolate;border:1px solid rgba(255,255,255,.9);box-shadow:0 40px 80px -50px rgba(20,22,20,.45)}
+.ap-glow{position:absolute;inset:-20%;z-index:-2;filter:blur(60px);background:radial-gradient(40% 50% at 12% 85%,#b6cf4a,transparent 70%),radial-gradient(40% 55% at 92% 10%,#5aa6b4,transparent 70%),radial-gradient(45% 55% at 85% 95%,#f26a3a,transparent 70%),radial-gradient(35% 40% at 45% 30%,#f7f7f2,transparent 70%);animation:apdrift 18s ease-in-out infinite alternate}
+@keyframes apdrift{to{transform:translate(3%,-4%) scale(1.06)}}
+.about-panel::after{content:'';position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 2px,transparent 2px 24px);mix-blend-mode:soft-light}
+.about-panel h1{font:600 clamp(40px,5vw,80px)/1 'Urbanist';letter-spacing:-.045em;margin:0 0 clamp(36px,5vw,72px);max-width:none;color:#141614}
+.about-panel h1 em{font-style:normal;color:#e8521f}
+.ap-row{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(24px,3vw,48px);align-items:end}
+.ap-copy p{font:500 clamp(17px,1.4vw,20px)/1.55 'Urbanist';color:#1f221f;margin:0 0 24px;max-width:42ch}
+.ap-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ap-stats div{padding:20px 22px;border-radius:22px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);transition:transform .4s cubic-bezier(.2,.8,.2,1),background .3s}
+.ap-stats div:hover{transform:translateY(-4px);background:rgba(255,255,255,.8)}
+.ap-stats b{display:block;font:600 clamp(24px,2.3vw,36px)/1 'Urbanist';letter-spacing:-.03em;margin-bottom:8px;white-space:nowrap}
+.ap-stats span{font:500 14px 'Urbanist';color:#3d413d}
+@media (max-width:900px){.ap-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -271,18 +287,21 @@ footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
 <div class="after-hero"><div class="wrap wide-wrap"><div class="layout"><main class="main-col">
 <section class="intro" id="about">
  <div class="sec-h reveal"><span>(01)</span><span>About</span></div>
- <div class="intro-grid">
-  <h1 class="reveal">I design <em>AI products</em> people actually trust.</h1>
-  <div class="intro-side reveal">
-   <p class="lede">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
-   <a class="pill-link" href="#contact"><i></i>Available for product design roles</a>
+ <div class="about-panel reveal">
+  <div class="ap-glow"></div>
+  <h1>I design <em>AI products</em><br>people actually trust.</h1>
+  <div class="ap-row">
+   <div class="ap-copy">
+    <p>Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
+    <a class="pill-link" href="#contact"><i></i>Available for product design roles</a>
+   </div>
+   <div class="ap-stats">
+    <div><b>[X]+</b><span>Products designed</span></div>
+    <div><b>04</b><span>AI case studies</span></div>
+    <div><b>Figma→Code</b><span>I prototype what I design</span></div>
+    <div><b>India</b><span>Open to remote</span></div>
+   </div>
   </div>
- </div>
- <div class="facts reveal">
-  <div><b>[X]+</b><span>Products designed</span></div>
-  <div><b>04</b><span>AI case studies</span></div>
-  <div><b>Figma→Code</b><span>I prototype what I design</span></div>
-  <div><b>IN / Remote</b><span>Based in India</span></div>
  </div>
 </section>
 <div class="marquee" aria-hidden="true"><div><span>Agentic AI UX</span><span class='st'>✦</span><span>Product Design</span><span class='st'>✦</span><span>Design Systems</span><span class='st'>✦</span><span>Human-in-the-loop</span><span class='st'>✦</span><span>Prototyping in code</span><span class='st'>✦</span><span>User Research</span><span class='st'>✦</span><span>Agentic AI UX</span><span class='st'>✦</span><span>Product Design</span><span class='st'>✦</span><span>Design Systems</span><span class='st'>✦</span><span>Human-in-the-loop</span><span class='st'>✦</span><span>Prototyping in code</span><span class='st'>✦</span><span>User Research</span><span class='st'>✦</span></div></div>
