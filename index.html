@@ -4,75 +4,121 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sijo Joseph — Product Designer</title>
+<meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f3ee;--ink:#141414;--mute:#6b6760;--line:#e2ddd4;--card:#fff;--accent:#ff5b2e}
-@media (prefers-color-scheme:dark){:root{--bg:#121110;--ink:#f1ede6;--mute:#9a958c;--line:#2a2724;--card:#1b1a18}}
+:root{--bg:#f6f3ee;--ink:#141414;--mute:#6b6760;--line:#e2ddd4;--card:#fff;--accent:#ff5b2e;--soft:#efe9df}
+@media (prefers-color-scheme:dark){:root{--bg:#111010;--ink:#f1ede6;--mute:#9a958c;--line:#2a2724;--card:#1a1918;--soft:#201e1c}}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0;font-size:14px}
-nav a{color:var(--ink);text-decoration:none;margin-left:24px}
-nav b{font-weight:600}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:8px}
-h1{font:400 clamp(44px,8vw,104px)/0.98 'Instrument Serif',serif;letter-spacing:-.02em;margin:72px 0 28px}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;font-size:14px}
+nav .links a{text-decoration:none;margin-left:22px;color:var(--mute)}
+nav .links a:hover{color:var(--ink)}
+.cta{background:var(--ink);color:var(--bg)!important;padding:8px 16px;border-radius:99px}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px;margin-top:88px}
+.badge i{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px #22c55e33}
+h1{font:400 clamp(46px,8.2vw,108px)/.96 'Instrument Serif',serif;letter-spacing:-.025em;margin:28px 0}
 h1 em{color:var(--accent)}
-.lede{max-width:620px;font-size:19px;color:var(--mute)}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 96px}
-.tags span{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:13px}
-h2{font:400 44px/1.1 'Instrument Serif',serif;margin-bottom:32px}
-.label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--mute);margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-bottom:120px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s}
-.card:hover{transform:translateY(-4px)}
-.thumb{aspect-ratio:4/3;display:grid;place-items:center;font:italic 400 40px 'Instrument Serif',serif;color:#fff}
-.card .body{padding:22px}
-.card h3{font-size:20px;font-weight:600;margin-bottom:6px}
-.card p{color:var(--mute);font-size:15px}
-.metric{margin-top:14px;font-size:13px;font-weight:500;color:var(--accent)}
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;border-top:1px solid var(--line);padding-top:40px;margin-bottom:120px}
-.how h4{font-size:17px;margin-bottom:8px}
-.how p{color:var(--mute);font-size:15px}
-footer{border-top:1px solid var(--line);padding:64px 0}
-footer h2{font-size:clamp(40px,6vw,72px)}
-footer a{color:var(--accent)}
+.lede{max-width:600px;font-size:19px;color:var(--mute)}
+.facts{display:flex;flex-wrap:wrap;gap:40px;margin:48px 0 0;padding:28px 0 100px;border-top:1px solid var(--line)}
+.facts b{display:block;font:400 34px/1 'Instrument Serif',serif}
+.facts span{font-size:13px;color:var(--mute)}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--mute);margin-bottom:10px}
+h2{font:400 clamp(36px,5vw,52px)/1.05 'Instrument Serif',serif;margin-bottom:40px}
+.work{display:grid;gap:28px;margin-bottom:120px}
+.case{display:grid;grid-template-columns:1.1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;text-decoration:none;transition:transform .35s,box-shadow .35s}
+.case:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px #0003}
+.case:nth-child(even) .thumb{order:2}
+.thumb{min-height:340px;display:grid;place-items:center;font:italic 400 48px 'Instrument Serif',serif;color:#fff;padding:24px;text-align:center}
+.info{padding:36px;display:flex;flex-direction:column}
+.info h3{font:400 32px/1.1 'Instrument Serif',serif;margin:6px 0 12px}
+.info p{color:var(--mute)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.metrics div{background:var(--soft);border-radius:12px;padding:12px}
+.metrics b{display:block;font-size:20px;color:var(--accent)}
+.metrics span{font-size:12px;color:var(--mute)}
+.more{margin-top:auto;font-weight:500;font-size:14px}
+.more::after{content:" →"}
+.edge{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:120px}
+.edge div{border:1px solid var(--line);border-radius:20px;padding:28px}
+.edge b{font:400 40px/1 'Instrument Serif',serif;color:var(--accent)}
+.edge h4{font-size:18px;margin:14px 0 6px}
+.edge p{color:var(--mute);font-size:15px}
+.quote{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:72px 0;margin-bottom:120px}
+.quote blockquote{font:italic 400 clamp(28px,4vw,42px)/1.25 'Instrument Serif',serif;max-width:860px}
+.quote cite{display:block;margin-top:20px;font:normal 14px Inter;color:var(--mute)}
+footer{padding:0 0 64px}
+footer h2{font-size:clamp(48px,8vw,96px);line-height:.95}
+.contact{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 72px}
+.contact a{border:1px solid var(--line);border-radius:99px;padding:10px 20px;text-decoration:none}
+.contact a:first-child{background:var(--accent);border-color:var(--accent);color:#fff}
+.small{font-size:13px;color:var(--mute);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (max-width:780px){.case{grid-template-columns:1fr}.case:nth-child(even) .thumb{order:0}.thumb{min-height:220px}nav .links a:not(.cta){display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<nav><b>Sijo Joseph</b><div><span class="dot"></span>Open to roles<a href="#work">Work</a><a href="#about">Approach</a><a href="#contact">Contact</a></div></nav>
+<nav><div class="wrap"><b>Sijo Joseph</b><div class="links"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact" class="cta">Let's talk</a></div></div></nav>
 
+<div class="wrap">
 <header>
-<h1>I design products where<br><em>people and AI agents</em><br>work together.</h1>
-<p class="lede">Product designer working across UI/UX and AI product design — turning agentic systems into interfaces people understand, trust and actually want to use.</p>
-<div class="tags"><span>Product Design</span><span>UI / UX</span><span>Agentic AI UX</span><span>Design Systems</span><span>Prototyping</span><span>User Research</span></div>
+ <span class="badge"><i></i>Open to product design roles · 2026</span>
+ <h1>Hi, I'm Sijo.<br>I design <em>AI products</em><br>people actually trust.</h1>
+ <p class="lede">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces — with clear plans, honest confidence and an undo button.</p>
+ <div class="facts">
+  <div><b>[X]+</b><span>products designed</span></div>
+  <div><b>4</b><span>AI case studies</span></div>
+  <div><b>Figma → Code</b><span>I prototype what I design</span></div>
+  <div><b>India</b><span>open to remote</span></div>
+ </div>
 </header>
 
 <section id="work">
-<div class="label">Selected work</div>
-<h2>Case studies</h2>
-<div class="grid">
- <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#1f2937,#4f46e5)">Sijo Agent</div><div class="body"><div class="label">Agentic AI · Product</div><h3>A personal AI agent you can steer</h3><p>Designing plan previews, approvals and undo so users stay in control of an autonomous assistant.</p><div class="metric">[Add result — e.g. task success +X%]</div></div></a>
- <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#0f766e,#22d3ee)">Razorpay × AI</div><div class="body"><div class="label">AI Product · Fintech</div><h3>AI-assisted payments experience</h3><p>Concept for Razorpay / Cleartrip exploring how AI can reduce friction in checkout and support.</p><div class="metric">[Add result]</div></div></a>
- <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#b45309,#f59e0b)">Cubby</div><div class="body"><div class="label">Mobile · UI/UX</div><h3>Cubby — end-to-end app design</h3><p>Research to shipped UI: flows, design system and high-fidelity prototype.</p><div class="metric">[Add result]</div></div></a>
- <a class="card" href="#"><div class="thumb" style="background:linear-gradient(135deg,#7f1d1d,#ff5b2e)">Floor Pilot</div><div class="body"><div class="label">Product · Ops tool</div><h3>Floor Pilot — copilot for operations</h3><p>Turning complex floor data into clear, actionable decisions.</p><div class="metric">[Add result]</div></div></a>
-</div>
+ <div class="label">Selected work</div>
+ <h2>Problems I've solved.</h2>
+ <div class="work">
+  <a class="case" href="#"><div class="thumb" style="background:linear-gradient(135deg,#1f2937,#4f46e5)">Sijo Agent</div>
+   <div class="info"><div class="label">Agentic AI · Product design</div><h3>From "what is it doing?" to a personal agent you can steer</h3><p>Plan previews, approval checkpoints and one-tap undo, so people stay in control of an autonomous assistant.</p>
+   <div class="metrics"><div><b>[+X%]</b><span>task success</span></div><div><b>[−X%]</b><span>abandoned runs</span></div><div><b>[X/5]</b><span>trust score</span></div></div><span class="more">View case study</span></div></a>
+
+  <a class="case" href="#"><div class="thumb" style="background:linear-gradient(135deg,#0f766e,#22d3ee)">Razorpay × AI</div>
+   <div class="info"><div class="label">AI product · Fintech</div><h3>Making AI-assisted payments feel safe, not scary</h3><p>A concept for Razorpay and Cleartrip on how AI can remove friction in checkout and support without losing user confidence.</p>
+   <div class="metrics"><div><b>[X]</b><span>steps removed</span></div><div><b>[X]</b><span>users tested</span></div><div><b>[X%]</b><span>prefer new flow</span></div></div><span class="more">View case study</span></div></a>
+
+  <a class="case" href="#"><div class="thumb" style="background:linear-gradient(135deg,#b45309,#f59e0b)">Cubby</div>
+   <div class="info"><div class="label">Mobile · UI/UX · Design system</div><h3>Cubby: from research to a shipped app</h3><p>End-to-end design: interviews, flows, a reusable design system and a high-fidelity prototype.</p>
+   <div class="metrics"><div><b>[X]</b><span>interviews</span></div><div><b>[X]</b><span>components</span></div><div><b>[X]</b><span>screens</span></div></div><span class="more">View case study</span></div></a>
+
+  <a class="case" href="#"><div class="thumb" style="background:linear-gradient(135deg,#7f1d1d,#ff5b2e)">Floor Pilot</div>
+   <div class="info"><div class="label">Product · AI copilot · Ops</div><h3>A copilot that turns floor chaos into clear decisions</h3><p>Designing an operations tool where AI suggests and people decide.</p>
+   <div class="metrics"><div><b>[−X min]</b><span>per decision</span></div><div><b>[X]</b><span>workflows</span></div><div><b>[X]</b><span>iterations</span></div></div><span class="more">Case study coming soon</span></div></a>
+ </div>
 </section>
 
-<section id="about">
-<div class="label">How I design for AI</div>
-<h2>Principles I bring to every team</h2>
-<div class="how">
- <div><h4>01 · Show the plan</h4><p>Agents reveal what they'll do before doing it, so people can correct course early.</p></div>
- <div><h4>02 · Design for trust</h4><p>Confidence cues, sources and reversible actions — honesty over magic.</p></div>
- <div><h4>03 · Human in the loop</h4><p>Clear handoffs between automation and human judgement.</p></div>
- <div><h4>04 · Ship & measure</h4><p>Prototype fast with code and AI tools, validate with real users.</p></div>
-</div>
+<section id="edge">
+ <div class="label">This is my edge</div>
+ <h2>How I design for AI.</h2>
+ <div class="edge">
+  <div><b>01</b><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p></div>
+  <div><b>02</b><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p></div>
+  <div><b>03</b><h4>Design the failures</h4><p>Errors, uncertainty and handoffs get as much craft as the happy path.</p></div>
+  <div><b>04</b><h4>Ship to learn</h4><p>I prototype in code with AI tools and test with real users, fast.</p></div>
+ </div>
+</section>
+
+<section class="quote">
+ <blockquote>"[Add a short testimonial from a mentor, teammate or client about working with you.]"</blockquote>
+ <cite>— [Name], [Role, Company]</cite>
 </section>
 
 <footer id="contact">
-<h2>Let's build something<br>people trust.</h2>
-<p><a href="mailto:you@example.com">Email</a> · <a href="#">LinkedIn</a> · <a href="#">Resume (PDF)</a></p>
+ <div class="label">Contact</div>
+ <h2>Let's build something<br>people <em style="color:var(--accent)">trust</em>.</h2>
+ <div class="contact"><a href="mailto:you@example.com">Email me</a><a href="#">LinkedIn</a><a href="#">Download resume</a></div>
+ <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed by me, built with code.</span></div>
 </footer>
 </div>
 </body>
