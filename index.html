@@ -447,9 +447,51 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 .cring.link{width:64px;height:64px;border-color:rgba(244,242,239,.9)}
 .cring.view{width:96px;height:96px;background:#f4f2ef;border-color:#f4f2ef}.cring.view span{opacity:1}
 @media (hover:none){.cdot,.cring{display:none}}
+
+/* ===== unseen pass 2 ===== */
+/* loader */
+.loader{position:fixed;inset:0;z-index:10000;background:#060607;display:flex;flex-direction:column;justify-content:flex-end;padding:5vw;transition:clip-path 1.1s cubic-bezier(.77,0,.18,1);clip-path:inset(0 0 0 0)}
+.loader.done{clip-path:inset(0 0 100% 0)}
+.ld-num{font:700 clamp(80px,16vw,240px)/.85 'Urbanist';letter-spacing:-.06em;color:#f4f2ef}
+.ld-name{font:500 16px 'Urbanist';color:#8a8e94;margin:18px 0 24px}
+.ld-bar{height:2px;background:#1c1e22}.ld-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9ea3ab,#ff6a3d);transition:width .2s}
+body.loading{overflow:hidden}
+/* menu */
+.menu-btn{display:inline-flex;align-items:center;gap:8px;margin-left:18px;background:rgba(244,242,239,.1);border:1px solid rgba(244,242,239,.25);color:#f4f2ef;border-radius:99px;padding:8px 14px;font:600 14px 'Urbanist';cursor:pointer;backdrop-filter:blur(10px);position:relative;z-index:10001}
+.menu-btn i{display:block;width:14px;height:1.5px;background:currentColor;transition:transform .4s}
+.menu-btn i+i{margin-left:-22px;transform:translateY(4px)}
+.menu-btn i:first-child{transform:translateY(-4px)}
+.menu-btn span{margin-left:6px}
+body.menu-open .menu-btn i:first-child{transform:rotate(45deg)}body.menu-open .menu-btn i+i{transform:rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:9000;background:rgba(6,6,7,.72);backdrop-filter:blur(30px) saturate(1.2);-webkit-backdrop-filter:blur(30px) saturate(1.2);display:flex;flex-direction:column;justify-content:center;padding:0 6vw;clip-path:circle(0% at calc(100% - 80px) 60px);transition:clip-path .9s cubic-bezier(.77,0,.18,1)}
+body.menu-open .menu{clip-path:circle(150% at calc(100% - 80px) 60px)}
+.menu-in{display:flex;flex-direction:column}
+.menu-in a{position:relative;font:700 clamp(48px,8vw,124px)/1 'Urbanist';letter-spacing:-.05em;color:#f4f2ef;text-decoration:none;padding:.08em 0;transform:translateY(40px);opacity:0;transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .8s,color .3s,padding .5s}
+.menu-in a::before{content:attr(data-i);font:500 14px 'Urbanist';letter-spacing:0;color:#ff6a3d;position:absolute;left:-36px;top:.6em}
+body.menu-open .menu-in a{transform:none;opacity:1}
+body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .menu-in a:nth-child(3){transition-delay:.12s}body.menu-open .menu-in a:nth-child(4){transition-delay:.18s}
+.menu-in:hover a{color:rgba(244,242,239,.3)}.menu-in a:hover{color:#f4f2ef;padding-left:24px}
+.menu-foot{position:absolute;left:6vw;right:6vw;bottom:40px;display:flex;justify-content:space-between;font:500 14px 'Urbanist';color:#8a8e94}
+/* word reveal */
+.wr .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.wr .w>span{display:inline-block;transform:translateY(105%);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.wr.in .w>span{transform:none}
+/* parallax art */
+.art .mock{will-change:translate}
+/* footer giant name */
+.foot-name{font:700 clamp(64px,13vw,230px)/.85 'Urbanist';letter-spacing:-.06em;white-space:nowrap;margin:20px 0 24px;background:linear-gradient(180deg,#f4f2ef 10%,rgba(244,242,239,.05) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.loader{display:none}.wr .w>span{transform:none}}
+@media (max-width:780px){.hnav a{display:none}.menu-btn{margin:0}}
 </style>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true"><div class="ld-num"><span id="ldN">0</span>%</div><div class="ld-name">Sijo Joseph — Portfolio '26</div><div class="ld-bar"><i id="ldB"></i></div></div>
+<nav class="menu" id="menu" aria-hidden="true">
+ <div class="menu-in">
+  <a href="#about" data-i="01">About</a><a href="#work" data-i="02">Selected work</a><a href="#edge" data-i="03">Approach</a><a href="#contact" data-i="04">Contact</a>
+ </div>
+ <div class="menu-foot"><span>Product · UI/UX · Agentic AI</span><span>Open to roles · 2026</span></div>
+</nav>
  <canvas id="liquid" aria-hidden="true"></canvas>
  <div class="aurora"></div>
  <div class="blobs"><i class="w"></i><i class="g"></i><i class="t"></i><i class="o"></i></div>
@@ -459,7 +501,7 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
  <div class="fogblur" id="fogblur"></div>
  <canvas id="fog" class="fogc"></canvas>
  <div class="meta brand">Sijo Joseph</div>
- <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a></div>
+ <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a><button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu"><i></i><i></i><span>Menu</span></button></div>
  <div class="meta m2">Product Design<br>&amp; UI/UX for AI Products</div>
  <div class="meta m3">4 AI Case Studies<br>&amp; Agentic UX Patterns</div>
  <div class="meta m4">Designed and Built<br>by Sijo Joseph. 2026</div>
@@ -556,6 +598,7 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
  <div class="sec-h"><span>(04)</span><span>Contact</span></div>
  <h2 class="big-cta">Let's build something people <em>trust.</em></h2>
  <div class="contact"><a href="mailto:you@example.com">Email me <span>↗</span></a><a href="#">LinkedIn <span>↗</span></a><a href="#">Resume <span>↓</span></a></div>
+ <div class="foot-name" aria-hidden="true">Sijo Joseph</div>
  <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed and built by me</span><a href="#top">Back to top ↑</a></div>
 </footer>
 </main>
@@ -738,6 +781,26 @@ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=perform
  let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;d.style.transform=`translate(${x}px,${y}px)`},{passive:true});
  (function f(){rx+=(x-rx)*.15;ry+=(y-ry)*.15;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(f)})();
  document.addEventListener('pointerover',e=>{const v=e.target.closest('.cs'),l=e.target.closest('a,button,input');r.classList.toggle('view',!!v);r.classList.toggle('link',!v&&!!l)});})();
+</script>
+<script>
+// loader
+(()=>{const L=document.getElementById('loader');if(!L||matchMedia('(prefers-reduced-motion:reduce)').matches){L&&L.remove();return}
+ document.body.classList.add('loading');let n=0;const N=document.getElementById('ldN'),B=document.getElementById('ldB');
+ const iv=setInterval(()=>{n=Math.min(100,n+Math.ceil(Math.random()*9));N.textContent=n;B.style.width=n+'%';if(n>=100){clearInterval(iv);setTimeout(()=>{L.classList.add('done');document.body.classList.remove('loading');setTimeout(()=>L.remove(),1200)},250)}},45);})();
+// menu
+(()=>{const b=document.getElementById('menuBtn'),m=document.getElementById('menu');if(!b)return;
+ const set=o=>{document.body.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',o);m.setAttribute('aria-hidden',!o);b.querySelector('span').textContent=o?'Close':'Menu'};
+ b.addEventListener('click',()=>set(!document.body.classList.contains('menu-open')));
+ m.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>set(false)));addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});})();
+// word reveals on headings
+(()=>{const els=document.querySelectorAll('.after-hero h2,.big-cta');els.forEach(el=>{if(el.querySelector('.w'))return;
+ const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.append(t);return}const w=document.createElement('span');w.className='w';const i=document.createElement('span');i.textContent=t;w.append(i);f.append(w)});c.replaceWith(f)}else if(c.nodeType===1&&c.tagName!=='BR')walk(c)})};
+ walk(el);el.classList.add('wr');el.querySelectorAll('.w>span').forEach((s,k)=>s.style.transitionDelay=(k*.06)+'s')});
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.3});els.forEach(e=>io.observe(e));})();
+// magnetic buttons + art parallax
+(()=>{if(!matchMedia('(hover:hover)').matches)return;
+ document.querySelectorAll('.pill-link,.contact a,.side-cta a,.menu-btn,.go,.agent-btn').forEach(el=>{el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`});el.addEventListener('pointerleave',()=>el.style.transform='')});
+ const arts=[...document.querySelectorAll('.art .mock')];const f=()=>{arts.forEach(m=>{const r=m.closest('.art').getBoundingClientRect(),p=(r.top+r.height/2-innerHeight/2)/innerHeight;m.style.translate=`0 ${p*-50}px`});requestAnimationFrame(f)};f();})();
 </script>
 </body>
 </html>
