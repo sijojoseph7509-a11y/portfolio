@@ -1033,12 +1033,11 @@ void main(){vec2 m=M-.5;
  vec2 dr=vec2(sin(t*.23),cos(t*.17))*.008;
  vec2 cam=m*.11+dr;                                     // camera offset
  // parallax occlusion-lite: iterate to find the depth at the displaced point
- vec2 u=vz;float dp=.5;for(int i=0;i<4;i++){dp=depthAt(cover(u));u=vz-cam*(dp-.35);}
+ vec2 u=vz-cam*.55;
  u.x+=m.x*(v.y-.5)*.05;u.y+=m.y*(v.x-.5)*.035;          // perspective turn
  u-=vel*.13;
  vec3 col=texture2D(T,cover(u)).rgb;float l=dot(col,vec3(.299,.587,.114));
  col=vec3(l)*.64+.02+e*.08;
- col*=mix(.9,1.06,dp);                                   // near things a touch brighter
  col*=smoothstep(0.,.6,A)*(1.-S*.55);
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
