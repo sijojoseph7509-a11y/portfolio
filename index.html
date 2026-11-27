@@ -431,9 +431,26 @@ body{background:#09090a;color:var(--ink)}
 
 .ap-num{display:block;font:600 56px/1 'Urbanist';letter-spacing:-.04em;margin:8px 0 18px;background:linear-gradient(180deg,#ff6a3d,rgba(255,106,61,.25));-webkit-background-clip:text;background-clip:text;color:transparent}
 .ap-txt{padding:28px 28px 30px!important}
+
+/* ===== unseen-inspired ===== */
+#liquid{position:fixed;inset:0;width:100vw;height:100vh;z-index:-3;pointer-events:none}
+.blobs,.aurora{opacity:0!important}
+#fog,#fogblur{display:none}
+.hero canvas#fx{opacity:.35}
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+/* cursor */
+@media (hover:hover){body.cur *{cursor:none!important}}
+.cdot,.cring{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;border-radius:50%;translate:-50% -50%}
+.cdot{width:6px;height:6px;background:#f4f2ef;mix-blend-mode:difference}
+.cring{width:38px;height:38px;border:1px solid rgba(244,242,239,.5);display:grid;place-items:center;font:600 12px 'Urbanist';color:#09090a;transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),background .35s,border-color .35s}
+.cring span{opacity:0;transition:opacity .2s}
+.cring.link{width:64px;height:64px;border-color:rgba(244,242,239,.9)}
+.cring.view{width:96px;height:96px;background:#f4f2ef;border-color:#f4f2ef}.cring.view span{opacity:1}
+@media (hover:none){.cdot,.cring{display:none}}
 </style>
 </head>
 <body>
+ <canvas id="liquid" aria-hidden="true"></canvas>
  <div class="aurora"></div>
  <div class="blobs"><i class="w"></i><i class="g"></i><i class="t"></i><i class="o"></i></div>
 <section class="hero" id="top">
@@ -678,6 +695,49 @@ let k=0;function loop(){mx.globalCompositeOperation='source-over';mx.fillStyle='
 (()=>{const set=()=>document.documentElement.style.setProperty('--sp',(scrollY/Math.max(1,document.body.scrollHeight-innerHeight)).toFixed(3));addEventListener('scroll',set,{passive:true});set();
 document.querySelectorAll('.cs,.ap-card,.ap-stats div').forEach(el=>el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');
  const a=el.querySelector('.art');if(a){const q=a.getBoundingClientRect();a.style.setProperty('--mx',(e.clientX-q.left)+'px');a.style.setProperty('--my',(e.clientY-q.top)+'px')}}));})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+// liquid gradient (WebGL)
+(()=>{const c=document.getElementById('liquid'),gl=c.getContext('webgl',{premultipliedAlpha:false,antialias:false});if(!gl)return;
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs=`precision highp float;uniform vec2 r;uniform float t;uniform vec2 m;uniform float s;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p*=2.02;a*=.5;}return v;}
+void main(){vec2 uv=gl_FragCoord.xy/r;vec2 p=(gl_FragCoord.xy-.5*r)/r.y;
+ vec2 mm=(m-.5*r)/r.y;float md=length(p-mm);p+= (p-mm)*.18*exp(-md*md*6.);
+ float T=t*.06;p.y+=s*1.6;
+ vec2 q=vec2(fbm(p*1.3+T),fbm(p*1.3-T+5.2));
+ vec2 w=vec2(fbm(p*1.6+2.*q+vec2(1.7,9.2)+T*1.3),fbm(p*1.6+2.*q+vec2(8.3,2.8)-T));
+ float f=fbm(p*1.4+2.4*w);
+ float band=smoothstep(.45,.75,f)*smoothstep(1.0,.62,f);
+ vec3 col=mix(vec3(.02,.02,.025),vec3(.14,.16,.2),smoothstep(.2,.7,f));
+ col=mix(col,vec3(.86,.85,.83),band*.85);
+ vec3 iri=.5+.5*cos(6.2831*(w.x*1.2+vec3(0.,.33,.67))+T*2.);
+ col+=iri*band*.10;
+ col+=vec3(1.,.42,.24)*pow(band,3.)*.12*smoothstep(.3,.9,w.y);
+ col*=1.-.35*length(uv-.5);
+ gl_FragColor=vec4(col,1.);}`;
+function sh(t,src){const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return o}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+const U=k=>gl.getUniformLocation(pr,k),ur=U('r'),ut=U('t'),um=U('m'),us=U('s');
+let W,H,mx=0,my=0,tx=0,ty=0,sc=0;const DPR=Math.min(1.5,devicePixelRatio||1);
+const rs=()=>{W=c.width=innerWidth*DPR*.6;H=c.height=innerHeight*DPR*.6;gl.viewport(0,0,W,H);mx=tx=W/2;my=ty=H/2};rs();addEventListener('resize',rs);
+addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*W;ty=(1-e.clientY/innerHeight)*H},{passive:true});
+const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=performance.now();
+(function f(){mx+=(tx-mx)*.05;my+=(ty-my)*.05;const ss=scrollY/Math.max(1,document.body.scrollHeight-innerHeight);sc+=(ss-sc)*.08;
+ gl.uniform2f(ur,W,H);gl.uniform1f(ut,(performance.now()-t0)/1000);gl.uniform2f(um,mx,my);gl.uniform1f(us,sc);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);if(!still)requestAnimationFrame(f)})();})();
+// smooth scroll
+(()=>{if(!window.Lenis||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const l=new Lenis({lerp:.085,smoothWheel:true});(function r(t){l.raf(t);requestAnimationFrame(r)})(0);
+ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();l.scrollTo(id,{offset:-20})}}));})();
+// cursor
+(()=>{if(!matchMedia('(hover:hover)').matches)return;document.body.classList.add('cur');const d=document.createElement('div'),r=document.createElement('div');d.className='cdot';r.className='cring';r.innerHTML='<span>View</span>';document.body.append(d,r);
+ let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;d.style.transform=`translate(${x}px,${y}px)`},{passive:true});
+ (function f(){rx+=(x-rx)*.15;ry+=(y-ry)*.15;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(f)})();
+ document.addEventListener('pointerover',e=>{const v=e.target.closest('.cs'),l=e.target.closest('a,button,input');r.classList.toggle('view',!!v);r.classList.toggle('link',!v&&!!l)});})();
 </script>
 </body>
 </html>
