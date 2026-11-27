@@ -1054,10 +1054,11 @@ void main(){vec2 m=M-.5;
  float ta=texture2D(X,q).a*rv*(1.-S*1.4);
  // soft ghost trail of the text along the smear
  // unseen-style: letters on the cursor's trail turn into a smeared gradient, then settle back to solid
- vec2 tv=texture2D(F,q).rg-.5;float tr=smoothstep(.004,.05,length(tv));
+ vec2 tv=vec2(0.);for(int i=0;i<9;i++){vec2 o=vec2(mod(float(i),3.)-1.,floor(float(i)/3.)-1.)*.018;tv+=texture2D(F,q+o).rg-.5;}tv/=9.; // blurred flow = soft edges
+ float tr=smoothstep(.0,.06,length(tv));tr=tr*tr*(3.-2.*tr);
  float ta2=ta;
- float gpos=dot(normalize(tv+1e-5),(v-SM)*vec2(R.x/R.y,1.))*6.+.5;   // gradient runs along movement
- vec3 gcol=mix(vec3(.16,.16,.19),vec3(.86,.84,.9),clamp(gpos,0.,1.));
+ float gpos=dot(normalize(tv+1e-5),(v-SM)*vec2(R.x/R.y,1.))*2.2+.5;gpos=smoothstep(0.,1.,gpos);   // gradient runs along movement
+ vec3 gcol=mix(vec3(.22,.22,.26),vec3(.9,.89,.93),gpos);
  vec3 tcol=mix(vec3(1.),gcol,tr);
  col=mix(col,tcol,clamp(ta2,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.05;
