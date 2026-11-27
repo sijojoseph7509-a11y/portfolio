@@ -591,7 +591,7 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
 .giant span.lens2{filter:blur(2px);transform:scaleY(1.08)}
 
 /* unseen v2: WebGL photo with cursor ripple + RGB split; sliced headline */
-.stage>.hero-gl{position:absolute!important;z-index:0!important;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.stage>.hero-gl{mix-blend-mode:normal!important;-webkit-mask:none!important;mask:none!important;position:absolute!important;z-index:0!important;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
 .stage>.hero-grain{position:absolute;z-index:1}
 .giant.sliced{display:block;position:absolute}
 .giant.sliced .sl{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform;transition:none}
@@ -603,6 +603,10 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
 .giant span.lens,.giant span.lens2{filter:none!important;opacity:1!important}
 .giant span.lens{transform:translateY(-6%)!important;font-weight:800}
 .giant span.lens2{transform:translateY(-2.5%)!important}
+
+/* name now rendered in WebGL; keep DOM copy for screen readers only */
+.stage>.giant{opacity:0!important;pointer-events:none}
+.stage>.meta.m3,.stage>.meta.m4{display:none}
 </style>
 </head>
 <body>
@@ -1054,19 +1058,20 @@ const g=document.getElementById('giant');if(g){const L=[...g.querySelectorAll('s
 const cv=document.getElementById('heroGL');if(!cv)return;const gl=cv.getContext('webgl',{premultipliedAlpha:false});if(!gl)return;
 const N=28;
 const vs='attribute vec2 p;varying vec2 v;void main(){v=p*.5+.5;gl_Position=vec4(p,0,1);}';
-const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform vec2 R,I,M;uniform float t;uniform vec3 P[${N}];
+const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform vec2 R,I,M;uniform float t;uniform vec3 P[${N}];
 vec2 cover(vec2 u){float ra=R.x/R.y,ia=I.x/I.y;vec2 s=ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);return (u-.5)*s*.9+.5+vec2(.06,-.02);}
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
 void main(){vec2 u=v;vec2 asp=vec2(R.x/R.y,1.);
  u+= (M-.5)*-.025; // tilt / parallax
  vec2 off=vec2(0);float e=0.;
  for(int i=0;i<${N};i++){vec3 q=P[i];if(q.z<=0.)continue;vec2 d=(u-q.xy)*asp;float r=length(d);
-  float k=exp(-r*r*14.)*q.z;e+=k;off+=normalize(d+1e-5)*sin(r*26.-t*6.)*k*.05;}
+  float k=exp(-r*r*22.)*q.z;e+=k;off+=normalize(d+1e-5)*sin(r*30.-t*6.)*k*.016;}
  u+=off;
  vec3 col=texture2D(T,cover(u)).rgb;float l=dot(col,vec3(.299,.587,.114));
  col=vec3(l)*.62+.02; col+=vec3(l)*min(e,1.)*.12;
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
+ vec4 tx=texture2D(X,v+off*1.6);col=mix(col,vec3(.96,.95,.92),tx.a);
  col+=(h(v*R+t)-.5)*.06;
  gl_FragColor=vec4(col,1.);}`;
 const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
@@ -1078,6 +1083,20 @@ const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.
 let iw=1440,ih=960;const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
  [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(w=>gl.texParameteri(gl.TEXTURE_2D,w,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR)};img.src='assets/bg.jpg';
 const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d;gl.viewport(0,0,cv.width,cv.height)};size();addEventListener('resize',size);
+
+// text drawn into the shader so it ripples with the photo (like unseen)
+const xc=document.createElement('canvas'),xg=xc.getContext('2d');const xt=gl.createTexture();
+const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
+ const fs=Math.min(W*.13,H*.2);const cy=H*.53;
+ xg.font=`600 ${Math.round(Math.min(13,cv.clientWidth/48)*d)}px Urbanist, sans-serif`;xg.fillText('P R O D U C T   ·   U I / U X   ·   A G E N T I C   A I',W/2,cy-fs*.95);
+ xg.font=`700 ${fs}px Urbanist, sans-serif`;const a='Sijo ';const wa=xg.measureText(a).width;
+ xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;const wb=xg.measureText('Joseph').width;const x0=W/2-(wa+wb)/2;
+ xg.textAlign='left';xg.font=`700 ${fs}px Urbanist, sans-serif`;xg.fillText(a,x0,cy);
+ xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;xg.fillText('Joseph',x0+wa,cy);
+ gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc);
+ [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(w=>gl.texParameteri(gl.TEXTURE_2D,w,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.activeTexture(gl.TEXTURE0)};
+gl.uniform1i(U('T'),0);gl.uniform1i(U('X'),1);
+document.fonts.load('700 40px Urbanist').then(()=>document.fonts.load('italic 40px "Instrument Serif"')).finally(drawText);addEventListener('resize',drawText);
 const pts=new Float32Array(N*3);let pi=0,m=[.5,.5],sm=[.5,.5],last=null;
 const st=document.getElementById('stage');
 st.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();const x=(e.clientX-b.left)/b.width,y=1-(e.clientY-b.top)/b.height;m=[x,y];
@@ -1085,7 +1104,7 @@ st.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();const x
 let vis=true;new IntersectionObserver(([en])=>vis=en.isIntersecting).observe(cv);
 const t0=performance.now();
 (function f(){requestAnimationFrame(f);if(!vis||document.body.classList.contains('paused'))return;
- for(let i=0;i<N;i++)pts[i*3+2]=Math.max(0,pts[i*3+2]-.011);
+ for(let i=0;i<N;i++)pts[i*3+2]=Math.max(0,pts[i*3+2]-.02);
  sm[0]+=(m[0]-sm[0])*.05;sm[1]+=(m[1]-sm[1])*.05;
  gl.uniform2f(uR,cv.width,cv.height);gl.uniform2f(uI,iw,ih);gl.uniform2f(uM,sm[0],sm[1]);gl.uniform1f(uT,(performance.now()-t0)/1000);gl.uniform3fv(uP,pts);
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
