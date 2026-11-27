@@ -606,7 +606,7 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
 
 /* name now rendered in WebGL; keep DOM copy for screen readers only */
 .stage>.giant{opacity:0!important;pointer-events:none}
-.stage>.meta.m3,.stage>.meta.m4{display:none}
+.stage>.meta.m2,.stage>.meta.m3,.stage>.meta.m4,.stage .menu-btn{display:none!important}
 </style>
 </head>
 <body>
@@ -1071,7 +1071,8 @@ void main(){vec2 u=v;vec2 asp=vec2(R.x/R.y,1.);
  col=vec3(l)*.62+.02; col+=vec3(l)*min(e,1.)*.12;
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
- vec4 tx=texture2D(X,v+off*1.6);col=mix(col,vec3(.96,.95,.92),tx.a);
+ vec2 q=v+off*1.6;vec2 px=8./R;float sh=0.;for(int i=0;i<8;i++){float an=float(i)*.785;sh+=texture2D(X,q+vec2(cos(an),sin(an))*px*2.5+vec2(0.,px.y*2.)).a;}sh/=8.;
+ col*=1.-sh*.55; vec4 tx=texture2D(X,q);col=mix(col,vec3(1.),tx.a);
  col+=(h(v*R+t)-.5)*.06;
  gl_FragColor=vec4(col,1.);}`;
 const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
