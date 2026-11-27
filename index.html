@@ -1054,62 +1054,83 @@ const g=document.getElementById('giant');if(g){const L=[...g.querySelectorAll('s
 
 <script>
 (()=>{
-// ---------- WebGL cover: photo + cursor ripple trail + chromatic split + tilt ----------
-const cv=document.getElementById('heroGL');if(!cv)return;const gl=cv.getContext('webgl',{premultipliedAlpha:false});if(!gl)return;
-const N=28;
+// ---------- WebGL cover v3 (unseen-style): smooth fluid trail + depth parallax ----------
+const cv=document.getElementById('heroGL');if(!cv)return;const gl=cv.getContext('webgl',{premultipliedAlpha:false,antialias:false});if(!gl)return;
 const vs='attribute vec2 p;varying vec2 v;void main(){v=p*.5+.5;gl_Position=vec4(p,0,1);}';
-const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform vec2 R,I,M;uniform float t;uniform vec3 P[${N}];
-vec2 cover(vec2 u){float ra=R.x/R.y,ia=I.x/I.y;vec2 s=ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);return (u-.5)*s*.9+.5+vec2(.06,-.02);}
+// simulation: velocity field stored in rg (0.5 = zero), diffuses + decays, mouse splats its velocity
+const simFS=`precision highp float;varying vec2 v;uniform sampler2D F;uniform vec2 px,mp,mv;uniform float asp,on;
+void main(){vec2 c=texture2D(F,v).rg-.5;
+ vec2 adv=texture2D(F,v-c*px*14.).rg-.5; // self-advection: smear flows along itself
+ vec2 bl=(texture2D(F,v+vec2(px.x,0)).rg+texture2D(F,v-vec2(px.x,0)).rg+texture2D(F,v+vec2(0,px.y)).rg+texture2D(F,v-vec2(0,px.y)).rg)*.25-.5;
+ vec2 vel=mix(adv,bl,.45)*.965;
+ vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*90.)*on;
+ vel+=mv*g;vel=clamp(vel,-.5,.5);
+ gl_FragColor=vec4(vel+.5,0.,1.);}`;
+const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M;uniform float t;
+vec2 cover(vec2 u){float ra=R.x/R.y,ia=I.x/I.y;vec2 s=ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);return (u-.5)*s*.88+.5+vec2(.06,-.02);}
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
-void main(){vec2 u=v;vec2 asp=vec2(R.x/R.y,1.);
- u+= (M-.5)*-.025; // tilt / parallax
- vec2 off=vec2(0);float e=0.;
- for(int i=0;i<${N};i++){vec3 q=P[i];if(q.z<=0.)continue;vec2 d=(u-q.xy)*asp;float r=length(d);
-  float k=exp(-r*r*22.)*q.z;e+=k;off+=normalize(d+1e-5)*sin(r*30.-t*6.)*k*.008;}
- u+=off;
+void main(){vec2 m=M-.5;
+ vec2 vel=texture2D(F,v).rg-.5;float e=length(vel);
+ // fake depth: lower part of the frame (floor, person) is nearer and moves more; slight perspective turn
+ float depth=mix(1.25,.65,v.y);
+ vec2 u=v-m*.045*depth;u.x+=m.x*(v.y-.5)*.02;u.y+=m.y*(v.x-.5)*.015;
+ u-=vel*.06;
  vec3 col=texture2D(T,cover(u)).rgb;float l=dot(col,vec3(.299,.587,.114));
- col=vec3(l)*.62+.02; col+=vec3(l)*min(e,1.)*.12;
+ col=vec3(l)*.64+.02+e*.06;
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
- vec2 q=v+off*1.6;vec2 px=1./R;float sh=0.;for(int i=0;i<12;i++){float an=float(i)*.5236;sh+=texture2D(X,q+vec2(cos(an),sin(an))*px*6.).a+texture2D(X,q+vec2(cos(an),sin(an))*px*14.).a*.6;}sh=min(sh/12.,1.);
- vec4 tx=texture2D(X,q);col=mix(col,vec3(1.),tx.a);
- col+=(h(v*R+t)-.5)*.06;
+ vec2 q=v-m*-.03-vel*.05; // headline floats in front, moves the other way
+ col=mix(col,vec3(1.),texture2D(X,q).a);
+ col+=(h(v*R+fract(t))-.5)*.05;
  gl_FragColor=vec4(col,1.);}`;
-const sh=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
-const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
-gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
-const ap=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
-const U=n=>gl.getUniformLocation(pr,n);const uR=U('R'),uI=U('I'),uM=U('M'),uT=U('t'),uP=U('P');
-const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([10,10,10,255]));
-let iw=1440,ih=960;const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
- [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(w=>gl.texParameteri(gl.TEXTURE_2D,w,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR)};img.src='assets/bg.jpg';
-const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d;gl.viewport(0,0,cv.width,cv.height)};size();addEventListener('resize',size);
-
-// text drawn into the shader so it ripples with the photo (like unseen)
-const xc=document.createElement('canvas'),xg=xc.getContext('2d');const xt=gl.createTexture();
-const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
+const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
+const prog=f=>{const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,vs));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,f));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);return p};
+const pr=prog(fs),ps=prog(simFS);
+gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+const U=(p,n)=>gl.getUniformLocation(p,n);
+const texInit=(w,h,data)=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,data||null);
+ [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(x=>gl.texParameteri(gl.TEXTURE_2D,x,gl.CLAMP_TO_EDGE));[gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(x=>gl.texParameteri(gl.TEXTURE_2D,x,gl.LINEAR));return t};
+// ping-pong fluid buffers
+const SW=256,SH=160;const fill=new Uint8Array(SW*SH*4);for(let i=0;i<fill.length;i+=4){fill[i]=128;fill[i+1]=128;fill[i+3]=255}
+const fb=[0,1].map(()=>{const t=texInit(SW,SH,fill);const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);return{t,f}});gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+let cur=0;
+const photo=texInit(1,1,new Uint8Array([10,10,10,255]));let iw=1440,ih=960;
+const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,photo);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)};img.src='assets/bg.jpg';
+const xt=texInit(1,1,new Uint8Array(4));const xc=document.createElement('canvas'),xg=xc.getContext('2d');
+const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d};size();
+const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';
  const fs=Math.min(W*.13,H*.2);const cy=H*.53;
  xg.font=`600 ${Math.round(Math.min(13,cv.clientWidth/48)*d)}px Urbanist, sans-serif`;xg.fillText('P R O D U C T   ·   U I / U X   ·   A G E N T I C   A I',W/2,cy-fs*.95);
  xg.font=`700 ${fs}px Urbanist, sans-serif`;const a='Sijo ';const wa=xg.measureText(a).width;
  xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;const wb=xg.measureText('Joseph').width;const x0=W/2-(wa+wb)/2;
  xg.textAlign='left';xg.font=`700 ${fs}px Urbanist, sans-serif`;xg.fillText(a,x0,cy);
  xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;xg.fillText('Joseph',x0+wa,cy);
- gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc);
- [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(w=>gl.texParameteri(gl.TEXTURE_2D,w,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.activeTexture(gl.TEXTURE0)};
-gl.uniform1i(U('T'),0);gl.uniform1i(U('X'),1);
-document.fonts.load('700 40px Urbanist').then(()=>document.fonts.load('italic 40px "Instrument Serif"')).finally(drawText);addEventListener('resize',drawText);
-const pts=new Float32Array(N*3);let pi=0,m=[.5,.5],sm=[.5,.5],last=null;
+ gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
+document.fonts.load('700 40px Urbanist').then(()=>document.fonts.load('italic 40px "Instrument Serif"')).finally(drawText);
+addEventListener('resize',()=>{size();drawText()});
+let m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
 const st=document.getElementById('stage');
-st.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();const x=(e.clientX-b.left)/b.width,y=1-(e.clientY-b.top)/b.height;m=[x,y];
- const sp=last?Math.hypot(x-last[0],y-last[1]):0;last=[x,y];if(sp<.008&&pts[((pi+N-1)%N)*3+2]>.5)return;pts.set([x,y,Math.min(1,.45+sp*25)],pi*3);pi=(pi+1)%N;});
+st.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();m=[(e.clientX-b.left)/b.width,1-(e.clientY-b.top)/b.height]});
+st.addEventListener('pointerleave',()=>{m=[.5,.5];pm=null});
 let vis=true;new IntersectionObserver(([en])=>vis=en.isIntersecting).observe(cv);
 const t0=performance.now();
 (function f(){requestAnimationFrame(f);if(!vis||document.body.classList.contains('paused'))return;
- for(let i=0;i<N;i++)pts[i*3+2]=Math.max(0,pts[i*3+2]-.02);
- sm[0]+=(m[0]-sm[0])*.05;sm[1]+=(m[1]-sm[1])*.05;
- gl.uniform2f(uR,cv.width,cv.height);gl.uniform2f(uI,iw,ih);gl.uniform2f(uM,sm[0],sm[1]);gl.uniform1f(uT,(performance.now()-t0)/1000);gl.uniform3fv(uP,pts);
+ // smoothed brush (lags behind the real cursor, like unseen)
+ const nx=mp[0]+(m[0]-mp[0])*.35,ny=mp[1]+(m[1]-mp[1])*.35;
+ if(pm){mv=[(nx-pm[0])*6,(ny-pm[1])*6];const sp=Math.hypot(mv[0],mv[1]);if(sp>.25){mv=[mv[0]/sp*.25,mv[1]/sp*.25]}on=sp>.0005?1:0}pm=[nx,ny];mp=[nx,ny];
+ sm[0]+=(m[0]-sm[0])*.04;sm[1]+=(m[1]-sm[1])*.04;
+ // sim step
+ gl.useProgram(ps);gl.bindFramebuffer(gl.FRAMEBUFFER,fb[1-cur].f);gl.viewport(0,0,SW,SH);
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(ps,'F'),0);
+ gl.uniform2f(U(ps,'px'),1/SW,1/SH);gl.uniform2f(U(ps,'mp'),mp[0],mp[1]);gl.uniform2f(U(ps,'mv'),mv[0],mv[1]);gl.uniform1f(U(ps,'asp'),cv.width/cv.height);gl.uniform1f(U(ps,'on'),on);
+ gl.drawArrays(gl.TRIANGLE_STRIP,0,4);cur=1-cur;
+ // draw
+ gl.useProgram(pr);gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,cv.width,cv.height);
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,photo);gl.uniform1i(U(pr,'T'),0);
+ gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.uniform1i(U(pr,'X'),1);
+ gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
+ gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform1f(U(pr,'t'),(performance.now()-t0)/1000);
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
-
 })();
 </script>
 </body>
