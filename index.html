@@ -1017,7 +1017,7 @@ void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*16.)*on*.5;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
-const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP;uniform float t,A,S;
+const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP,SM;uniform float t,A,S;
 vec2 sc(){float ra=R.x/R.y,ia=I.x/I.y;return ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);}
 vec2 cover(vec2 u){return (u-.5)*sc()*.86+.5+vec2(.06,-.02);}
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
@@ -1053,7 +1053,12 @@ void main(){vec2 m=M-.5;
  float rv=smoothstep(q.x-.08,q.x+.02,A*1.25-.15);
  float ta=texture2D(X,q).a*rv*(1.-S*1.4);
  // soft ghost trail of the text along the smear
- col=mix(col,vec3(1.),clamp(ta,0.,1.));
+ // gradient fill: cool grey -> white, with a soft bright light that follows the cursor
+ vec2 tl=(v-SM)*vec2(R.x/R.y,1.);float glow=exp(-dot(tl,tl)*5.);
+ vec3 g1=vec3(.58,.57,.64),g2=vec3(.93,.92,.95);
+ vec3 tcol=mix(g1,g2,smoothstep(.2,.85,q.x+(q.y-.5)*.6));
+ tcol=mix(tcol,vec3(1.,.99,.97),glow);tcol+=vec3(.04,.02,.07)*sin(q.x*6.+t*.6)*(1.-glow);
+ col=mix(col,tcol,clamp(ta,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.05;
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
@@ -1081,7 +1086,7 @@ const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.
  gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
 document.fonts.load('700 40px Urbanist').then(()=>document.fonts.load('italic 40px "Instrument Serif"')).finally(drawText);
 addEventListener('resize',()=>{size();drawText()});
-let m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
+let gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
 const st=document.getElementById('stage');
 addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();if(e.clientY>b.bottom)return;m=[(e.clientX-b.left)/b.width,1-(e.clientY-b.top)/b.height]});
 st.addEventListener('pointerleave',()=>{m=[.5,.5];pm=null});
@@ -1091,7 +1096,7 @@ const t0=performance.now();
  // smoothed brush (lags behind the real cursor, like unseen)
  const nx=mp[0]+(m[0]-mp[0])*.12,ny=mp[1]+(m[1]-mp[1])*.35;
  if(pm){mv=[(nx-pm[0])*4,(ny-pm[1])*4];const sp=Math.hypot(mv[0],mv[1]);if(sp>.12){mv=[mv[0]/sp*.12,mv[1]/sp*.12]}on=sp>.0005?1:0}pm=[nx,ny];mp=[nx,ny];
- sm[0]+=(m[0]-sm[0])*.03;sm[1]+=(m[1]-sm[1])*.03;
+ sm[0]+=(m[0]-sm[0])*.03;sm[1]+=(m[1]-sm[1])*.03;gm[0]+=(m[0]-gm[0])*.08;gm[1]+=(m[1]-gm[1])*.08;
  // sim step
  gl.useProgram(ps);gl.bindFramebuffer(gl.FRAMEBUFFER,fb[1-cur].f);gl.viewport(0,0,SW,SH);
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(ps,'F'),0);
@@ -1102,7 +1107,7 @@ const t0=performance.now();
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,photo);gl.uniform1i(U(pr,'T'),0);
  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.uniform1i(U(pr,'X'),1);
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
- gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
+ gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
 })();
 </script>
