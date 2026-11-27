@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sijo Joseph — Product Designer</title>
 <meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..800;1,400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..800;1,400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#ecedeb;--ink:#141614;--mute:#2f332f;--line:#d6d9d4;--card:rgba(255,255,255,.6);--accent:#f0602e;--soft:#e3e7df}
 *{box-sizing:border-box;margin:0}
@@ -494,12 +494,80 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
 .scue i::after{content:'';position:absolute;left:0;top:-40%;width:1px;height:40%;background:#ff6a3d;animation:drip 1.8s cubic-bezier(.6,0,.3,1) infinite}
 @keyframes drip{to{top:110%}}
 @media (max-width:780px){.scue{display:none}}
+
+/* ===== unseen pass 4 ===== */
+.sf{font-family:'Instrument Serif',serif!important;font-style:italic!important;font-weight:400!important;letter-spacing:-.02em}
+.after-hero h2 .sf,.big-cta .sf{-webkit-text-fill-color:#f4f2ef;background:none!important;color:#f4f2ef}
+.about-panel h1 .sf{-webkit-text-fill-color:var(--accent)}
+.big-cta .sf{-webkit-text-fill-color:transparent!important;background:linear-gradient(90deg,#ff6a3d,#ffb08f 50%,#9ea3ab)!important;-webkit-background-clip:text!important;background-clip:text!important}
+/* gate */
+.gate{position:fixed;inset:0;z-index:10000;background:#0b0b0c;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;transition:clip-path 1.2s cubic-bezier(.77,0,.18,1),opacity .4s;clip-path:circle(150% at 50% 50%)}
+.gate.done{clip-path:circle(0% at 50% 50%)}
+.mascot{position:relative;width:150px;height:150px;margin-bottom:22px}
+.mascot video{width:100%;height:100%;object-fit:contain}
+.eyes{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:6px}
+.eye{width:30px;height:38px;border-radius:50%;background:#fff;border:2.5px solid #111;display:grid;place-items:center;animation:blinkE 5s infinite}
+.eye i{width:13px;height:16px;border-radius:50%;background:#111;transition:transform .08s}
+@keyframes blinkE{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.g-name{font:600 15px 'Urbanist';letter-spacing:.06em;text-transform:uppercase;color:#f4f2ef;margin:0}
+.g-name sup{font-size:.6em}
+.g-sub{font:500 15px/1.45 'Urbanist';color:#a3a6ab;margin:0 0 18px}
+.g-sub em{font-family:'Instrument Serif',serif;font-size:1.15em;color:#f4f2ef}
+.g-enter{border:0;border-radius:99px;background:#f4f2ef;color:#0b0b0c;font:600 15px 'Urbanist';padding:12px 26px;cursor:pointer;opacity:.4;pointer-events:none;transition:opacity .4s}
+.g-enter.ready{opacity:1;pointer-events:auto}
+.g-hint{position:absolute;bottom:32px;font:600 11px 'Urbanist';letter-spacing:.18em;text-transform:uppercase;color:#6f7379}
+/* roll text */
+.roll{overflow:hidden}.roll span{display:inline-block;position:relative;vertical-align:top;line-height:1.2}.roll span::after{visibility:hidden}.roll:hover span::after{visibility:visible}
+.roll span::after{content:attr(data-t);position:absolute;left:0;top:100%;width:100%}
+.roll span{transition:transform 0s}
+.roll:hover span{animation:rollUp .45s cubic-bezier(.7,0,.2,1)}
+@keyframes rollUp{0%{transform:translateY(0)}49.9%{transform:translateY(-100%)}50%{transform:translateY(100%)}100%{transform:translateY(0)}}
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:-24px 0 28px}
+.filters button{border:1px solid #2a2c30;background:transparent;color:#a3a6ab;border-radius:99px;padding:9px 16px;font:600 14px 'Urbanist';cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.filters button.on,.filters button:hover{background:#f4f2ef;color:#0b0b0c;border-color:#f4f2ef}
+.cs{transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .5s,filter .5s}
+.cs.dim{opacity:.18;filter:grayscale(1) blur(2px);transform:scale(.97)}
+/* chrome */
+.chrome{position:fixed;left:24px;bottom:24px;z-index:60;display:flex;align-items:center;gap:10px}
+.c-round{width:46px;height:46px;border-radius:50%;border:1px solid rgba(244,242,239,.2);background:rgba(16,17,20,.6);backdrop-filter:blur(12px);display:grid;place-items:center;cursor:pointer;color:#f4f2ef}
+.bars{display:flex;gap:3px;align-items:flex-end;height:14px}.bars i{width:2px;background:currentColor;animation:eq 1s ease-in-out infinite alternate}.bars i:nth-child(1){height:6px}.bars i:nth-child(2){height:14px;animation-delay:.2s}.bars i:nth-child(3){height:9px;animation-delay:.4s}
+@keyframes eq{to{height:3px}}
+.c-round[aria-pressed=true] .bars i{animation:none;height:3px}
+.c-pill{padding:12px 18px;border-radius:99px;border:1px solid rgba(244,242,239,.25);background:rgba(16,17,20,.6);backdrop-filter:blur(12px);color:#f4f2ef;text-decoration:none;font:600 13px 'Urbanist'}
+.c-copy{position:fixed;left:50%;bottom:30px;translate:-50% 0;z-index:60;font:600 12px 'Urbanist';color:rgba(244,242,239,.6);letter-spacing:.08em;pointer-events:none}
+body.paused *{animation-play-state:paused!important}
+/* hold */
+.hold{position:fixed;z-index:9998;pointer-events:none;font:600 11px 'Urbanist';letter-spacing:.16em;text-transform:uppercase;color:#f4f2ef;translate:-50% 28px;opacity:0;transition:opacity .3s}
+.hold.show{opacity:.8}
+/* say hello */
+.hello-sub{font:500 18px 'Urbanist';color:#a3a6ab;margin:-24px 0 28px}
+.hello-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.hello-card{position:relative;display:flex;flex-direction:column;gap:8px;padding:28px;border-radius:24px;background:#111215;border:1px solid #1f2125;text-decoration:none;color:#f4f2ef;overflow:hidden;transition:background .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.hello-card:hover{background:#f4f2ef;color:#0b0b0c;transform:translateY(-4px)}
+.hc-k{font:600 13px 'Urbanist';letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.hc-v{font:600 clamp(20px,2vw,28px)/1.2 'Urbanist';letter-spacing:-.02em}
+.hc-go{position:absolute;right:24px;top:24px;font-size:22px;transition:transform .4s}.hello-card:hover .hc-go{transform:rotate(45deg)}
+@media (max-width:780px){.hello-grid{grid-template-columns:1fr}.c-copy,.c-pill{display:none}}
+html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-panel h1{font-size:clamp(32px,9vw,48px)!important}.wrap{padding:0 16px}}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="liq"><feTurbulence id="liqT" type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="3"/><feDisplacementMap id="liqD" in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<div class="chrome" aria-label="Quick controls">
+ <button class="c-round" id="motionBtn" aria-pressed="false" title="Pause motion"><span class="bars"><i></i><i></i><i></i></span></button>
+ <a class="c-pill roll" href="#work"><span data-t="Selected work '26">Selected work '26</span></a>
+</div>
+<div class="c-copy" aria-hidden="true">©2026</div>
+<div class="hold" id="hold" aria-hidden="true">Click &amp; hold</div>
 <div class="sprog" aria-hidden="true"><i id="sprogI"></i></div>
-<div class="loader" id="loader" aria-hidden="true"><div class="ld-num"><span id="ldN">0</span>%</div><div class="ld-name">Sijo Joseph — Portfolio '26</div><div class="ld-bar"><i id="ldB"></i></div></div>
+<div class="gate" id="gate">
+ <div class="mascot" id="mascot"><video autoplay muted loop playsinline poster="assets/orb.png"><source src="assets/orb.mov" type='video/mp4; codecs="hvc1"'><source src="assets/orb.webm" type="video/webm"></video><div class="eyes"><span class="eye"><i></i></span><span class="eye"><i></i></span></div></div>
+ <p class="g-name">Sijo Joseph<sup>®</sup></p>
+ <p class="g-sub">A product designer making AI feel<br>calm, honest and <em>human</em>.</p>
+ <button class="g-enter roll" id="gateBtn"><span data-t="Enter">Enter</span></button>
+ <p class="g-hint"><span id="gateN">0</span>% loaded</p>
+</div>
 <nav class="menu" id="menu" aria-hidden="true">
  <div class="menu-in">
   <a href="#about" data-i="01">About</a><a href="#work" data-i="02">Selected work</a><a href="#edge" data-i="03">Approach</a><a href="#contact" data-i="04">Contact</a>
@@ -530,7 +598,7 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
   <div class="ap-glow"></div>
   <div class="ab-grid">
    <div class="ab-left">
-    <h1>I design <em>AI products</em><br>people actually trust.</h1>
+    <h1>I design <em class="sf">AI products</em><br>people actually trust.</h1>
     <p class="ab-copy">Product designer working across UI/UX and agentic AI. I turn complex, autonomous systems into calm interfaces, with clear plans, honest confidence and an undo button.</p>
     <a class="pill-link" href="#contact"><i></i>Available for product design roles</a>
    </div>
@@ -548,9 +616,10 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
 
 <section id="work">
  <div class="sec-h reveal"><span>(02)</span><span>Selected work</span><span class="r">2025 — 2026</span></div>
- <h2 class="reveal">Problems I've solved.</h2>
+ <h2 class="reveal">Problems I've <em class="sf">solved.</em></h2>
+ <div class="filters reveal" role="group" aria-label="Filter projects"><button class="on roll" data-f="all"><span data-t="All">All</span></button><button class="roll" data-f="ai"><span data-t="Agentic AI">Agentic AI</span></button><button class="roll" data-f="fin"><span data-t="Fintech">Fintech</span></button><button class="roll" data-f="mob"><span data-t="Mobile">Mobile</span></button><button class="roll" data-f="ops"><span data-t="Ops">Ops</span></button></div>
  <div class="bento">
-  <a class="cs reveal big lime" href="#">
+  <a data-tags="ai" class="cs reveal big lime" href="#">
    <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>01</span><span>Agentic AI</span><span>2026</span></div>
@@ -559,7 +628,7 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
     <span class="cs-cta">Read case study</span>
    </div>
   </a>
-  <a class="cs reveal  teal" href="#">
+  <a data-tags="ai fin" class="cs reveal  teal" href="#">
    <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Pay securely</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Razorpay × AI</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>02</span><span>Fintech · AI</span><span>2025</span></div>
@@ -568,7 +637,7 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
     <span class="cs-cta">Read case study</span>
    </div>
   </a>
-  <a class="cs reveal  orange" href="#">
+  <a data-tags="mob" class="cs reveal  orange" href="#">
    <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Add to cubby</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Cubby</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>03</span><span>Mobile · Systems</span><span>2025</span></div>
@@ -577,7 +646,7 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
     <span class="cs-cta">Read case study</span>
    </div>
   </a>
-  <a class="cs reveal wide ink" href="#">
+  <a data-tags="ai ops" class="cs reveal wide ink" href="#">
    <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Suggestion ready</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Floor Pilot</span></div>
    <div class="cs-body">
     <div class="cs-meta"><span>04</span><span>AI copilot · Ops</span><span>2026</span></div>
@@ -593,7 +662,7 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
  <div class="sec-h reveal"><span>(03)</span><span>Approach</span></div>
  <div class="approach-panel reveal">
   <div class="ap-glow"></div>
-  <div class="apx-head"><h2>How I design for AI.</h2><p>Four principles I bring to every agentic product, grounded in Google PAIR, Microsoft HAX and shapeof.ai patterns.</p></div>
+  <div class="apx-head"><h2>How I design for <em class="sf">AI.</em></h2><p>Four principles I bring to every agentic product, grounded in Google PAIR, Microsoft HAX and shapeof.ai patterns.</p></div>
   <div class="apx-grid">
   <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">01</span><h4>Show the plan</h4><p>Agents reveal what they'll do before they do it, so people can correct course early.</p><span class="ap-tag">Plan previews · Step lists</span></div></article>
   <article class="ap-card reveal"><div class="ap-txt"><span class="ap-num">02</span><h4>Honest, not magic</h4><p>Confidence cues, sources and reversible actions. Trust is designed, not assumed.</p><span class="ap-tag">Confidence · Sources</span></div></article>
@@ -611,8 +680,13 @@ body.menu-open .menu-in a:nth-child(2){transition-delay:.06s}body.menu-open .men
 
 <footer id="contact">
  <div class="sec-h"><span>(04)</span><span>Contact</span></div>
- <h2 class="big-cta">Let's build something people <em>trust.</em></h2>
- <div class="contact"><a href="mailto:you@example.com">Email me <span>↗</span></a><a href="#">LinkedIn <span>↗</span></a><a href="#">Resume <span>↓</span></a></div>
+ <h2 class="big-cta">Let's build something people <em class="sf">trust.</em></h2>
+ <p class="hello-sub">I look forward to hearing from you.</p>
+ <div class="hello-grid">
+  <a class="hello-card" href="mailto:you@example.com?subject=Role%20opportunity"><span class="hc-k">Roles &amp; hiring</span><span class="hc-v">you@example.com</span><span class="hc-go">↗</span></a>
+  <a class="hello-card" href="mailto:you@example.com?subject=Hello"><span class="hc-k">Just say hi</span><span class="hc-v">Coffee, collabs, ideas</span><span class="hc-go">↗</span></a>
+ </div>
+ <div class="contact"><a href="#" class="roll"><span data-t="LinkedIn ↗">LinkedIn ↗</span></a><a href="#" class="roll"><span data-t="Resume ↓">Resume ↓</span></a></div>
  <div class="foot-name" aria-hidden="true">Sijo Joseph</div>
  <div class="small"><span>© 2026 Sijo Joseph</span><span>Designed and built by me</span><a href="#top">Back to top ↑</a></div>
 </footer>
@@ -785,9 +859,9 @@ const U=k=>gl.getUniformLocation(pr,k),ur=U('r'),ut=U('t'),um=U('m'),us=U('s'),u
 let W,H,mx=0,my=0,tx=0,ty=0,sc=0;const DPR=Math.min(1.5,devicePixelRatio||1);
 const rs=()=>{W=c.width=innerWidth*DPR*.6;H=c.height=innerHeight*DPR*.6;gl.viewport(0,0,W,H);mx=tx=W/2;my=ty=H/2};rs();addEventListener('resize',rs);
 addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*W;ty=(1-e.clientY/innerHeight)*H},{passive:true});
-const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=performance.now();
+const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=performance.now(),HT=0;
 (function f(){mx+=(tx-mx)*.05;my+=(ty-my)*.05;const ss=scrollY/Math.max(1,document.body.scrollHeight-innerHeight);sc+=(ss-sc)*.08;
- gl.uniform2f(ur,W,H);gl.uniform1f(ut,(performance.now()-t0)/1000);gl.uniform2f(um,mx,my);gl.uniform1f(us,sc);K=K.map((v,i)=>v+(KT[i]-v)*.03);gl.uniform3f(uk,K[0],K[1],K[2]);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);if(!still)requestAnimationFrame(f)})();})();
+ gl.uniform2f(ur,W,H);if(!window.__liqPaused){HT+=(1/60)*(1+((window.__liqHold&&window.__liqHold())||0)*5)};gl.uniform1f(ut,HT);gl.uniform2f(um,mx,my);gl.uniform1f(us,sc);K=K.map((v,i)=>v+(KT[i]-v)*.03);gl.uniform3f(uk,K[0],K[1],K[2]);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);if(!still)requestAnimationFrame(f)})();})();
 // smooth scroll
 (()=>{if(!window.Lenis||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const l=new Lenis({lerp:.085,smoothWheel:true});(function r(t){l.raf(t);requestAnimationFrame(r)})(0);
  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();l.scrollTo(id,{offset:-20})}}));})();
@@ -837,6 +911,22 @@ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=perform
  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&window.__liqTint)window.__liqTint(tints[e.target.id]||[0,0,0])}),{rootMargin:'-45% 0px -50% 0px'});
  ['about','work','edge','contact'].forEach(id=>{const el=document.getElementById(id);el&&io.observe(el)});
  const hero=document.querySelector('.hero');new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&window.__liqTint)window.__liqTint([0,0,0])}),{threshold:.6}).observe(hero);
+})();
+</script>
+<script>
+(()=>{const G=document.getElementById('gate');const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ if(G){if(rm){G.remove()}else{document.body.classList.add('loading');const b=document.getElementById('gateBtn'),n=document.getElementById('gateN');let k=0;const iv=setInterval(()=>{k=Math.min(100,k+Math.ceil(Math.random()*12));n.textContent=k;if(k>=100){clearInterval(iv);b.classList.add('ready');n.parentElement.textContent='Ready when you are'}},40);
+  const eyes=[...G.querySelectorAll('.eye i')];addEventListener('pointermove',e=>eyes.forEach(i=>{const r=i.parentElement.getBoundingClientRect(),a=Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2));i.style.transform=`translate(${Math.cos(a)*6}px,${Math.sin(a)*8}px)`}));
+  const go=()=>{G.classList.add('done');document.body.classList.remove('loading');setTimeout(()=>G.remove(),1300)};b.addEventListener('click',go);addEventListener('keydown',e=>{if(e.key==='Enter'&&b.classList.contains('ready'))go()},{once:false});}}
+ // filters
+ const cards=[...document.querySelectorAll('.cs')];document.querySelectorAll('.filters button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filters button').forEach(x=>x.classList.toggle('on',x===btn));const f=btn.dataset.f;cards.forEach(c=>c.classList.toggle('dim',f!=='all'&&!(c.dataset.tags||'').split(' ').includes(f)))}));
+ // pause motion
+ const mb=document.getElementById('motionBtn');mb&&mb.addEventListener('click',()=>{const on=mb.getAttribute('aria-pressed')!=='true';mb.setAttribute('aria-pressed',on);document.body.classList.toggle('paused',on);window.__liqPaused=on});
+ // click & hold on cover intensifies liquid
+ const hero=document.querySelector('.hero'),H=document.getElementById('hold');let hold=0,ht=0;window.__liqHold=()=>hold;
+ hero.addEventListener('pointermove',e=>{H.style.left=e.clientX+'px';H.style.top=e.clientY+'px';H.classList.add('show')});hero.addEventListener('pointerleave',()=>H.classList.remove('show'));
+ hero.addEventListener('pointerdown',()=>{ht=1;H.textContent='Keep holding…'});addEventListener('pointerup',()=>{ht=0;H.textContent='Click & hold'});
+ (function f(){hold+=(ht-hold)*.04;requestAnimationFrame(f)})();
 })();
 </script>
 </body>
