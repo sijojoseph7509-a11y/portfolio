@@ -1016,23 +1016,41 @@ void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*45.)*on;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
-const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M;uniform float t,A,S;
-vec2 cover(vec2 u){float ra=R.x/R.y,ia=I.x/I.y;vec2 s=ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);return (u-.5)*s*.88+.5+vec2(.06,-.02);}
+const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP;uniform float t,A,S;
+vec2 sc(){float ra=R.x/R.y,ia=I.x/I.y;return ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);}
+vec2 cover(vec2 u){return (u-.5)*sc()*.86+.5+vec2(.06,-.02);}
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+// hand-built depth map of the photo (image uv, y up): 0 = far wall, 1 = near
+float depthAt(vec2 iu){
+ float d=.15+.55*smoothstep(.45,.0,iu.y);               // floor gets nearer towards the bottom
+ d+=.12*smoothstep(.62,.95,iu.x)*smoothstep(.2,.6,iu.y); // right pillar/fence sticks out
+ d+=.15*smoothstep(.12,.0,iu.x);                         // plant on the left edge
+ vec2 pc=(iu-vec2(.59,.40))/vec2(.085,.30);float person=smoothstep(1.,.55,length(pc));
+ return clamp(max(d,.95*person),0.,1.);}
 void main(){vec2 m=M-.5;
  vec2 vel=texture2D(F,v).rg-.5;float e=length(vel);
- // fake depth: lower part of the frame (floor, person) is nearer and moves more; slight perspective turn
- float depth=mix(1.25,.65,v.y);
- vec2 c0=v-.5;float z=1.+(1.-A)*.22+S*.18;vec2 vz=c0/z+.5; // intro zoom-out + scroll push-in
- vec2 dr=vec2(sin(t*.23),cos(t*.17))*.006; // idle breathing
- vec2 u=vz-(m*.075+dr)*depth;u.x+=m.x*(v.y-.5)*.035;u.y+=m.y*(v.x-.5)*.025;
+ float z=1.+(1.-A)*.22+S*.18;vec2 vz=(v-.5)/z+.5;
+ vec2 dr=vec2(sin(t*.23),cos(t*.17))*.008;
+ vec2 cam=m*.11+dr;                                     // camera offset
+ // parallax occlusion-lite: iterate to find the depth at the displaced point
+ vec2 u=vz;float dp=.5;for(int i=0;i<4;i++){dp=depthAt(cover(u));u=vz-cam*(dp-.35);}
+ u.x+=m.x*(v.y-.5)*.05;u.y+=m.y*(v.x-.5)*.035;          // perspective turn
  u-=vel*.13;
  vec3 col=texture2D(T,cover(u)).rgb;float l=dot(col,vec3(.299,.587,.114));
- col=vec3(l)*.64+.02+e*.08;col*=mix(.0,1.,smoothstep(0.,.6,A))*(1.-S*.55);
+ col=vec3(l)*.64+.02+e*.08;
+ col*=mix(.9,1.06,dp);                                   // near things a touch brighter
+ col*=smoothstep(0.,.6,A)*(1.-S*.55);
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
- vec2 q=(v-.5)/(1.+S*.35)+.5-m*-.045-vel*.1;q.y-=(1.-A)*.06+S*.12; // headline floats in front, moves the other way
- float ta=texture2D(X,q).a*smoothstep(.35,1.,A)*(1.-S*1.4);col=mix(col,vec3(1.),clamp(ta,0.,1.));
+ // headline: floats nearest to camera, wobbles near the cursor, reveals left->right after Enter
+ vec2 q=(v-.5)/(1.+S*.35)+.5+cam*.55-vel*.1;q.y-=(1.-A)*.05+S*.12;
+ vec2 dm=(v-MP)*vec2(R.x/R.y,1.);float near=exp(-dot(dm,dm)*14.);
+ q.y+=sin(q.x*55.+t*4.)*.006*near;q.x+=sin(q.y*40.+t*3.)*.004*near;
+ float rv=smoothstep(q.x-.08,q.x+.02,A*1.25-.15);
+ float ta=texture2D(X,q).a*rv*(1.-S*1.4);
+ // soft ghost trail of the text along the smear
+ ta=max(ta,texture2D(X,q+vel*.08).a*.18*min(e*6.,1.)*rv);
+ col=mix(col,vec3(1.),clamp(ta,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.05;
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
@@ -1069,8 +1087,8 @@ const t0=performance.now();
 (function f(){requestAnimationFrame(f);if(!vis||document.body.classList.contains('paused'))return;
  // smoothed brush (lags behind the real cursor, like unseen)
  const nx=mp[0]+(m[0]-mp[0])*.3,ny=mp[1]+(m[1]-mp[1])*.35;
- if(pm){mv=[(nx-pm[0])*9,(ny-pm[1])*9];const sp=Math.hypot(mv[0],mv[1]);if(sp>.25){mv=[mv[0]/sp*.25,mv[1]/sp*.25]}on=sp>.0005?1:0}pm=[nx,ny];mp=[nx,ny];
- sm[0]+=(m[0]-sm[0])*.04;sm[1]+=(m[1]-sm[1])*.04;
+ if(pm){mv=[(nx-pm[0])*9,(ny-pm[1])*9];const sp=Math.hypot(mv[0],mv[1]);if(sp>.12){mv=[mv[0]/sp*.12,mv[1]/sp*.12]}on=sp>.0005?1:0}pm=[nx,ny];mp=[nx,ny];
+ sm[0]+=(m[0]-sm[0])*.055;sm[1]+=(m[1]-sm[1])*.055;
  // sim step
  gl.useProgram(ps);gl.bindFramebuffer(gl.FRAMEBUFFER,fb[1-cur].f);gl.viewport(0,0,SW,SH);
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(ps,'F'),0);
@@ -1081,7 +1099,7 @@ const t0=performance.now();
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,photo);gl.uniform1i(U(pr,'T'),0);
  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.uniform1i(U(pr,'X'),1);
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
- gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
+ gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
 })();
 </script>
