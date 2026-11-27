@@ -1013,7 +1013,7 @@ const simFS=`precision highp float;varying vec2 v;uniform sampler2D F;uniform ve
 void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 adv=texture2D(F,v-c*px*14.).rg-.5; // self-advection: smear flows along itself
  vec2 bl=(texture2D(F,v+vec2(px.x,0)).rg+texture2D(F,v-vec2(px.x,0)).rg+texture2D(F,v+vec2(0,px.y)).rg+texture2D(F,v-vec2(0,px.y)).rg)*.25-.5;
- vec2 vel=mix(adv,bl,.75)*.975;
+ vec2 vel=mix(adv,bl,.75)*.982;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*16.)*on*.5;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
@@ -1053,12 +1053,14 @@ void main(){vec2 m=M-.5;
  float rv=smoothstep(q.x-.08,q.x+.02,A*1.25-.15);
  float ta=texture2D(X,q).a*rv*(1.-S*1.4);
  // soft ghost trail of the text along the smear
- // gradient fill: cool grey -> white, with a soft bright light that follows the cursor
- vec2 tl=(v-SM)*vec2(R.x/R.y,1.);float glow=exp(-dot(tl,tl)*5.);
- vec3 g1=vec3(.58,.57,.64),g2=vec3(.93,.92,.95);
- vec3 tcol=mix(g1,g2,smoothstep(.2,.85,q.x+(q.y-.5)*.6));
- tcol=mix(tcol,vec3(1.,.99,.97),glow);tcol+=vec3(.04,.02,.07)*sin(q.x*6.+t*.6)*(1.-glow);
- col=mix(col,tcol,clamp(ta,0.,1.));
+ // unseen-style: letters on the cursor's trail turn into a smeared gradient, then settle back to solid
+ vec2 tv=texture2D(F,q).rg-.5;float tr=smoothstep(.004,.05,length(tv));
+ float ts=texture2D(X,q+tv*.09).a;                         // smeared copy along the flow
+ float ta2=mix(ta,max(ta*.55,ts),tr);
+ float gpos=dot(normalize(tv+1e-5),(v-SM)*vec2(R.x/R.y,1.))*6.+.5;   // gradient runs along movement
+ vec3 gcol=mix(vec3(.16,.16,.19),vec3(.86,.84,.9),clamp(gpos,0.,1.));
+ vec3 tcol=mix(vec3(1.),gcol,tr);
+ col=mix(col,tcol,clamp(ta2,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.05;
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
