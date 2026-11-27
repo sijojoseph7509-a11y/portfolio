@@ -608,6 +608,67 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
 .stage>.giant{opacity:0!important;pointer-events:none}
 .stage>.meta.m2,.stage>.meta.m3,.stage>.meta.m4,.stage .menu-btn{display:none!important}
 .hold{display:none!important}
+
+/* ===== unseen-style menu ===== */
+.dots-btn{position:relative;width:38px;height:38px;border-radius:50%;border:0;background:#f4f2ef;margin-left:18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:transform .5s cubic-bezier(.2,.8,.2,1),background .3s;z-index:9100}
+.dots-btn b{width:4px;height:4px;border-radius:50%;background:#0b0b0c;transition:transform .5s cubic-bezier(.7,0,.2,1),width .5s,height .5s,border-radius .5s}
+.dots-btn:hover{transform:scale(1.12)}
+.um-close{position:absolute;top:28px;right:4vw;margin:0}
+.um-close b{width:16px!important;height:1.5px!important;border-radius:2px!important;position:absolute}
+.um-close b:first-child{transform:rotate(45deg)}.um-close b:last-child{transform:rotate(-45deg)}
+.um-close:hover{transform:rotate(90deg) scale(1.1)}
+body.menu-open .x-unused b{width:16px;height:1.5px;border-radius:2px;position:absolute}
+body.menu-open .dots-btn b:first-child{transform:rotate(45deg)}body.menu-open .dots-btn b:last-child{transform:rotate(-45deg)}
+.menu.um{background:#0b0b0c;backdrop-filter:none;-webkit-backdrop-filter:none;clip-path:inset(0 0 100% 0);transition:clip-path 1s cubic-bezier(.76,0,.24,1);padding:0 4vw;display:block}
+body.menu-open .menu.um{clip-path:inset(0 0 0 0)}
+.um-grid{height:100%;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:4vw}
+.um-links{display:flex;flex-direction:column}
+.um-links a{position:relative;display:block;height:1.02em;overflow:hidden;font:700 clamp(44px,7.4vw,118px)/1 'Urbanist';letter-spacing:-.05em;color:#f4f2ef;text-decoration:none;margin:.04em 0}
+.um-links a::before{content:attr(data-i);position:absolute;left:0;top:.5em;font:500 13px 'Urbanist';letter-spacing:.04em;color:#8a8e94;opacity:0;transition:opacity .4s}
+.um-links a span{display:block;transition:transform .75s cubic-bezier(.7,0,.2,1)}
+.um-links a .ul-b{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.02em}
+.um-links a span{transform:translateY(105%)}
+body.menu-open .um-links a .ul-a{transform:none}
+body.menu-open .um-links a:nth-child(1) span{transition-delay:.25s}body.menu-open .um-links a:nth-child(2) span{transition-delay:.31s}body.menu-open .um-links a:nth-child(3) span{transition-delay:.37s}body.menu-open .um-links a:nth-child(4) span{transition-delay:.43s}body.menu-open .um-links a:nth-child(5) span{transition-delay:.49s}
+body.menu-open .um-links a:hover span{transition-delay:0s}
+body.menu-open .um-links a:hover .ul-a{transform:translateY(-105%)}
+body.menu-open .um-links a .ul-b{position:absolute;left:0;top:0}
+body.menu-open .um-links a:hover .ul-b{transform:none}
+.um-links:hover a{color:#5b5e63}.um-links a:hover{color:#f4f2ef}
+.um-prev{position:relative;aspect-ratio:4/5;max-height:72vh;justify-self:end;width:min(36vw,520px);border-radius:18px;overflow:hidden;clip-path:inset(100% 0 0 0 round 18px);transition:clip-path 1.1s .25s cubic-bezier(.76,0,.24,1)}
+body.menu-open .um-prev{clip-path:inset(0 0 0 0 round 18px)}
+.um-img{position:absolute;inset:-6%;background:#15161a center/cover no-repeat;filter:grayscale(1) brightness(.8);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),opacity .5s;transform:scale(1.15)}
+body.menu-open .um-img{transform:scale(1)}
+.um-foot{position:absolute;left:4vw;right:4vw;bottom:32px;display:flex;justify-content:space-between;font:500 13px 'Urbanist';color:#8a8e94;opacity:0;transition:opacity .6s .6s}
+body.menu-open .um-foot{opacity:1}
+@media (max-width:780px){.um-grid{grid-template-columns:1fr}.um-prev{display:none}}
+
+/* ===== unseen-style projects list ===== */
+.view-tg{display:inline-flex;gap:4px;margin-left:auto;border:1px solid #2a2c30;border-radius:99px;padding:3px}
+.view-tg button{border:0;background:transparent;color:#a3a6ab;border-radius:99px;padding:7px 14px;font:600 13px 'Urbanist';cursor:pointer;transition:background .3s,color .3s}
+.view-tg button.on{background:#f4f2ef;color:#0b0b0c}
+.filters{align-items:center}
+#work.list-mode .bento{display:none}
+.plist{display:none;border-top:1px solid #222428}
+#work.list-mode .plist{display:block}
+.prow{position:relative;display:grid;grid-template-columns:56px 1fr 180px 70px;align-items:center;gap:20px;padding:26px 6px;border-bottom:1px solid #222428;color:#f4f2ef;text-decoration:none;overflow:hidden;transition:opacity .4s,filter .4s}
+.prow::before{content:"";position:absolute;inset:0;background:#f4f2ef;transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.7,0,.2,1);z-index:0}
+.prow:hover::before{transform:scaleY(1)}
+.prow>*{position:relative;z-index:1;transition:color .45s}
+.prow:hover>*{color:#0b0b0c}
+.prow .pn{font:500 13px 'Urbanist';color:#8a8e94}
+.prow .pt{display:block;height:1.05em;overflow:hidden;font:700 clamp(28px,4vw,56px)/1.05 'Urbanist';letter-spacing:-.04em}
+.prow .pt span{display:block;transition:transform .65s cubic-bezier(.7,0,.2,1)}
+.prow .pt .b{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+.prow:hover .pt span{transform:translateY(-100%)}
+.prow .pd,.prow .py{font:500 14px 'Urbanist';color:#a3a6ab}
+.prow .py{text-align:right}
+.plist:hover .prow:not(:hover){opacity:.35}
+.prow.dim{opacity:.15!important;filter:blur(2px);pointer-events:none}
+.pprev{position:fixed;left:0;top:0;width:340px;height:240px;border-radius:14px;overflow:hidden;pointer-events:none;z-index:500;opacity:0;transform:translate(-50%,-50%) scale(.6) rotate(-4deg);transition:opacity .35s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.pprev.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}
+.pprev i{position:absolute;inset:0;transition:transform .7s cubic-bezier(.7,0,.2,1)}
+@media (max-width:780px){.prow{grid-template-columns:32px 1fr 50px}.prow .pd{display:none}.pprev{display:none}}
 </style>
 </head>
 <body>
@@ -626,11 +687,19 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
  <button class="g-enter roll" id="gateBtn"><span data-t="Enter">Enter</span></button>
  <p class="g-hint"><span id="gateN">0</span>% loaded</p>
 </div>
-<nav class="menu" id="menu" aria-hidden="true">
- <div class="menu-in">
-  <a href="#about" data-i="01">About</a><a href="#work" data-i="02">Selected work</a><a href="#edge" data-i="03">Approach</a><a href="#contact" data-i="04">Contact</a>
+<nav class="menu um" id="menu" aria-hidden="true">
+ <button class="dots-btn um-close" type="button" aria-label="Close menu"><b></b><b></b></button>
+ <div class="um-grid">
+  <div class="um-links">
+   <a href="#top" data-i="01" data-p="assets/bg.jpg"><span class="ul-a">Home</span><span class="ul-b">Home</span></a>
+   <a href="#about" data-i="02" data-p="assets/sijo.jpg"><span class="ul-a">About</span><span class="ul-b">About</span></a>
+   <a href="#work" data-i="03" data-g="lime"><span class="ul-a">Work</span><span class="ul-b">Work</span></a>
+   <a href="#edge" data-i="04" data-g="teal"><span class="ul-a">Approach</span><span class="ul-b">Approach</span></a>
+   <a href="#contact" data-i="05" data-g="orange"><span class="ul-a">Contact</span><span class="ul-b">Contact</span></a>
+  </div>
+  <div class="um-prev" aria-hidden="true"><div class="um-img" id="umImg"></div></div>
  </div>
- <div class="menu-foot"><span>Product · UI/UX · Agentic AI</span><span>Open to roles · 2026</span></div>
+ <div class="um-foot"><span>Product · UI/UX · Agentic AI</span><span>Open to roles · 2026</span><span>©2026</span></div>
 </nav>
  <canvas id="liquid" aria-hidden="true"></canvas>
  <div class="aurora"></div>
@@ -643,7 +712,7 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
  <div class="fogblur" id="fogblur"></div>
  <canvas id="fog" class="fogc"></canvas>
  <div class="meta brand">Sijo Joseph</div>
- <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a><button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu"><i></i><i></i><span>Menu</span></button></div>
+ <div class="meta hnav"><a href="#work">Work</a><a href="#edge">Edge</a><a href="#contact">Contact</a><button class="dots-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><b></b><b></b><span hidden>Menu</span></button></div>
  <div class="meta m2">Product Design<br>&amp; UI/UX for AI Products</div>
  <div class="meta m3">4 AI Case Studies<br>&amp; Agentic UX Patterns</div>
  <div class="meta m4">Designed and Built<br>by Sijo Joseph. 2026</div>
@@ -677,7 +746,8 @@ html,body{overflow-x:clip}.main-col{min-width:0}@media (max-width:780px){.about-
 <section id="work">
  <div class="sec-h reveal"><span>(02)</span><span>Selected work</span><span class="r">2025 — 2026</span></div>
  <h2 class="reveal">Problems I've <em class="sf">solved.</em></h2>
- <div class="filters reveal" role="group" aria-label="Filter projects"><button class="on roll" data-f="all"><span data-t="All">All</span></button><button class="roll" data-f="ai"><span data-t="Agentic AI">Agentic AI</span></button><button class="roll" data-f="fin"><span data-t="Fintech">Fintech</span></button><button class="roll" data-f="mob"><span data-t="Mobile">Mobile</span></button><button class="roll" data-f="ops"><span data-t="Ops">Ops</span></button></div>
+ <div class="filters reveal" role="group" aria-label="Filter projects"><button class="on roll" data-f="all"><span data-t="All">All</span></button><button class="roll" data-f="ai"><span data-t="Agentic AI">Agentic AI</span></button><button class="roll" data-f="fin"><span data-t="Fintech">Fintech</span></button><button class="roll" data-f="mob"><span data-t="Mobile">Mobile</span></button><button class="roll" data-f="ops"><span data-t="Ops">Ops</span></button><div class="view-tg" role="group" aria-label="View"><button class="on" data-v="grid">Grid</button><button data-v="list">List</button></div></div>
+ <div class="plist" id="plist"><a class="prow" href="#" data-tags="ai" data-g="lime"><span class="pn">01</span><span class="pt"><span>Sijo Agent</span><span class="b">Sijo Agent</span></span><span class="pd">Agentic AI</span><span class="py">2026</span></a><a class="prow" href="#" data-tags="ai fin" data-g="teal"><span class="pn">02</span><span class="pt"><span>AI Payments</span><span class="b">AI Payments</span></span><span class="pd">Fintech · AI</span><span class="py">2025</span></a><a class="prow" href="#" data-tags="mob" data-g="orange"><span class="pn">03</span><span class="pt"><span>Mobile App</span><span class="b">Mobile App</span></span><span class="pd">Mobile · Research</span><span class="py">2025</span></a><a class="prow" href="#" data-tags="ops" data-g="violet"><span class="pn">04</span><span class="pt"><span>Floor Pilot</span><span class="b">Floor Pilot</span></span><span class="pd">Ops · AI copilot</span><span class="py">2025</span></a></div><div class="pprev" id="pprev"><i></i></div>
  <div class="bento">
   <a data-tags="ai" class="cs reveal big lime" href="#">
    <div class="art"><span class="glowfx"></span><div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="ln w70"></div><div class="ln w45"></div><div class="row"><div class="blk"></div><div class="blk"></div></div><div class="pill">Approve plan ✓</div></div><span class="go" aria-hidden="true">↗</span><span class="name">Sijo Agent</span></div>
@@ -997,7 +1067,7 @@ const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let t0=perform
 if(st&&sh){st.addEventListener('pointermove',e=>{const b=st.getBoundingClientRect();sh.style.setProperty('--mx',(e.clientX-b.left+b.width*.06)+'px');sh.style.setProperty('--my',(e.clientY-b.top+b.height*.06)+'px');sh.style.transform=hp.style.transform;sh.style.setProperty('--px',hp.style.getPropertyValue('--px'));sh.style.setProperty('--py',hp.style.getPropertyValue('--py'))})}
 // split hoverable texts into rolling characters
 const split=el=>{if(el.dataset.split)return;el.dataset.split=1;let i=0;const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();[...c.textContent].forEach(ch=>{if(ch===' '||ch==='\n'){f.append(' ');return}const w=document.createElement('span');w.className='ch';const b=document.createElement('b');b.textContent=ch;b.dataset.c=ch;b.style.setProperty('--i',i++);w.append(b);f.append(w)});c.replaceWith(f)}else if(c.nodeType===1&&c.tagName!=='BR')walk(c)})};walk(el);el.classList.add('ch-on')};
-document.querySelectorAll('.stage .meta.m2,.stage .meta.m3,.stage .meta.m4,.stage .meta.brand,.stage .hnav a,.side nav a,.menu-in a').forEach(split);
+document.querySelectorAll('.stage .meta.m2,.stage .meta.m3,.stage .meta.m4,.stage .meta.brand,.stage .hnav a').forEach(split);
 // giant name: lens blur around cursor
 const g=document.getElementById('giant');if(g){const L=[...g.querySelectorAll('span')];g.addEventListener('pointermove',e=>{let best=-1,bd=1e9;L.forEach((s,i)=>{const r=s.getBoundingClientRect(),d=Math.abs(e.clientX-(r.left+r.width/2));if(d<bd){bd=d;best=i}});L.forEach((s,i)=>{s.classList.toggle('lens',i===best);s.classList.toggle('lens2',Math.abs(i-best)===1)})});g.addEventListener('pointerleave',()=>L.forEach(s=>s.classList.remove('lens','lens2')))}
 })();
@@ -1111,6 +1181,26 @@ const t0=performance.now();
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
  gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
+})();
+</script>
+
+<script>
+(()=>{
+const G={lime:'linear-gradient(135deg,#c8f25a,#2d3a10)',teal:'linear-gradient(135deg,#3ec7c0,#0d2e33)',orange:'linear-gradient(135deg,#ff6a2b,#3a1206)',violet:'linear-gradient(135deg,#b9b4ff,#1d1a3a)'};
+// menu preview swap
+const im=document.getElementById('umImg');document.querySelectorAll('.um-links a').forEach(a=>{a.addEventListener('mouseenter',()=>{if(!im)return;im.style.opacity=0;setTimeout(()=>{im.style.backgroundImage=a.dataset.p?`url(${a.dataset.p})`:G[a.dataset.g];im.style.opacity=1},180)});
+ a.addEventListener('click',()=>{document.getElementById('menuBtn')?.click()})});
+if(im)im.style.backgroundImage='url(assets/bg.jpg)';document.querySelector('.um-close')?.addEventListener('click',()=>document.getElementById('menuBtn')?.click());
+addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('menu-open'))document.getElementById('menuBtn')?.click()});
+// grid/list toggle
+const W=document.getElementById('work');document.querySelectorAll('.view-tg button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.view-tg button').forEach(x=>x.classList.toggle('on',x===b));W.classList.toggle('list-mode',b.dataset.v==='list')}));
+// filters also dim list rows
+document.querySelectorAll('.filters button[data-f]').forEach(b=>b.addEventListener('click',()=>{const f=b.dataset.f;document.querySelectorAll('.prow').forEach(r=>r.classList.toggle('dim',f!=='all'&&!r.dataset.tags.split(' ').includes(f)))}));
+// floating preview that follows the cursor with lag + tilt
+const pv=document.getElementById('pprev'),pi=pv&&pv.querySelector('i');let x=0,y=0,tx=0,ty=0,on=false;
+document.querySelectorAll('.prow').forEach(r=>{r.addEventListener('mouseenter',()=>{on=true;pv.classList.add('on');pi.style.background=G[r.dataset.g]});r.addEventListener('mouseleave',()=>{on=false;pv.classList.remove('on')})});
+addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY});
+(function f(){requestAnimationFrame(f);if(!pv)return;const dx=tx-x;x+=dx*.12;y+=(ty-y)*.12;pv.style.left=x+'px';pv.style.top=y+'px';pi.style.transform=`skewX(${Math.max(-12,Math.min(12,-dx*.06))}deg)`})();
 })();
 </script>
 </body>
