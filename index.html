@@ -675,12 +675,12 @@ body.menu-open .um-foot{opacity:1}
 .name,.giant,.giant span{text-shadow:none!important}
 .meta,.meta a{font-family:'Inter Tight',sans-serif!important;font-weight:400!important;letter-spacing:-.01em}
 .um-foot,.um-links a::before{color:#d6d8dc}
-.view-work{position:absolute;left:50%;top:70%;transform:translate(-50%,0);z-index:3;display:inline-flex;align-items:center;gap:7px;padding:9px 14px 9px 16px;border-radius:99px;background:#fff;color:#111;text-decoration:none;font:400 13.5px/1 'Inter Tight',sans-serif;letter-spacing:-.01em;opacity:0;transition:opacity .8s .3s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.view-work{position:absolute;left:50%;top:70%;transform:translate(-50%,0);z-index:3;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;background:#fff;color:#111;text-decoration:none;font:400 12.5px/1 'Inter Tight',sans-serif;letter-spacing:-.01em;opacity:0;transition:opacity .8s .3s,transform .5s cubic-bezier(.2,.8,.2,1)}
 .view-work.on{opacity:1}.view-work:hover{transform:translate(-50%,0) scale(1.04)}
 .vw-roll{position:relative;display:block;height:1em;overflow:hidden;line-height:1}
 .vw-roll::after{content:attr(data-t);position:absolute;left:0;top:100%}
 .vw-roll{transition:color .3s}.view-work:hover .vw-roll{text-shadow:0 -1em 0 #111;color:transparent}
-.vw-arr{font-size:11px}
+.vw-arr{font-size:10px}
 /* unseen.co layout system: one edge margin (28px @1180 = 2.4vw), 52px controls, regular 17px grotesk */
 :root{--m:clamp(20px,2.4vw,34px);--ui:clamp(15px,1.2vw,17px)}
 .brand{top:var(--m)!important;left:var(--m)!important}
@@ -1112,7 +1112,7 @@ void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*16.)*on*.5;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
-const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP,SM;uniform float t,A,S;
+const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP,SM;uniform float t,A,S,SP;
 vec2 sc(){float ra=R.x/R.y,ia=I.x/I.y;return ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);}
 vec2 cover(vec2 u){return (u-.5)*sc()*.86+.5+vec2(.06,-.02);}
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
@@ -1159,7 +1159,11 @@ void main(){vec2 m=M-.5;
  // unseen-style: where the cursor passed, the letters' ink thins out softly and the photo shows through, then fills back in
  float thin=smoothstep(.0,.11,length(tv));thin=thin*thin*(3.-2.*thin);
  float ta2=min(1.,ta*1.2)*(1.-.32*thin);   // soft, gentle thinning; letters always stay readable
- col=mix(col,vec3(1.),clamp(ta2,0.,1.));
+ // hover (unseen-style): letters smear along the cursor's flow into a fading gradient with RGB lens fringes, then snap back to solid white
+ float cm=clamp(near*2.2*SP,0.,1.);vec2 dir=tv/(length(tv)+1e-4);float L=.08*cm;vec2 off=vec2(.007,.0025)*cm;
+ vec3 sa=vec3(0.);float ws=0.;for(int i=0;i<8;i++){float f=float(i)/7.;float w=1.-f*.85;vec2 p=q-dir*L*f;sa+=w*vec3(texture2D(X,p+off).a,texture2D(X,p).a,texture2D(X,p-off).a);ws+=w;}
+ sa=sa/ws*rv*(1.-S*1.4);vec3 tA=mix(vec3(ta2),sa,cm);
+ col=mix(col,vec3(1.),clamp(tA,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.035*(1.-clamp(ta2,0.,1.));                       // finer film grain
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
@@ -1183,18 +1187,19 @@ const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.
   xg.font=`400 ${Math.round(Math.min(15,cv.clientWidth/80)*d)}px "Inter Tight", sans-serif`;xg.letterSpacing=`${(-.01*15*d).toFixed(2)}px`;xg.fillText('PRODUCT, UI/UX & AGENTIC AI DESIGNER',W/2,cy-fs*.95);
   // one line: italic display serif + tight regular grotesk on a shared baseline
   const fA=`italic 400 ${Math.round(fs*1.06)}px "Instrument Serif", serif`,lsA=-fs*.03,fB=`400 ${Math.round(fs)}px "Inter Tight", sans-serif`,lsB=-fs*.06,gap=fs*.2;
-  xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;const wA=xg.measureText('Sijo').width;
-  xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;const wB=xg.measureText('Joseph').width;
-  const x0=W/2-(wA+gap+wB)/2;xg.textAlign='left';
+  xg.textAlign='left';xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;const mA=xg.measureText('Sijo'),wA=mA.width;
+  xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;const mB=xg.measureText('Joseph');
+  // optical centring: centre the visible ink (italic overhang + tracking excluded), not the advance widths
+  const inkL=-mA.actualBoundingBoxLeft,inkR=wA+gap+mB.actualBoundingBoxRight;const x0=W/2-(inkL+inkR)/2;xg.textAlign='left';
   xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;xg.fillText('Sijo',x0,cy);
   xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;xg.fillText('Joseph',x0+wA+gap,cy);
   xg.textAlign='center';
   xg.letterSpacing='0px';
   gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
-const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.62)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
+const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.46)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
 Promise.all([document.fonts.load('400 40px "Inter Tight"'),document.fonts.load('italic 40px "Instrument Serif"')]).finally(()=>{drawText();placeVW()});
 addEventListener('resize',()=>{size();drawText()});
-let gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
+let spd=0,gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
 const st=document.getElementById('stage');
 addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();if(e.clientY>b.bottom)return;m=[(e.clientX-b.left)/b.width,1-(e.clientY-b.top)/b.height]});
 st.addEventListener('pointerleave',()=>{m=[.5,.5];pm=null});
@@ -1204,7 +1209,7 @@ const t0=performance.now();
  // smoothed brush (lags behind the real cursor, like unseen)
  const nx=mp[0]+(m[0]-mp[0])*.12,ny=mp[1]+(m[1]-mp[1])*.35;
  if(pm){mv=[(nx-pm[0])*4,(ny-pm[1])*4];const sp=Math.hypot(mv[0],mv[1]);if(sp>.12){mv=[mv[0]/sp*.12,mv[1]/sp*.12]}on=sp>.0005?1:0}pm=[nx,ny];mp=[nx,ny];
- sm[0]+=(m[0]-sm[0])*.03;sm[1]+=(m[1]-sm[1])*.03;gm[0]+=(m[0]-gm[0])*.08;gm[1]+=(m[1]-gm[1])*.08;
+ spd=Math.min(1,Math.max(Math.hypot(mv[0],mv[1])*9*on,spd*.78));sm[0]+=(m[0]-sm[0])*.03;sm[1]+=(m[1]-sm[1])*.03;gm[0]+=(m[0]-gm[0])*.08;gm[1]+=(m[1]-gm[1])*.08;
  // sim step
  gl.useProgram(ps);gl.bindFramebuffer(gl.FRAMEBUFFER,fb[1-cur].f);gl.viewport(0,0,SW,SH);
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(ps,'F'),0);
@@ -1215,7 +1220,7 @@ const t0=performance.now();
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,photo);gl.uniform1i(U(pr,'T'),0);
  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.uniform1i(U(pr,'X'),1);
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
- gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/1400);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
+ gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);gl.uniform1f(U(pr,'SP'),spd);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/1400);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
 })();
 </script>
