@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sijo Joseph — Product Designer</title>
 <meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
+<link rel="stylesheet" href="https://use.typekit.net/jje0zmk.css">
 <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..800;1,400..600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#ecedeb;--ink:#141614;--mute:#2f332f;--line:#d6d9d4;--card:rgba(255,255,255,.6);--accent:#f0602e;--soft:#e3e7df}
@@ -673,9 +674,9 @@ body.menu-open .um-foot{opacity:1}
 /* readability: hero UI text pure white */
 .meta,.meta a,.meta *{color:#fff!important;text-shadow:none!important}
 .name,.giant,.giant span{text-shadow:none!important}
-.meta,.meta a{font-family:'Inter Tight',sans-serif!important;font-weight:400!important;letter-spacing:-.01em}
+.meta,.meta a{font-family:'acumin-pro','Inter Tight',sans-serif!important;font-weight:400!important;letter-spacing:-.01em}
 .um-foot,.um-links a::before{color:#d6d8dc}
-.view-work{position:absolute;left:50%;top:70%;transform:translate(-50%,0);z-index:3;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;background:#fff;color:#111;text-decoration:none;font:400 12.5px/1 'Inter Tight',sans-serif;letter-spacing:-.01em;opacity:0;transition:opacity .8s .3s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.view-work{position:absolute;left:50%;top:70%;transform:translate(-50%,0);z-index:3;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:99px;background:#fff;color:#111;text-decoration:none;font:400 12.5px/1 'acumin-pro','Inter Tight',sans-serif;letter-spacing:-.01em;opacity:0;transition:opacity .8s .3s,transform .5s cubic-bezier(.2,.8,.2,1)}
 .view-work.on{opacity:1}.view-work:hover{transform:translate(-50%,0) scale(1.04)}
 .vw-roll{position:relative;display:block;height:1em;overflow:hidden;line-height:1}
 .vw-roll::after{content:attr(data-t);position:absolute;left:0;top:100%}
@@ -686,13 +687,13 @@ body.menu-open .um-foot{opacity:1}
 .brand{top:var(--m)!important;left:var(--m)!important}
 .logo-mark img{height:clamp(38px,3.4vw,48px)!important}
 .hnav{top:calc(var(--m) - 4px)!important;right:var(--m)!important;gap:0!important;display:flex;align-items:center}
-.hnav a{font:400 var(--ui)/1 'Inter Tight',sans-serif!important;padding:2px 10.5px!important;letter-spacing:-.01em!important}
+.hnav a{font:400 var(--ui)/1 'acumin-pro','Inter Tight',sans-serif!important;padding:2px 10.5px!important;letter-spacing:-.01em!important}
 .hnav .dots-btn{width:52px!important;height:52px!important;margin-left:14px!important}
 .chrome{left:var(--m)!important;bottom:var(--m)!important;gap:12px!important;align-items:center}
 .c-round{width:52px!important;height:52px!important;background:#fff!important;border:0!important;backdrop-filter:none!important}
 .c-round .bars i{background:#111!important}
-.c-pill{height:52px;display:inline-flex!important;align-items:center;padding:0 26px!important;background:transparent!important;border:1.5px solid rgba(255,255,255,.95)!important;backdrop-filter:none!important;color:#fff!important;font:400 var(--ui)/1 'Inter Tight',sans-serif!important;letter-spacing:-.01em}
-.c-copy{bottom:calc(var(--m) + 16px)!important;font:400 var(--ui)/1 'Inter Tight',sans-serif!important;letter-spacing:-.01em!important;color:#fff!important}
+.c-pill{height:52px;display:inline-flex!important;align-items:center;padding:0 26px!important;background:transparent!important;border:1.5px solid rgba(255,255,255,.95)!important;backdrop-filter:none!important;color:#fff!important;font:400 var(--ui)/1 'acumin-pro','Inter Tight',sans-serif!important;letter-spacing:-.01em}
+.c-copy{bottom:calc(var(--m) + 16px)!important;font:400 var(--ui)/1 'acumin-pro','Inter Tight',sans-serif!important;letter-spacing:-.01em!important;color:#fff!important}
 .agent-btn{right:var(--m)!important;bottom:var(--m)!important}
 .scue{right:var(--m)!important}
 @media(max-width:700px){.c-pill{display:none!important}}
@@ -1184,9 +1185,9 @@ const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d
 const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
   // unseen-style stack: small upright label, italic display serif, big regular grotesk (tight tracking, overlapping lines)
   const fs=Math.min(W*(cv.clientWidth<700?.14:.085),H*.17);const cy=H*.53;
-  xg.font=`400 ${Math.round(Math.min(15,cv.clientWidth/80)*d)}px "Inter Tight", sans-serif`;xg.letterSpacing=`${(-.01*15*d).toFixed(2)}px`;xg.fillText('PRODUCT, UI/UX & AGENTIC AI DESIGNER',W/2,cy-fs*.95);
+  xg.font=`400 ${Math.round(Math.min(15,cv.clientWidth/80)*d)}px "acumin-pro", "Inter Tight", sans-serif`;xg.letterSpacing=`${(-.01*15*d).toFixed(2)}px`;xg.fillText('PRODUCT, UI/UX & AGENTIC AI DESIGNER',W/2,cy-fs*.95);
   // one line: italic display serif + tight regular grotesk on a shared baseline
-  const fA=`italic 400 ${Math.round(fs*1.06)}px "Instrument Serif", serif`,lsA=-fs*.03,fB=`400 ${Math.round(fs)}px "Inter Tight", sans-serif`,lsB=-fs*.06,gap=fs*.2;
+  const fA=`italic 400 ${Math.round(fs*1.06)}px "kepler-std-display", "Instrument Serif", serif`,lsA=-fs*.03,fB=`400 ${Math.round(fs)}px "acumin-pro", "Inter Tight", sans-serif`,lsB=-fs*.06,gap=fs*.2;
   xg.textAlign='left';xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;const mA=xg.measureText('Sijo'),wA=mA.width;
   xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;const mB=xg.measureText('Joseph');
   // optical centring: centre the visible ink (italic overhang + tracking excluded), not the advance widths
@@ -1197,7 +1198,7 @@ const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.
   xg.letterSpacing='0px';
   gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
 const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.46)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
-Promise.all([document.fonts.load('400 40px "Inter Tight"'),document.fonts.load('italic 40px "Instrument Serif"')]).finally(()=>{drawText();placeVW()});
+Promise.all([document.fonts.load('400 40px "acumin-pro"'),document.fonts.load('italic 400 40px "kepler-std-display"'),document.fonts.load('400 40px "Inter Tight"'),document.fonts.load('italic 40px "Instrument Serif"')]).finally(()=>{drawText();placeVW()});
 addEventListener('resize',()=>{size();drawText()});
 let spd=0,gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
 const st=document.getElementById('stage');
