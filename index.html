@@ -681,13 +681,6 @@ body.menu-open .um-foot{opacity:1}
 <div class="c-copy" aria-hidden="true">©2026</div>
 
 <div class="sprog" aria-hidden="true"><i id="sprogI"></i></div>
-<div class="gate" id="gate">
- <div class="mascot" id="mascot"><video autoplay muted loop playsinline poster="assets/orb.png"><source src="assets/orb.mov" type='video/mp4; codecs="hvc1"'><source src="assets/orb.webm" type="video/webm"></video><div class="eyes"><span class="eye"><i></i></span><span class="eye"><i></i></span></div></div>
- <p class="g-name">Sijo Joseph<sup>®</sup></p>
- <p class="g-sub">A product designer making AI feel<br>calm, honest and <em>human</em>.</p>
- <button class="g-enter roll" id="gateBtn"><span data-t="Enter">Enter</span></button>
- <p class="g-hint"><span id="gateN">0</span>% loaded</p>
-</div>
 <nav class="menu um" id="menu" aria-hidden="true">
  <button class="dots-btn um-close" type="button" aria-label="Close menu"><b></b><b></b></button>
  <div class="um-grid">
@@ -1084,7 +1077,7 @@ const simFS=`precision highp float;varying vec2 v;uniform sampler2D F;uniform ve
 void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 adv=texture2D(F,v-c*px*14.).rg-.5; // self-advection: smear flows along itself
  vec2 bl=(texture2D(F,v+vec2(px.x,0)).rg+texture2D(F,v-vec2(px.x,0)).rg+texture2D(F,v+vec2(0,px.y)).rg+texture2D(F,v-vec2(0,px.y)).rg)*.25-.5;
- vec2 vel=mix(adv,bl,.8)*.986;
+ vec2 vel=mix(adv,bl,.85)*.988;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*16.)*on*.5;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
@@ -1128,8 +1121,8 @@ void main(){vec2 m=M-.5;
  vec2 tv=vec2(0.);for(int i=0;i<9;i++){vec2 o=vec2(mod(float(i),3.)-1.,floor(float(i)/3.)-1.)*.018;tv+=texture2D(F,q+o).rg-.5;}tv/=9.; // blurred flow = soft edges
  float tr=smoothstep(.0,.06,length(tv));tr=tr*tr*(3.-2.*tr);
  // unseen-style: where the cursor passed, the letters' ink thins out softly and the photo shows through, then fills back in
- float thin=smoothstep(.0,.05,length(tv));thin=thin*thin*(3.-2.*thin);
- float ta2=ta*(1.-.82*thin);
+ float thin=smoothstep(.0,.11,length(tv));thin=thin*thin*(3.-2.*thin);
+ float ta2=ta*(1.-.55*thin);   // soft, gentle thinning; letters always stay readable
  col=mix(col,vec3(1.),clamp(ta2,0.,1.));
  col+=(h(v*R+fract(t))-.5)*.05;
  gl_FragColor=vec4(col,1.);}`;
@@ -1179,7 +1172,7 @@ const t0=performance.now();
  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,photo);gl.uniform1i(U(pr,'T'),0);
  gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,xt);gl.uniform1i(U(pr,'X'),1);
  gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,fb[cur].t);gl.uniform1i(U(pr,'F'),2);gl.activeTexture(gl.TEXTURE0);
- gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/2600);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
+ gl.uniform2f(U(pr,'R'),cv.width,cv.height);gl.uniform2f(U(pr,'I'),iw,ih);gl.uniform2f(U(pr,'M'),sm[0],sm[1]);gl.uniform2f(U(pr,'MP'),mp[0],mp[1]);gl.uniform2f(U(pr,'SM'),gm[0],gm[1]);const T=(performance.now()-t0)/1000;gl.uniform1f(U(pr,'t'),T);if(window.__introAt==null&&!document.body.classList.contains('loading'))window.__introAt=performance.now();const a=window.__introAt==null?0:Math.min(1,(performance.now()-window.__introAt)/1400);gl.uniform1f(U(pr,'A'),1-Math.pow(1-a,3));gl.uniform1f(U(pr,'S'),Math.min(1,Math.max(0,scrollY/innerHeight)));
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4)})();
 })();
 </script>
