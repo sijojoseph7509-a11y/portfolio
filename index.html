@@ -697,6 +697,13 @@ body.menu-open .um-foot{opacity:1}
 .agent-btn{right:var(--m)!important;bottom:var(--m)!important}
 .scue{right:var(--m)!important}
 @media(max-width:700px){.c-pill{display:none!important}}
+/* unseen-style nav hover: rounded outline pill + label rolls to the italic display serif */
+.hnav a{position:relative;border:1px solid transparent;border-radius:99px;transition:border-color .45s cubic-bezier(.7,0,.2,1)}
+.hnav a:hover,.hnav a:focus-visible{border-color:rgba(255,255,255,.9)}
+.hnav a .nv{display:block;position:relative;overflow:hidden;height:1.15em;line-height:1.15em}
+.hnav a .nv span{display:block;transition:transform .55s cubic-bezier(.7,0,.2,1)}
+.hnav a .nv .it{position:absolute;left:50%;top:100%;translate:-50% 0;font:italic 400 1.12em/1.05 'kepler-std-display','Instrument Serif',serif;white-space:nowrap}
+.hnav a:hover .nv span,.hnav a:focus-visible .nv span{transform:translateY(-100%)}
 </style>
 </head>
 <body>
@@ -1148,7 +1155,7 @@ void main(){vec2 m=M-.5;
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
  // headline: floats nearest to camera, wobbles near the cursor, reveals left->right after Enter
- vec2 q=(v-.5)/(1.+S*.35)+.5+cam*.55-vel*.03;q.y-=(1.-A)*.05+S*.12;
+ vec2 q=(v-.5)/(1.+S*.35)+.5; // text sampled 1:1 (no parallax resample) so it stays pixel-crisp like real typeq.y-=(1.-A)*.05+S*.12;
  vec2 dm=(v-MP)*vec2(R.x/R.y,1.);float near=exp(-dot(dm,dm)*14.);
  
  float rv=smoothstep(q.x-.08,q.x+.02,A*1.25-.15);
@@ -1181,7 +1188,7 @@ let cur=0;
 const photo=texInit(1,1,new Uint8Array([10,10,10,255]));let iw=1440,ih=960;
 const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,photo);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)};img.src='assets/bg.jpg';
 const xt=texInit(1,1,new Uint8Array(4));const xc=document.createElement('canvas'),xg=xc.getContext('2d');
-const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d};size();
+const size=()=>{const d=Math.min(devicePixelRatio,2);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d};size();
 const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
   // unseen-style stack: small upright label, italic display serif, big regular grotesk (tight tracking, overlapping lines)
   const fs=Math.min(W*(cv.clientWidth<700?.14:.085),H*.17);const cy=H*.53;
@@ -1197,7 +1204,7 @@ const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.
   xg.textAlign='center';
   xg.letterSpacing='0px';
   gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
-const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.46)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
+const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.3)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
 Promise.all([document.fonts.load('400 40px "acumin-pro"'),document.fonts.load('italic 400 40px "kepler-std-display"'),document.fonts.load('400 40px "Inter Tight"'),document.fonts.load('italic 40px "Instrument Serif"')]).finally(()=>{drawText();placeVW()});
 addEventListener('resize',()=>{size();drawText()});
 let spd=0,gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
@@ -1245,5 +1252,6 @@ addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY});
 (function f(){requestAnimationFrame(f);if(!pv)return;const dx=tx-x;x+=dx*.12;y+=(ty-y)*.12;pv.style.left=x+'px';pv.style.top=y+'px';pi.style.transform=`skewX(${Math.max(-12,Math.min(12,-dx*.06))}deg)`})();
 })();
 </script>
+<script>document.querySelectorAll('.hnav a').forEach(a=>{const t=a.textContent.trim();a.setAttribute('aria-label',t);a.innerHTML=`<span class="nv" aria-hidden="true"><span>${t}</span><span class="it">${t}</span></span>`});</script>
 </body>
 </html>
