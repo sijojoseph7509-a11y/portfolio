@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sijo Joseph — Product Designer</title>
 <meta name="description" content="Sijo Joseph — product designer for UI/UX and agentic AI products.">
-<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..800;1,400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300..800;1,400..600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#ecedeb;--ink:#141614;--mute:#2f332f;--line:#d6d9d4;--card:rgba(255,255,255,.6);--accent:#f0602e;--soft:#e3e7df}
 *{box-sizing:border-box;margin:0}
@@ -670,6 +670,32 @@ body.menu-open .um-foot{opacity:1}
 .pprev i{position:absolute;inset:0;transition:transform .7s cubic-bezier(.7,0,.2,1)}
 @media (max-width:780px){.prow{grid-template-columns:32px 1fr 50px}.prow .pd{display:none}.pprev{display:none}}
 .logo-mark{display:block;line-height:0}.logo-mark img{height:clamp(46px,4.4vw,62px);width:auto;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}.logo-mark:hover img{transform:scale(1.06) rotate(-2deg)}
+/* readability: hero UI text pure white */
+.meta,.meta a,.meta *{color:#fff!important;text-shadow:none!important}
+.name,.giant,.giant span{text-shadow:none!important}
+.meta,.meta a{font-family:'Inter Tight',sans-serif!important;font-weight:400!important;letter-spacing:-.01em}
+.um-foot,.um-links a::before{color:#d6d8dc}
+.view-work{position:absolute;left:50%;top:70%;transform:translate(-50%,0);z-index:3;display:inline-flex;align-items:center;gap:7px;padding:9px 14px 9px 16px;border-radius:99px;background:#fff;color:#111;text-decoration:none;font:400 13.5px/1 'Inter Tight',sans-serif;letter-spacing:-.01em;opacity:0;transition:opacity .8s .3s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.view-work.on{opacity:1}.view-work:hover{transform:translate(-50%,0) scale(1.04)}
+.vw-roll{position:relative;display:block;height:1em;overflow:hidden;line-height:1}
+.vw-roll::after{content:attr(data-t);position:absolute;left:0;top:100%}
+.vw-roll{transition:color .3s}.view-work:hover .vw-roll{text-shadow:0 -1em 0 #111;color:transparent}
+.vw-arr{font-size:11px}
+/* unseen.co layout system: one edge margin (28px @1180 = 2.4vw), 52px controls, regular 17px grotesk */
+:root{--m:clamp(20px,2.4vw,34px);--ui:clamp(15px,1.2vw,17px)}
+.brand{top:var(--m)!important;left:var(--m)!important}
+.logo-mark img{height:clamp(38px,3.4vw,48px)!important}
+.hnav{top:calc(var(--m) - 4px)!important;right:var(--m)!important;gap:0!important;display:flex;align-items:center}
+.hnav a{font:400 var(--ui)/1 'Inter Tight',sans-serif!important;padding:2px 10.5px!important;letter-spacing:-.01em!important}
+.hnav .dots-btn{width:52px!important;height:52px!important;margin-left:14px!important}
+.chrome{left:var(--m)!important;bottom:var(--m)!important;gap:12px!important;align-items:center}
+.c-round{width:52px!important;height:52px!important;background:#fff!important;border:0!important;backdrop-filter:none!important}
+.c-round .bars i{background:#111!important}
+.c-pill{height:52px;display:inline-flex!important;align-items:center;padding:0 26px!important;background:transparent!important;border:1.5px solid rgba(255,255,255,.95)!important;backdrop-filter:none!important;color:#fff!important;font:400 var(--ui)/1 'Inter Tight',sans-serif!important;letter-spacing:-.01em}
+.c-copy{bottom:calc(var(--m) + 16px)!important;font:400 var(--ui)/1 'Inter Tight',sans-serif!important;letter-spacing:-.01em!important;color:#fff!important}
+.agent-btn{right:var(--m)!important;bottom:var(--m)!important}
+.scue{right:var(--m)!important}
+@media(max-width:700px){.c-pill{display:none!important}}
 </style>
 </head>
 <body>
@@ -701,6 +727,7 @@ body.menu-open .um-foot{opacity:1}
 <section class="hero" id="top">
  <div class="stage" id="stage">
  <canvas class="hero-gl" id="heroGL" aria-hidden="true"></canvas>
+ <a class="view-work" id="viewWork" href="#work"><span class="vw-roll" data-t="View my work">View my work</span><span class="vw-arr" aria-hidden="true">↘</span></a>
  <div class="hero-grain" aria-hidden="true"></div>
  <canvas id="fx" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
  <div class="fogblur" id="fogblur"></div>
@@ -1131,9 +1158,9 @@ void main(){vec2 m=M-.5;
  float tr=smoothstep(.0,.06,length(tv));tr=tr*tr*(3.-2.*tr);
  // unseen-style: where the cursor passed, the letters' ink thins out softly and the photo shows through, then fills back in
  float thin=smoothstep(.0,.11,length(tv));thin=thin*thin*(3.-2.*thin);
- float ta2=ta*(1.-.55*thin);   // soft, gentle thinning; letters always stay readable
+ float ta2=min(1.,ta*1.2)*(1.-.32*thin);   // soft, gentle thinning; letters always stay readable
  col=mix(col,vec3(1.),clamp(ta2,0.,1.));
- col+=(h(v*R+fract(t))-.5)*.035;                       // finer film grain
+ col+=(h(v*R+fract(t))-.5)*.035*(1.-clamp(ta2,0.,1.));                       // finer film grain
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
 const prog=f=>{const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,vs));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,f));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);return p};
@@ -1150,15 +1177,22 @@ const photo=texInit(1,1,new Uint8Array([10,10,10,255]));let iw=1440,ih=960;
 const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,photo);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)};img.src='assets/bg.jpg';
 const xt=texInit(1,1,new Uint8Array(4));const xc=document.createElement('canvas'),xg=xc.getContext('2d');
 const size=()=>{const d=Math.min(devicePixelRatio,1.5);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d};size();
-const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';
- const fs=Math.min(W*.13,H*.2);const cy=H*.53;
- xg.font=`600 ${Math.round(Math.min(13,cv.clientWidth/48)*d)}px Urbanist, sans-serif`;xg.fillText('P R O D U C T   ·   U I / U X   ·   A G E N T I C   A I',W/2,cy-fs*.95);
- xg.font=`700 ${fs}px Urbanist, sans-serif`;const a='Sijo ';const wa=xg.measureText(a).width;
- xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;const wb=xg.measureText('Joseph').width;const x0=W/2-(wa+wb)/2;
- xg.textAlign='left';xg.font=`700 ${fs}px Urbanist, sans-serif`;xg.fillText(a,x0,cy);
- xg.font=`italic 400 ${fs*1.12}px "Instrument Serif", serif`;xg.fillText('Joseph',x0+wa,cy);
- gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
-document.fonts.load('700 40px Urbanist').then(()=>document.fonts.load('italic 40px "Instrument Serif"')).finally(drawText);
+const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
+  // unseen-style stack: small upright label, italic display serif, big regular grotesk (tight tracking, overlapping lines)
+  const fs=Math.min(W*(cv.clientWidth<700?.14:.085),H*.17);const cy=H*.53;
+  xg.font=`400 ${Math.round(Math.min(15,cv.clientWidth/80)*d)}px "Inter Tight", sans-serif`;xg.letterSpacing=`${(-.01*15*d).toFixed(2)}px`;xg.fillText('PRODUCT, UI/UX & AGENTIC AI DESIGNER',W/2,cy-fs*.95);
+  // one line: italic display serif + tight regular grotesk on a shared baseline
+  const fA=`italic 400 ${Math.round(fs*1.06)}px "Instrument Serif", serif`,lsA=-fs*.03,fB=`400 ${Math.round(fs)}px "Inter Tight", sans-serif`,lsB=-fs*.06,gap=fs*.2;
+  xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;const wA=xg.measureText('Sijo').width;
+  xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;const wB=xg.measureText('Joseph').width;
+  const x0=W/2-(wA+gap+wB)/2;xg.textAlign='left';
+  xg.font=fA;xg.letterSpacing=`${lsA.toFixed(1)}px`;xg.fillText('Sijo',x0,cy);
+  xg.font=fB;xg.letterSpacing=`${lsB.toFixed(1)}px`;xg.fillText('Joseph',x0+wA+gap,cy);
+  xg.textAlign='center';
+  xg.letterSpacing='0px';
+  gl.bindTexture(gl.TEXTURE_2D,xt);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,xc)};
+const vwb=document.getElementById('viewWork');const placeVW=()=>{if(!vwb)return;const w=cv.clientWidth,h=cv.clientHeight,f=Math.min(w*(w<700?.14:.085),h*.17);vwb.style.top=(h*.53+f*.62)+'px';vwb.classList.add('on')};addEventListener('resize',placeVW);
+Promise.all([document.fonts.load('400 40px "Inter Tight"'),document.fonts.load('italic 40px "Instrument Serif"')]).finally(()=>{drawText();placeVW()});
 addEventListener('resize',()=>{size();drawText()});
 let gm=[.5,.5],m=[.5,.5],sm=[.5,.5],mp=[.5,.5],pm=null,mv=[0,0],on=0;
 const st=document.getElementById('stage');
