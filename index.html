@@ -1122,14 +1122,13 @@ void main(){vec2 c=texture2D(F,v).rg-.5;
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
 const fs=`precision highp float;varying vec2 v;uniform sampler2D T;uniform sampler2D X;uniform sampler2D F;uniform vec2 R,I,M,MP,SM;uniform float t,A,S,SP;
 vec2 sc(){float ra=R.x/R.y,ia=I.x/I.y;return ra>ia?vec2(1.,ia/ra):vec2(ra/ia,1.);}
-vec2 cover(vec2 u){return (u-.5)*sc()*.86+.5+vec2(.06,-.02);}
+vec2 cover(vec2 u){return (u-.5)*sc()*.96+.5+vec2(0.,-.2);} // portrait photo: frame the band with the figure + fence
 float h(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
 // hand-built depth map of the photo (image uv, y up): 0 = far wall, 1 = near
 float depthAt(vec2 iu){
- float d=.15+.55*smoothstep(.45,.0,iu.y);               // floor gets nearer towards the bottom
- d+=.12*smoothstep(.62,.95,iu.x)*smoothstep(.2,.6,iu.y); // right pillar/fence sticks out
- d+=.15*smoothstep(.12,.0,iu.x);                         // plant on the left edge
- vec2 pc=(iu-vec2(.59,.40))/vec2(.085,.30);float person=smoothstep(1.,.55,length(pc));
+ float d=.12+.6*smoothstep(.3,.0,iu.y);                  // road gets nearer towards the bottom
+ d+=.18*smoothstep(.36,.22,iu.y)*smoothstep(.15,.3,iu.y); // fence wall sits in front of the trees
+ vec2 pc=(iu-vec2(.49,.25))/vec2(.05,.12);float person=smoothstep(1.,.55,length(pc));
  return clamp(max(d,.95*person),0.,1.);}
 void main(){vec2 m=M-.5;
  vec2 vel=texture2D(F,v).rg-.5;float e=length(vel);
@@ -1186,7 +1185,7 @@ const SW=256,SH=160;const fill=new Uint8Array(SW*SH*4);for(let i=0;i<fill.length
 const fb=[0,1].map(()=>{const t=texInit(SW,SH,fill);const f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);return{t,f}});gl.bindFramebuffer(gl.FRAMEBUFFER,null);
 let cur=0;
 const photo=texInit(1,1,new Uint8Array([10,10,10,255]));let iw=1440,ih=960;
-const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,photo);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)};img.src='assets/bg.jpg';
+const img=new Image();img.onload=()=>{iw=img.width;ih=img.height;gl.bindTexture(gl.TEXTURE_2D,photo);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img)};img.src='assets/bg.jpg?v=forest';
 const xt=texInit(1,1,new Uint8Array(4));const xc=document.createElement('canvas'),xg=xc.getContext('2d');
 const size=()=>{const d=Math.min(devicePixelRatio,2);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d};size();
 const drawText=()=>{xc.width=cv.width;xc.height=cv.height;const W=xc.width,H=xc.height,d=W/cv.clientWidth;xg.clearRect(0,0,W,H);xg.fillStyle='#fff';xg.textAlign='center';xg.textBaseline='alphabetic';
