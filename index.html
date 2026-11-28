@@ -1076,8 +1076,12 @@ const vs='attribute vec2 p;varying vec2 v;void main(){v=p*.5+.5;gl_Position=vec4
 const simFS=`precision highp float;varying vec2 v;uniform sampler2D F;uniform vec2 px,mp,mv;uniform float asp,on;
 void main(){vec2 c=texture2D(F,v).rg-.5;
  vec2 adv=texture2D(F,v-c*px*14.).rg-.5; // self-advection: smear flows along itself
- vec2 bl=(texture2D(F,v+vec2(px.x,0)).rg+texture2D(F,v-vec2(px.x,0)).rg+texture2D(F,v+vec2(0,px.y)).rg+texture2D(F,v-vec2(0,px.y)).rg)*.25-.5;
+ vec2 sR=texture2D(F,v+vec2(px.x,0)).rg-.5,sL=texture2D(F,v-vec2(px.x,0)).rg-.5,sT=texture2D(F,v+vec2(0,px.y)).rg-.5,sB=texture2D(F,v-vec2(0,px.y)).rg-.5;
+ vec2 bl=(sR+sL+sT+sB)*.25;
  vec2 vel=mix(adv,bl,.85)*.988;
+ // curl swirl (cheap vorticity): the trail curls like liquid instead of only smearing
+ float cu=(sR.y-sL.y)-(sT.x-sB.x);float ang=clamp(cu*2.5,-.06,.06);
+ vel=mat2(cos(ang),sin(ang),-sin(ang),cos(ang))*vel;
  vec2 d=(v-mp)*vec2(asp,1.);float g=exp(-dot(d,d)*16.)*on*.5;
  vel+=mv*g;vel=clamp(vel,-.5,.5);
  gl_FragColor=vec4(vel+.5,0.,1.);}`;
@@ -1102,11 +1106,16 @@ void main(){vec2 m=M-.5;
  vec2 p0=vz-.5;float yaw=-cam.x*1.1,pit=-cam.y*.8;float dn=1.+p0.x*yaw+p0.y*pit;
  vec2 u=p0/dn*(1.-.03*abs(yaw+pit))+.5-cam*.25;
  u-=vel*.03;
+ // depth parallax (near moves more than far) + push along fluid direction, scaled by strength
+ float dpt=depthAt(cover(u));u+=cam*(dpt-.45)*.045;
+ u-=(e>.002?normalize(vel):vec2(0.))*smoothstep(.0,.2,e)*.006;
  // soft depth-of-field: sharp centre, dreamy edges
  float bz=smoothstep(.25,.85,length((v-.5)*vec2(1.25,1.)))*.006;vec3 col=vec3(0.);
  for(int i=0;i<8;i++){float an=float(i)*.785+t*.0;col+=texture2D(T,cover(u+vec2(cos(an),sin(an))*bz)).rgb;}col/=8.;
  vec3 hi=texture2D(T,cover(u+vec2(.004,.003))).rgb+texture2D(T,cover(u-vec2(.004,.003))).rgb;float l=dot(col,vec3(.299,.587,.114));
  col=vec3(l)*.64+.02;float hl=dot(hi*.5,vec3(.33));col+=smoothstep(.6,1.,hl)*.07; // soft bloom haze
+ col=mix(col,vec3(.42),(1.-dpt)*.14);                  // atmospheric haze on far planes
+ col+=smoothstep(.02,.25,e)*.03;                       // ~3% glow where the fluid is strong
  col*=smoothstep(0.,.6,A)*(1.-S*.55);
  float vig=smoothstep(1.15,.25,length((v-.5)*vec2(1.3,1.)));col*=mix(.35,1.,vig);
  col*=mix(1.,.0,smoothstep(.35,.0,v.y)*.85);
@@ -1124,7 +1133,7 @@ void main(){vec2 m=M-.5;
  float thin=smoothstep(.0,.11,length(tv));thin=thin*thin*(3.-2.*thin);
  float ta2=ta*(1.-.55*thin);   // soft, gentle thinning; letters always stay readable
  col=mix(col,vec3(1.),clamp(ta2,0.,1.));
- col+=(h(v*R+fract(t))-.5)*.05;
+ col+=(h(v*R+fract(t))-.5)*.035;                       // finer film grain
  gl_FragColor=vec4(col,1.);}`;
 const mk=(t,src)=>{const o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o};
 const prog=f=>{const p=gl.createProgram();gl.attachShader(p,mk(gl.VERTEX_SHADER,vs));gl.attachShader(p,mk(gl.FRAGMENT_SHADER,f));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);return p};
